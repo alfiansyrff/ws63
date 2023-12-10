@@ -33,14 +33,17 @@ class CreateTablePosisiPcl extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 256,
                 'null' => true,
+                'default' => null,
             ],
             'latitude' => [
                 'type' => 'DOUBLE PRECISION',
                 'null' => true,
+                'default' => null,
             ],
             'longitude' => [
                 'type' => 'DOUBLE PRECISION',
                 'null' => true,
+                'default' => null,
             ],
             'akurasi' => [
                 'type' => 'DOUBLE PRECISION',

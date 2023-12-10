@@ -8,6 +8,8 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 $routes->get('login', 'LoginController::index');
+$routes->post('posisipcl','PosisiPclController::index');
+$routes->post('updateposisi','PosisiPclController::updateLokasiPcl');
 $routes->post('listing', 'ListingController::index');
 
 $routes->get('check-danang', 'WilayahKerjaController::index');
