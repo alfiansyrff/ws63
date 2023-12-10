@@ -22,16 +22,18 @@ class Rumahtangga
         $noSegmen,
         $noBgFisik,
         $noBgSensus,
+        $noUrutRuta,
         $namaKrt,
         $alamat,
         $noBS
     ) {
         $this->kodeRuta = $kodeRuta;
-        $this->noSegmen = $kodeRuta;
-        $this->noBgFisik = $kodeRuta;
-        $this->noBgSensus = $kodeRuta;
-        $this->namaKrt = $kodeRuta;
-        $this->alamat = $kodeRuta;
-        $this->noBS = $kodeRuta;
+        $this->noSegmen = $noSegmen;
+        $this->noBgFisik = $noBgFisik;
+        $this->noBgSensus = $noBgSensus;
+        $this->namaKrt = $namaKrt;
+        $this->noUrutRuta = $noUrutRuta;
+        $this->alamat = $alamat;
+        $this->noBS = $noBS;
     }
 }
