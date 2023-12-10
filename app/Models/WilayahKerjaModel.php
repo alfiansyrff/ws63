@@ -63,4 +63,38 @@ class WilayahKerjaModel extends Model
 
         return $wilayah_kerja;
     }
+
+
+    public function updateRekapitulasiBSyInsert($noBS, $jmlRuta, $jmlRutaZ, $jmlGenZ, $jmlGenZAnak, $jmlGenZDewasa)
+    {
+        $result = $this->where('no_bs', $noBS)
+            ->first();
+
+        if ($result) {
+            // return true;
+            // Melakukan pembaruan rekapitulasi
+            $result['jml_art'] += $jmlRuta;
+
+            $result['jml_artz'] += $jmlRutaZ;
+            $result['jml_genz'] += $jmlGenZ;
+            $result['jml_genz_anak'] += $jmlGenZAnak;
+            $result['jml_genz_dewasa'] += $jmlGenZDewasa;
+            $this->save($result);
+            return true;
+        }
+        return false;
+    }  // FUNGSI INI MASIH SALAH, BEKERJA TAPI SEHARUSNYA BUKAN GINI
+
+    public function updateRekapitulasiBs($noBS)
+    {
+        $query = $this->db->query('UPDATE bloksensus 
+                                   SET jml_art = (
+                                       SELECT COUNT(*) 
+                                       FROM rumahtangga 
+                                       WHERE no_bs = ' . $this->db->escape($noBS) . '
+                                   ) 
+                                   WHERE no_bs = ' . $this->db->escape($noBS));  // KUERI INI BERLUM SELESAI KARENA BARU UPDATE JUMLAH RUTA, NANTI LENGKAPI KETIKA KUISISONER LISTING SUDAH COMPLETE
+
+        return $query;
+    }
 }

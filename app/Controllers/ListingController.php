@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Libraries\Rumahtangga;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MahasiswaModel;
 use App\Models\WilayahKerjaModel;
@@ -30,44 +31,33 @@ class ListingController extends BaseController
             $json = $this->request->getPost('json');
             $nim = $this->request->getPost('nim');
 
+
+
             if ($json) {
                 $object_array = (array) json_decode($json);
                 $success = 0;
 
+                // return $this->respond(count($object_array),200);
+
                 foreach ($object_array as $object) {
                     $object = (array) $object;
-
                     $ruta = new Rumahtangga(
                         $object['kodeRuta'],
-                        $object['noSegmen'],
-                        $object['bf'],
-                        $object['bs'],
-                        $object['noUrutRuta'],
-                        $object['namaKrt'],
+                        $object['no_segmen'],
+                        $object['no_bg_fisik'],
+                        $object['no_bg_sensus'],
+                        $object['no_urut_ruta'],
+                        $object['nama_krt'],
                         $object['alamat'],
-
-                        // $object['akurasi'],
-                        // $object['noHp'],
-                        $object['kodeBs'],
-                        // $object['latitude'],
-                        // $object['longitude'],
-
-                        // $object['keterangan'],
-                      
-                        // $object['rutaInternet'],
-                        // $object['rutaPergi']
+                        $object['no_bs']
                     );
 
-                    if ($object['status'] == 'insert') {
-                        if ($rutaModel->addRuta($ruta)) {
-                            $success++;
-                        }
-                    } else if ($object['status'] == 'update') {
-                        if ($rutaModel->updateRuta($ruta)) {
-                            $success++;
-                        }
-                    } else if ($object['status'] == 'delete') {
+                    if ($object['status'] == 'delete') {
                         if ($rutaModel->deleteRuta($ruta)) {
+                            $success++;
+                        }
+                    } else {
+                        if ($rutaModel->addRuta($ruta)) {
                             $success++;
                         }
                     }
@@ -80,19 +70,19 @@ class ListingController extends BaseController
 
                     if (is_array($data_bs)) {
                         foreach ($data_bs as $data) {
-                            $data->status = 'uploaded';
+                            // $data->status = 'uploaded';
                             array_push($result, $data);
                         }
                     }
 
-                    $infoBs = $wilayahKerjaModel->getBSPCLKortim($kodeBs);
+                    // $infoBs = $wilayahKerjaModel->getBSPCLKortim($kodeBs);
 
-                    $data = array(
-                        'type' => 'sams_sync_ruta',
-                        'kodeBs' => $kodeBs
-                    );
+                    // $data = array(
+                    //     'type' => 'sams_sync_ruta',
+                    //     'kodeBs' => $kodeBs
+                    // );
 
-                    $message = $infoBs['nama_pcl'] . " memperbarui data blok sensus " . $infoBs['nama'];
+                    // $message = $infoBs['nama_pcl'] . " memperbarui data blok sensus " . $infoBs['nama'];
 
                     // if ($nim != $infoBs['nim_kortim']) {
                     //     $push->prepareMessageToNim($infoBs['nim_kortim'], 'Data Blok Sensus Diperbarui', $message, $data);
@@ -104,7 +94,6 @@ class ListingController extends BaseController
                 return $this->respond($result);
             }
             return $this->respond(null, null, 'WHAT?');
-        } 
-
+        }
     }
 }
