@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Rumahtangga;
 use CodeIgniter\Model;
 
 class RutaModel extends Model
@@ -26,7 +27,6 @@ class RutaModel extends Model
     public function addRuta(Rumahtangga $ruta): bool
     {
         $ruta = (array) $ruta;
-        unset($ruta['status']);
         return $this->replace($ruta);
     }
 }
