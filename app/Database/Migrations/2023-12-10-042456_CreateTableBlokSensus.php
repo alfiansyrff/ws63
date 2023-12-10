@@ -19,7 +19,7 @@ class CreateTableBlokSensus extends Migration
             ],
             'id_kab' => [
                 'type' => 'VARCHAR',
-                'constraint' => 2,
+                'constraint' => 3,
             ],
             'id_kec' => [
                 'type' => 'VARCHAR',
