@@ -15,7 +15,6 @@ class WilayahKerjaController extends BaseController
         $wilayahKerjaModel = new WilayahKerjaModel();
         $result = $wilayahKerjaModel->getWilayahKerja('444A');
         return $this->respond($result, 200);
-
-        
+  
     }
 }
