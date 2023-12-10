@@ -8,3 +8,5 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 $routes->get('login', 'LoginController::index');
+$routes->post('posisipcl','PosisiPclController::index');
+$routes->post('updateposisi','PosisiPclController::updateLokasiPcl');
