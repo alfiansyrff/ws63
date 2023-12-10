@@ -14,7 +14,7 @@ class WilayahKerjaModel extends Model
     protected $protectFields    = false;
 
 
-    public function getWilayahKerja($noBS)
+    public function getWilayahKerja($nim)
     {
         $result = $this
             ->join(
@@ -28,10 +28,10 @@ class WilayahKerjaModel extends Model
                 'inner'
             )
             ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')
-            ->where('no_bs', $noBS)
+            ->where('nim_pencacah', $nim)
             ->first();
 
-        $wilayah_kerja = [];
+        global $wilayah_kerja;
 
         if ($result != NULL) {
             // $rumahTanggaModel = new RutaModel(); //ini nanti untu memanggil model ruta

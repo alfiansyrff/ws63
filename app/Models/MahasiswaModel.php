@@ -4,6 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use App\Libraries\Mahasiswa;
+use App\Models\TimPencacahModel;
+use App\Models\WilayahKerjaModel;
 
 class MahasiswaModel extends Model
 {
@@ -39,6 +41,8 @@ class MahasiswaModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
+
     public function getMahasiswa($nim)
     {
         $result = $this->find($nim);
@@ -65,19 +69,20 @@ class MahasiswaModel extends Model
         //     $wilayahKerjaModel = new WilayahKerjaModelSby();
         //     $sampelModel = new SampelModelSby();
         // }
-
-        // $listWilayahKerja = $wilayahKerjaModel->getAllWilayahKerja($result['nim']);
+        
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $listWilayahKerja = $wilayahKerjaModel->getWilayahKerja($result['nim']);
 
         // $wilayah_kerja = array();
-        // $total_terkirim = 0;
+        // // // $total_terkirim = 0;
         // foreach ($listWilayahKerja as $wilayah) {
         //     array_push($wilayah_kerja, $wilayahKerjaModel->getWilayahKerja($wilayah['id']));
-        //     $total_terkirim += $wilayahKerjaModel->getJumlahTerkirim($wilayah['id']);
+        //     // $total_terkirim += $wilayahKerjaModel->getJumlahTerkirim($wilayah['id']);
         // }
 
-        // $timModel = new TimModel();
-        // $isKoor = $timModel->where('nim_koor', $nim)->find() ? true : false;
-
+        $timModel = new TimPencacahModel();
+        $isKoor = $timModel->where('nim_pml', $nim)->find() ? true : false;
+        // dd($getInfoTim);
         // $beban_kerja = $sampelModel->getBebanKerja($nim);
         // if ($beban_kerja > 0) {
         //     $total_progress = (int) $total_terkirim / $beban_kerja;
@@ -90,13 +95,13 @@ class MahasiswaModel extends Model
             $result['nama'],
             $result['no_hp'],
             $result['alamat'],
-            // $result['email'],
+            $result['email'],
             $result['password'],
-            // $result['foto'],
-            // $result['id_tim'],
-            // $wilayah_kerja,
+            $result['foto'],
+            $result['id_tim'],
+            $listWilayahKerja,
             // $total_progress,
-            // $isKoor
+            $isKoor
         );
 
         return $mahasiswa;
