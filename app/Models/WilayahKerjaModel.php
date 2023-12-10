@@ -93,7 +93,7 @@ class WilayahKerjaModel extends Model
                                        FROM rumahtangga 
                                        WHERE no_bs = ' . $this->db->escape($noBS) . '
                                    ) 
-                                   WHERE no_bs = ' . $this->db->escape($noBS));
+                                   WHERE no_bs = ' . $this->db->escape($noBS));  // KUERI INI BERLUM SELESAI KARENA BARU UPDATE JUMLAH RUTA, NANTI LENGKAPI KETIKA KUISISONER LISTING SUDAH COMPLETE
 
         return $query;
     }
