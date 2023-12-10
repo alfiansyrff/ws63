@@ -17,6 +17,7 @@ class BlokSensusSeeder extends Seeder
                 'id_kelurahan' => '001',
                 'nim_pencacah' => '222111975',
                 'tim_pencacah' => '1',
+                'catatan' => 'Catatan blok sensus 1',
                 'status' => 'listing',
             ],
             [
@@ -27,14 +28,12 @@ class BlokSensusSeeder extends Seeder
                 'id_kelurahan' => '001',
                 'nim_pencacah' => '222112322',
                 'tim_pencacah' => '1',
+                'catatan' => 'Catatan blok sensus 2',
                 'status' => 'listing',
             ],
         ];
 
-        try {
-            $this->db->table('bloksensus')->insertBatch($data);
-        } catch (\Exception $e) {
-            die($e->getMessage());
-        }
+        // Insert data into bloksensus table
+        $this->db->table('bloksensus')->insertBatch($data);
     }
 }
