@@ -11,11 +11,9 @@ class WilayahKerja
     public $namaKec;
     public $idKab;
     public $namaKab;
-    public $jmlArt;
-    public $jmlArtz;
-    public $jmlGenZ;
-    public $jmlGenZDewasa;
-    public $jmlGenZAnak;
+    public int $jmlRt;
+    public int  $jmlRtGenz;
+    public int $jmlGenZ;
 
     public $tglListing;
     public $tglPeriksa;
@@ -31,14 +29,13 @@ class WilayahKerja
         $namaKec,
         $idKab,
         $namaKab,
-        $jmlArt,
-        $jmlArtz,
+        $jmlRt,
+        $jmlRtGenz,
         $jmlGenZ,
-        $jmlGenZDewasa,
-        $jmlGenZAnak,
         $tglListing,
         $tglPeriksa,
         $status,
+        $catatan,
         array $ruta
     ) {
         $this->noBS = $noBS;
@@ -48,14 +45,13 @@ class WilayahKerja
         $this->namaKec = $namaKec;
         $this->idKab = $idKab;
         $this->namaKab = $namaKab;
-        $this->jmlArt = $jmlArt;
-        $this->jmlArtz = $jmlArtz;
+        $this->jmlRt = $jmlRt;
+        $this->jmlRtGenz = $jmlRtGenz;
         $this->jmlGenZ = $jmlGenZ;
-        $this->jmlGenZDewasa = $jmlGenZDewasa;
-        $this->jmlGenZAnak = $jmlGenZAnak;
         $this->tglListing = $tglListing;
         $this->tglPeriksa = $tglPeriksa;
         $this->status = $status;
+        $this->catatan = $catatan;
         $this->ruta = $ruta;
     }
 }

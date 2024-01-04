@@ -34,12 +34,10 @@ class WilayahKerjaModel extends Model
         global $wilayah_kerja;
 
         if ($result != NULL) {
-            // $rumahTanggaModel = new RutaModel(); //ini nanti untu memanggil model ruta
+            $rumahTanggaModel = new RutaModel(); //ini nanti untuk memanggil model ruta (untuk gell all ruta / bs)
             // $sampelModel = new SampelModelR1(); // ini nanti untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
-
-            $ruta = [];  // ini masih belum benar --> ruta harusnya di dapatkan dari rumah tanggal model->get all ruta berdasrkan blok sensus
             $wilayah_kerja = new WilayahKerja(
                 $result['no_bs'],
                 $result['id_kelurahan'],
@@ -48,16 +46,14 @@ class WilayahKerjaModel extends Model
                 $result['nama_kec'],
                 $result['id_kab'],
                 $result['nama_kab'],
-                $result['jml_art'],
-                $result['jml_artz'],
+                $result['jml_rt'],
+                $result['jml_rt_genz'],
                 $result['jml_genz'],
-                $result['jml_genz_dewasa'],
-                $result['jml_genz_anak'],
                 $result['tgl_listing'],
                 $result['tgl_periksa'],
                 $result['status'],
-                // $rumahTanggaModel->getAllRuta($result['kode_bs'])
-                $ruta,
+                $result['catatan'],
+                $rumahTanggaModel->getAllRuta($result['kode_bs'])
             );
         };
 

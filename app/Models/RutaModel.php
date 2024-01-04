@@ -27,6 +27,10 @@ class RutaModel extends Model
             'nama_krt' => $ruta->namaKrt,
             'alamat' => $ruta->alamat,
             'no_bs' => $ruta->noBS,
+            'is_genz_ortu' => $ruta->isGenzOrtu,
+            'jml_genz' => $ruta->jmlGenz,
+            'no_urut_rt_egb' => $ruta->noUrutRtEgb,
+            'catatan' => $ruta->catatan
         ];
 
         return $data;
@@ -34,9 +38,10 @@ class RutaModel extends Model
 
     public function getAllRuta($noBS): array
     {
-        $result = $this
-            ->where('no_bs', $noBS)
-            ->findAll();
+        $result = $this->where('no_bs', $noBS)->findAll();
+        if (!$result) {
+            return [];
+        }
         return $result;
     }
 
@@ -85,7 +90,11 @@ class RutaModel extends Model
             $result['noUrutRuta'],
             $result['namaKrt'],
             $result['alamat'],
-            $result['noBS']
+            $result['noBS'],
+            $result['isGenzOrtu'],
+            $result['jmlGenz'],
+            $result['noUrutRtEgb'],
+            $result['catatan']
         );
 
         return $ruta;
