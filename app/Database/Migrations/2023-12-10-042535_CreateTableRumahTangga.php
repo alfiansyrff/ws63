@@ -39,7 +39,22 @@ class CreateTableRumahTangga extends Migration
             'no_bs' => [
                 'type' => 'VARCHAR',
                 'constraint' => 4,
-            ]
+            ],
+            'is_genz_ortu' => [
+                'type' => 'VARCHAR',
+                'constraint' => 1,
+            ],
+            'jml_genz' => [
+                'type' => 'INT',
+                'constraint' => 3,
+            ],
+            'no_urut_rt_egb' => [
+                'type' => 'INT',
+                'constraint' => 3,
+            ],
+            'catatan' => [
+                'type' => 'TEXT',
+            ],
         ]);
         $this->forge->addKey('kodeRuta', true);
         $this->forge->createTable('rumahtangga');
