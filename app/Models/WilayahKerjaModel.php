@@ -38,6 +38,7 @@ class WilayahKerjaModel extends Model
             // $sampelModel = new SampelModelR1(); // ini nanti untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
+            $ruta = [];
             $wilayah_kerja = new WilayahKerja(
                 $result['no_bs'],
                 $result['id_kelurahan'],
@@ -53,7 +54,8 @@ class WilayahKerjaModel extends Model
                 $result['tgl_periksa'],
                 $result['status'],
                 $result['catatan'],
-                $rumahTanggaModel->getAllRuta($result['kode_bs'])
+                // $rumahTanggaModel->getAllRuta($result['kode_bs'])
+                $ruta // nanti pakai yang dikomen
             );
         };
 
