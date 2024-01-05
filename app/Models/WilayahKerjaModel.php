@@ -16,6 +16,7 @@ class WilayahKerjaModel extends Model
 
     public function getWilayahKerja($nim)
     {
+        // Fungsi ini digunakna untuk mendapatkan wilayah kerja dari mahasiswa tertentu, wilayah kerja adalah blok sensus yang menjadi beban kerja dari mahasiswa yang bersangkutan
         $result = $this
             ->join(
                 'kelurahan',
@@ -34,7 +35,8 @@ class WilayahKerjaModel extends Model
         global $wilayah_kerja;
 
         if ($result != NULL) {
-            $rumahTanggaModel = new RutaModel(); //nanti untuk memanggil model ruta (untuk gell all ruta / bs)
+            $rumahTanggaModel = new RutaModel(); //untuk menggunakan fungsi getAllRuta yang ada di rumah tangga model
+
             // $sampelModel = new SampelModelR1(); // ini  untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
@@ -53,18 +55,22 @@ class WilayahKerjaModel extends Model
                 $result['tgl_periksa'],
                 $result['status'],
                 $result['catatan'],
-                $rumahTanggaModel->getAllRuta($result['no_bs'])
+                $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
             );
         };
-
         return $wilayah_kerja;
     }
 
     public function updateRekapitulasiBs($noBS)
     {
+        // Fungsi ini digunakan untuk mengupdate rekapitulasi pada BS, panggil fungsi ini ketika ada perubahan data Ruta
+
+        // jml_rt : jumlah semua ruta dalam satu BS
+        // jml_rt_genz : jumlah semua ruta yang is_genz_ortu = 1
+        // jml_genz : jumlah semua genz dalam satu blok sensus
         $query = $this->db->query('UPDATE bloksensus 
         SET 
-            jml_rt = (
+            jml_rt = ( 
                 SELECT COUNT(*) 
                 FROM rumahtangga 
                 WHERE no_bs = ' . $this->db->escape($noBS) . '
@@ -80,6 +86,7 @@ class WilayahKerjaModel extends Model
                 WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu =\'1\'
             )
         WHERE no_bs = ' . $this->db->escape($noBS));
+      
         return $query;
     }
 }

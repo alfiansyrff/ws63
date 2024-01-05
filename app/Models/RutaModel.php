@@ -28,10 +28,17 @@ class RutaModel extends Model
             'alamat' => $ruta->alamat,
             'no_bs' => $ruta->noBS,
             'is_genz_ortu' => $ruta->isGenzOrtu,
-            'jml_genz' => $ruta->jmlGenz,
-            'no_urut_rt_egb' => $ruta->noUrutRtEgb,
             'catatan' => $ruta->catatan
         ];
+
+        // menambahkan 'no_urut_rt_egb' hanya jika nilainya bukan 0
+        if ($ruta->noUrutRtEgb != 0) {
+            $data['no_urut_rt_egb'] = $ruta->noUrutRtEgb;
+        }
+        //menambahkan jumlah genz jika hanya is_genz_ortu bernilai 1
+        if ($ruta->isGenzOrtu == 1) {
+            $data['jml_genz'] = $ruta->jmlGenz;
+        }
 
         return $data;
     }
@@ -50,13 +57,7 @@ class RutaModel extends Model
         $data = $this->parseToArray($ruta);
         $bool = $this->db->table('rumahtangga')->replace($data);
         if ($bool) {
-            $wilayahKerjaModel = new WilayahKerjaModel();
-            $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($data['no_bs']);
-            if ($boolUpdateRekapitulasiBS) {
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         } else {
             return false;
         }

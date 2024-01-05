@@ -47,10 +47,12 @@ class CreateTableRumahTangga extends Migration
             'jml_genz' => [
                 'type' => 'INT',
                 'constraint' => 3,
+                'null' => true,
             ],
             'no_urut_rt_egb' => [
                 'type' => 'INT',
                 'constraint' => 3,
+                'null' => true,
             ],
             'long' => [
                 'type' => 'FLOAT',  

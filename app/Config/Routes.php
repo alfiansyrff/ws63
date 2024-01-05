@@ -10,6 +10,6 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'LoginController::index');
 $routes->post('posisipcl','PosisiPclController::index');
 $routes->post('updateposisi','PosisiPclController::updateLokasiPcl');
-$routes->post('listing', 'ListingController::index');
+$routes->post('listing/sinkronisasi-ruta', 'ListingController::sinkronisasiRuta'); // sinkronisasi ruta mencakup insert, update, delete
 
 $routes->get('check-danang', 'WilayahKerjaController::index');
