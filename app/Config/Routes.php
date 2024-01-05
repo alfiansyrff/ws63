@@ -13,7 +13,7 @@ $routes->post('posisipcl','PosisiPclController::index');
 
 $routes->post('updateposisi','PosisiPclController::updateLokasiPcl');
 
-$routes->post('listing', 'ListingController::index');
+$routes->post('listing/sinkronisasi-ruta', 'ListingController::sinkronisasiRuta'); // sinkronisasi ruta mencakup insert, update, delete
 
 $routes->get('latestversion', 'LatestVersionController::index');
 

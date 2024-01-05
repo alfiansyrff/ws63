@@ -10,11 +10,12 @@ class WilayahKerjaController extends BaseController
 {
     use ResponseTrait;
 
-    public function index()
+    public function index()  // FUNGSI INI HNAYA DIGUNAKAN UNTUK TESTING ROUTE check-danang
     {
         $wilayahKerjaModel = new WilayahKerjaModel();
-        $result = $wilayahKerjaModel->getWilayahKerja('222111975');
+        $result = $wilayahKerjaModel->getWilayahKerja('222111975'); 
         return $this->respond($result, 200);
-  
+        // echo json_encode($boolUpdateRekapitulasiBS);
+        // die();
     }
 }

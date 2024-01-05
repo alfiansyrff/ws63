@@ -29,27 +29,17 @@ class CreateTableBlokSensus extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 3,
             ],
-            'jml_art' => [
+            'jml_rt' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'default' => 0
             ],
-            'jml_artz' => [
+            'jml_rt_genz' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'default' => 0
             ],
             'jml_genz' => [
-                'type' => 'INT',
-                'constraint' => 3,
-                'default' => 0
-            ],
-            'jml_genz_dewasa' => [
-                'type' => 'INT',
-                'constraint' => 3,
-                'default' => 0
-            ],
-            'jml_genz_anak' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'default' => 0
@@ -64,11 +54,11 @@ class CreateTableBlokSensus extends Migration
             ],
             'tgl_listing' => [
                 'type' => 'DATE',
-                'null'=>true
+                'null' => true
             ],
             'tgl_periksa' => [
                 'type' => 'DATE',
-                'null'=>true
+                'null' => true
             ],
             'catatan' => [
                 'type' => 'VARCHAR',

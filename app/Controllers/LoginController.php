@@ -16,7 +16,7 @@ class LoginController extends BaseController
         $mahasiswaModel = new MahasiswaModel();
         $timModel = new TimPencacahModel();
         $mahasiswa = $mahasiswaModel->getMahasiswa($this->request->getGet('nim'));
-
+        
         if (!$mahasiswa)
             return $this->failNotFound('NIM tidak ditemukan');
 

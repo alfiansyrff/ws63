@@ -69,6 +69,7 @@ class MahasiswaModel extends Model
         //     $wilayahKerjaModel = new WilayahKerjaModelSby();
         //     $sampelModel = new SampelModelSby();
         // }
+    
         
         $wilayahKerjaModel = new WilayahKerjaModel();
         $listWilayahKerja = $wilayahKerjaModel->getWilayahKerja($result['nim']);
@@ -79,7 +80,7 @@ class MahasiswaModel extends Model
         //     array_push($wilayah_kerja, $wilayahKerjaModel->getWilayahKerja($wilayah['id']));
         //     // $total_terkirim += $wilayahKerjaModel->getJumlahTerkirim($wilayah['id']);
         // }
-
+   
         $timModel = new TimPencacahModel();
         $isKoor = $timModel->where('nim_pml', $nim)->find() ? true : false;
         // dd($getInfoTim);
@@ -89,7 +90,8 @@ class MahasiswaModel extends Model
         // } else {
         //     $total_progress = 0;
         // }
-
+        // echo json_encode($listWilayahKerja);
+        // die();
         $mahasiswa = new Mahasiswa(
             $result['nim'],
             $result['nama'],
@@ -100,9 +102,10 @@ class MahasiswaModel extends Model
             $result['foto'],
             $result['id_tim'],
             $listWilayahKerja,
-            // $total_progress,
+            // $total_progress, 
             $isKoor
         );
+    
 
         return $mahasiswa;
     }
