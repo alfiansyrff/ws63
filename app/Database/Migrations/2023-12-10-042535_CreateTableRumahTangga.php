@@ -52,9 +52,17 @@ class CreateTableRumahTangga extends Migration
                 'type' => 'INT',
                 'constraint' => 3,
             ],
+            'long' => [
+                'type' => 'FLOAT',  
+                'null' => true, 
+            ],
+            'lat' => [
+                'type' => 'FLOAT',
+                'null' => true,
+            ],  
             'catatan' => [
                 'type' => 'TEXT',
-            ],
+            ]
         ]);
         $this->forge->addKey('kodeRuta', true);
         $this->forge->createTable('rumahtangga');

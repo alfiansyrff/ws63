@@ -16,7 +16,6 @@ class ListingController extends BaseController
     use ResponseTrait;
     public function index()
     {
-        //
         $rutaModel = new RutaModel();
         $wilayahKerjaModel = new WilayahKerjaModel();
         $mahasiswaModel = new MahasiswaModel();
@@ -27,31 +26,30 @@ class ListingController extends BaseController
         $k = $this->request->getPost('k');
 
         if ($k == 'srp') { //SYNC_RUTA_PCL
-            $kodeBs = $this->request->getPost('kodeBs');
+            $noBS = $this->request->getPost('no_bs');
             $json = $this->request->getPost('json');
             $nim = $this->request->getPost('nim');
-
-
-
             if ($json) {
                 $object_array = (array) json_decode($json);
                 $success = 0;
 
-                // return $this->respond(count($object_array),200);
-
                 foreach ($object_array as $object) {
                     $object = (array) $object;
+
                     $ruta = new Rumahtangga(
-                        $object['kodeRuta'],
+                        $object['kode_ruta'],
                         $object['no_segmen'],
                         $object['no_bg_fisik'],
                         $object['no_bg_sensus'],
                         $object['no_urut_ruta'],
                         $object['nama_krt'],
                         $object['alamat'],
-                        $object['no_bs']
+                        $object['no_bs'],
+                        $object['is_genz_ortu'],
+                        $object['jml_genz'],
+                        $object['no_urut_rt_egb'],
+                        $object['catatan']
                     );
-
                     if ($object['status'] == 'delete') {
                         if ($rutaModel->deleteRuta($ruta)) {
                             $success++;
@@ -62,11 +60,12 @@ class ListingController extends BaseController
                         }
                     }
                 }
+              
 
                 $result = array();
 
                 if ($success == count($object_array)) {
-                    $data_bs = $rutaModel->getAllRuta($kodeBs);
+                    $data_bs = $rutaModel->getAllRuta($noBS);
 
                     if (is_array($data_bs)) {
                         foreach ($data_bs as $data) {

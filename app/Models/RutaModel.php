@@ -51,7 +51,6 @@ class RutaModel extends Model
         $bool = $this->db->table('rumahtangga')->replace($data);
         if ($bool) {
             $wilayahKerjaModel = new WilayahKerjaModel();
-            // $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBSyInsert($data['no_bs'], 1, 0, 0, 0, 0); // masih perlu disesuaikan
             $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($data['no_bs']);
             if ($boolUpdateRekapitulasiBS) {
                 return true;

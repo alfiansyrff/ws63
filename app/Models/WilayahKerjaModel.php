@@ -34,11 +34,10 @@ class WilayahKerjaModel extends Model
         global $wilayah_kerja;
 
         if ($result != NULL) {
-            $rumahTanggaModel = new RutaModel(); //ini nanti untuk memanggil model ruta (untuk gell all ruta / bs)
-            // $sampelModel = new SampelModelR1(); // ini nanti untuk memanggil model sampel
+            $rumahTanggaModel = new RutaModel(); //nanti untuk memanggil model ruta (untuk gell all ruta / bs)
+            // $sampelModel = new SampelModelR1(); // ini  untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
-            $ruta = [];
             $wilayah_kerja = new WilayahKerja(
                 $result['no_bs'],
                 $result['id_kelurahan'],
@@ -54,45 +53,33 @@ class WilayahKerjaModel extends Model
                 $result['tgl_periksa'],
                 $result['status'],
                 $result['catatan'],
-                // $rumahTanggaModel->getAllRuta($result['kode_bs'])
-                $ruta // nanti pakai yang dikomen
+                $rumahTanggaModel->getAllRuta($result['no_bs'])
             );
         };
 
         return $wilayah_kerja;
     }
 
-
-    public function updateRekapitulasiBSyInsert($noBS, $jmlRuta, $jmlRutaZ, $jmlGenZ, $jmlGenZAnak, $jmlGenZDewasa)
-    {
-        $result = $this->where('no_bs', $noBS)
-            ->first();
-
-        if ($result) {
-            // return true;
-            // Melakukan pembaruan rekapitulasi
-            $result['jml_art'] += $jmlRuta;
-
-            $result['jml_artz'] += $jmlRutaZ;
-            $result['jml_genz'] += $jmlGenZ;
-            $result['jml_genz_anak'] += $jmlGenZAnak;
-            $result['jml_genz_dewasa'] += $jmlGenZDewasa;
-            $this->save($result);
-            return true;
-        }
-        return false;
-    }  // FUNGSI INI MASIH SALAH, BEKERJA TAPI SEHARUSNYA BUKAN GINI
-
     public function updateRekapitulasiBs($noBS)
     {
         $query = $this->db->query('UPDATE bloksensus 
-                                   SET jml_art = (
-                                       SELECT COUNT(*) 
-                                       FROM rumahtangga 
-                                       WHERE no_bs = ' . $this->db->escape($noBS) . '
-                                   ) 
-                                   WHERE no_bs = ' . $this->db->escape($noBS));  // KUERI INI BERLUM SELESAI KARENA BARU UPDATE JUMLAH RUTA, NANTI LENGKAPI KETIKA KUISISONER LISTING SUDAH COMPLETE
-
+        SET 
+            jml_rt = (
+                SELECT COUNT(*) 
+                FROM rumahtangga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . '
+            ),
+            jml_rt_genz = (
+                SELECT COUNT(*)
+                FROM rumahtangga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu = \'1\'
+            ),
+            jml_genz = (
+                SELECT SUM(jml_genz)
+                FROM rumahtangga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu =\'1\'
+            )
+        WHERE no_bs = ' . $this->db->escape($noBS));
         return $query;
     }
 }

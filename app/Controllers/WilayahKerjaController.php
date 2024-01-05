@@ -15,5 +15,7 @@ class WilayahKerjaController extends BaseController
         $wilayahKerjaModel = new WilayahKerjaModel();
         $result = $wilayahKerjaModel->getWilayahKerja('222111975'); 
         return $this->respond($result, 200);
+        // echo json_encode($boolUpdateRekapitulasiBS);
+        // die();
     }
 }
