@@ -9,7 +9,7 @@ class CreateTableRumahTangga extends Migration
     public function up()
     {
         $this->forge->addField([
-            'kodeRuta' => [
+            'kode_ruta' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '20',
             ],
@@ -66,7 +66,7 @@ class CreateTableRumahTangga extends Migration
                 'type' => 'TEXT',
             ]
         ]);
-        $this->forge->addKey('kodeRuta', true);
+        $this->forge->addKey('kode_ruta', true);
         $this->forge->createTable('rumahtangga');
     }
 

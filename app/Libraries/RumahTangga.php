@@ -19,6 +19,10 @@ class Rumahtangga
 
     public int $noUrutRtEgb;
 
+    public float $long;
+
+    public float $lat;
+
     public string $catatan;
 
 
@@ -37,6 +41,8 @@ class Rumahtangga
         $isGenzOrtu,
         $jmlGenz,
         $noUrutRtEgb,
+        $long,
+        $lat,
         $catatan
     ) {
         $this->kodeRuta = $kodeRuta;
@@ -50,6 +56,17 @@ class Rumahtangga
         $this->isGenzOrtu = $isGenzOrtu;
         $this->jmlGenz = $jmlGenz;
         $this->noUrutRtEgb = $noUrutRtEgb;
+        $this->long = $long;
+        $this->lat = $lat;
         $this->catatan = $catatan;
     }
+    // public static function createFromArray(array $data): self
+    // {
+    //     return new self(
+    //         $data['kode_ruta'],
+    //         $data['no_segmen'],
+    //         $data['kode_ruta'],
+    //         // inisialisasi parameter lainnya dari $data
+    //     );
+    // }
 }

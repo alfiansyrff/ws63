@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Rumahtangga;
 use App\Libraries\WilayahKerja;
 use CodeIgniter\Model;
 
@@ -86,7 +87,7 @@ class WilayahKerjaModel extends Model
                 WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu =\'1\'
             )
         WHERE no_bs = ' . $this->db->escape($noBS));
-      
+
         return $query;
     }
 }

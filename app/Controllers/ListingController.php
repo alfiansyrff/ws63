@@ -35,7 +35,7 @@ class ListingController extends BaseController
                 $object = (array) $object;
                 $kodeRuta = '';
                 if (!isset($object['kode_ruta']) || empty($object['kode_ruta'])) { // ketika insert kode_ruta akan kosong
-                    // ketika  $object['kode_ruta'] kosong, nanti buatkan kode ruta berdasarkan nomer BS dan no urut terakhir
+                    // ketika  $object['kode_ruta'] kosong, akan dibuatkan kode ruta berdasarkan nomer BS dan no urut terakhir
                     $kodeRuta = '' . $object['no_bs'] . '' . sprintf('%03d', $object['no_urut_ruta']);
                 } else {
                     $kodeRuta = $object['kode_ruta'];
@@ -43,6 +43,10 @@ class ListingController extends BaseController
                 $jmlGenz = 0;
                 if ($object['is_genz_ortu'] == "1") {
                     $jmlGenz = $object['jml_genz'];
+                    $object['no_urut_rt_egb'] =  $rutaModel->getNoUrutEgb($noBS);
+
+                    // echo json_encode("test");
+                    // die;
                 } else {
                     $object['no_urut_rt_egb'] = 0;
                 }
@@ -60,6 +64,8 @@ class ListingController extends BaseController
                     $object['is_genz_ortu'],
                     $jmlGenz,
                     $object['no_urut_rt_egb'],
+                    $object['long'],
+                    $object['lat'],
                     $object['catatan']
                 );
 

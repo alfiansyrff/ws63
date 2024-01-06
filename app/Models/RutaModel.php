@@ -19,7 +19,7 @@ class RutaModel extends Model
     public function parseToArray($ruta): array
     {
         $data = [
-            'kodeRuta' => $ruta->kodeRuta,
+            'kode_ruta' => $ruta->kodeRuta,
             'no_segmen' => $ruta->noSegmen,
             'no_bg_fisik' => $ruta->noBgFisik,
             'no_bg_sensus' => $ruta->noBgSensus,
@@ -28,6 +28,8 @@ class RutaModel extends Model
             'alamat' => $ruta->alamat,
             'no_bs' => $ruta->noBS,
             'is_genz_ortu' => $ruta->isGenzOrtu,
+            'long' => $ruta->long,
+            'lat' => $ruta->lat,
             'catatan' => $ruta->catatan
         ];
 
@@ -71,7 +73,7 @@ class RutaModel extends Model
 
     public function deleteRuta(Rumahtangga $ruta): bool
     {
-        return $this->delete(['kodeRuta' => $ruta->kodeRuta]);
+        return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
     }
 
     public function getRuta($kodeRuta): Rumahtangga
@@ -94,9 +96,23 @@ class RutaModel extends Model
             $result['isGenzOrtu'],
             $result['jmlGenz'],
             $result['noUrutRtEgb'],
+            $result['long'],
+            $result['lat'],
             $result['catatan']
         );
 
         return $ruta;
+    }
+
+
+    //Fungsi untuk memberikan nilai no_urut_rt_egb secara otomatis pada setiap blok sensus
+    public function getNoUrutEgb($noBS)
+    {
+
+        $data =  $this->where('no_bs', $noBS)
+            ->where('is_genz_ortu', '1')
+            ->orderBy('no_urut_rt_egb', 'DESC')
+            ->first();
+        return $data['no_urut_rt_egb'] + 1;
     }
 }

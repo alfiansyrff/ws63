@@ -24,6 +24,6 @@ class CreateTableKelurahan extends Migration
 
     public function down()
     {
-        $this->forge->dropTable('desa');
+        $this->forge->dropTable('kelurahan');
     }
 }

@@ -10,7 +10,7 @@ class RumahTanggaSeeder extends Seeder
     {
         $data = [
             [
-                'kodeRuta'       => '444A001',
+                'kode_ruta'       => '444A001',
                 'no_segmen'      => 1,
                 'no_bg_fisik'    => 1,
                 'no_bg_sensus'   => 1,
@@ -26,7 +26,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 1',
             ],
             [
-                'kodeRuta'       => '444A002',
+                'kode_ruta'       => '444A002',
                 'no_segmen'      => 1,
                 'no_bg_fisik'    => 2,
                 'no_bg_sensus'   => 2,
@@ -42,7 +42,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 2',
             ],
             [
-                'kodeRuta'       => '444A003',
+                'kode_ruta'       => '444A003',
                 'no_segmen'      => 1,
                 'no_bg_fisik'    => 3,
                 'no_bg_sensus'   => 3,
@@ -58,7 +58,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 3',
             ],
             [
-                'kodeRuta'       => '444A004',
+                'kode_ruta'       => '444A004',
                 'no_segmen'      => 1,
                 'no_bg_fisik'    => 4,
                 'no_bg_sensus'   => 4,
@@ -74,7 +74,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 4',
             ],
             [
-                'kodeRuta'       => '444A005',
+                'kode_ruta'       => '444A005',
                 'no_segmen'      => 1,
                 'no_bg_fisik'    => 5,
                 'no_bg_sensus'   => 5,
@@ -90,7 +90,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 5',
             ],
             [
-                'kodeRuta'       => '444A006',
+                'kode_ruta'       => '444A006',
                 'no_segmen'      => 2,
                 'no_bg_fisik'    => 6,
                 'no_bg_sensus'   => 6,
@@ -106,7 +106,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 6',
             ],
             [
-                'kodeRuta'       => '444A007',
+                'kode_ruta'       => '444A007',
                 'no_segmen'      => 2,
                 'no_bg_fisik'    => 7,
                 'no_bg_sensus'   => 7,
@@ -122,7 +122,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 7',
             ],
             [
-                'kodeRuta'       => '444A008',
+                'kode_ruta'       => '444A008',
                 'no_segmen'      => 2,
                 'no_bg_fisik'    => 8,
                 'no_bg_sensus'   => 8,
@@ -138,7 +138,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 8',
             ],
             [
-                'kodeRuta'       => '444A009',
+                'kode_ruta'       => '444A009',
                 'no_segmen'      => 2,
                 'no_bg_fisik'    => 9,
                 'no_bg_sensus'   => 9,
@@ -154,7 +154,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 9',
             ],
             [
-                'kodeRuta'       => '444A010',
+                'kode_ruta'       => '444A010',
                 'no_segmen'      => 2,
                 'no_bg_fisik'    => 10,
                 'no_bg_sensus'   => 10,
@@ -170,7 +170,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 10',
             ],
             [
-                'kodeRuta'       => '444A011',
+                'kode_ruta'       => '444A011',
                 'no_segmen'      => 3,
                 'no_bg_fisik'    => 11,
                 'no_bg_sensus'   => 11,
@@ -186,7 +186,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 11',
             ],
             [
-                'kodeRuta'       => '444A012',
+                'kode_ruta'       => '444A012',
                 'no_segmen'      => 3,
                 'no_bg_fisik'    => 12,
                 'no_bg_sensus'   => 12,
@@ -202,7 +202,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 12',
             ],
             [
-                'kodeRuta'       => '444A013',
+                'kode_ruta'       => '444A013',
                 'no_segmen'      => 3,
                 'no_bg_fisik'    => 13,
                 'no_bg_sensus'   => 13,
@@ -218,7 +218,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 13',
             ],
             [
-                'kodeRuta'       => '444A014',
+                'kode_ruta'       => '444A014',
                 'no_segmen'      => 3,
                 'no_bg_fisik'    => 14,
                 'no_bg_sensus'   => 14,
@@ -234,7 +234,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 14',
             ],
             [
-                'kodeRuta'       => '444A015',
+                'kode_ruta'       => '444A015',
                 'no_segmen'      => 3,
                 'no_bg_fisik'    => 15,
                 'no_bg_sensus'   => 15,
@@ -250,7 +250,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 15',
             ],
             [
-                'kodeRuta'       => '444B001',
+                'kode_ruta'       => '444B001',
                 'no_segmen'      => 4,
                 'no_bg_fisik'    => 16,
                 'no_bg_sensus'   => 16,
@@ -266,7 +266,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 16',
             ],
             [
-                'kodeRuta'       => '444B002',
+                'kode_ruta'       => '444B002',
                 'no_segmen'      => 4,
                 'no_bg_fisik'    => 17,
                 'no_bg_sensus'   => 17,
@@ -282,7 +282,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 17',
             ],
             [
-                'kodeRuta'       => '444B003',
+                'kode_ruta'       => '444B003',
                 'no_segmen'      => 4,
                 'no_bg_fisik'    => 18,
                 'no_bg_sensus'   => 18,
@@ -298,7 +298,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 18',
             ],
             [
-                'kodeRuta'       => '444B004',
+                'kode_ruta'       => '444B004',
                 'no_segmen'      => 4,
                 'no_bg_fisik'    => 19,
                 'no_bg_sensus'   => 19,
@@ -314,7 +314,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 19',
             ],
             [
-                'kodeRuta'       => '444B005',
+                'kode_ruta'       => '444B005',
                 'no_segmen'      => 4,
                 'no_bg_fisik'    => 20,
                 'no_bg_sensus'   => 20,
@@ -330,7 +330,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 20',
             ],
             [
-                'kodeRuta'       => '444B006',
+                'kode_ruta'       => '444B006',
                 'no_segmen'      => 5,
                 'no_bg_fisik'    => 21,
                 'no_bg_sensus'   => 21,
@@ -346,7 +346,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 21',
             ],
             [
-                'kodeRuta'       => '444B007',
+                'kode_ruta'       => '444B007',
                 'no_segmen'      => 5,
                 'no_bg_fisik'    => 22,
                 'no_bg_sensus'   => 22,
@@ -362,7 +362,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 22',
             ],
             [
-                'kodeRuta'       => '444B008',
+                'kode_ruta'       => '444B008',
                 'no_segmen'      => 5,
                 'no_bg_fisik'    => 23,
                 'no_bg_sensus'   => 23,
@@ -378,7 +378,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 23',
             ],
             [
-                'kodeRuta'       => '444B009',
+                'kode_ruta'       => '444B009',
                 'no_segmen'      => 5,
                 'no_bg_fisik'    => 24,
                 'no_bg_sensus'   => 24,
@@ -394,7 +394,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 24',
             ],
             [
-                'kodeRuta'       => '444B010',
+                'kode_ruta'       => '444B010',
                 'no_segmen'      => 5,
                 'no_bg_fisik'    => 25,
                 'no_bg_sensus'   => 25,
@@ -410,7 +410,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 25',
             ],
             [
-                'kodeRuta'       => '444B011',
+                'kode_ruta'       => '444B011',
                 'no_segmen'      => 6,
                 'no_bg_fisik'    => 26,
                 'no_bg_sensus'   => 26,
@@ -426,7 +426,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 26',
             ],
             [
-                'kodeRuta'       => '444B012',
+                'kode_ruta'       => '444B012',
                 'no_segmen'      => 6,
                 'no_bg_fisik'    => 27,
                 'no_bg_sensus'   => 27,
@@ -442,7 +442,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 27',
             ],
             [
-                'kodeRuta'       => '444B013',
+                'kode_ruta'       => '444B013',
                 'no_segmen'      => 6,
                 'no_bg_fisik'    => 28,
                 'no_bg_sensus'   => 28,
@@ -458,7 +458,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 28',
             ],
             [
-                'kodeRuta'       => '444B014',
+                'kode_ruta'       => '444B014',
                 'no_segmen'      => 6,
                 'no_bg_fisik'    => 29,
                 'no_bg_sensus'   => 29,
@@ -474,7 +474,7 @@ class RumahTanggaSeeder extends Seeder
                 'catatan'        => 'Catatan Rumah Tangga 29',
             ],
             [
-                'kodeRuta'       => '444B015',
+                'kode_ruta'       => '444B015',
                 'no_segmen'      => 6,
                 'no_bg_fisik'    => 30,
                 'no_bg_sensus'   => 30,

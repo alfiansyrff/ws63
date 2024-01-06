@@ -13,7 +13,8 @@ class LoginController extends BaseController
 
     public function index()
     {
-        $mahasiswaModel = new MahasiswaModel();
+        // KALAU NIM TIDAK MEMPUNYAI WILAYAH KERJA, AKAN 500 ERROR
+        $mahasiswaModel = new MahasiswaModel(); 
         $timModel = new TimPencacahModel();
         $mahasiswa = $mahasiswaModel->getMahasiswa($this->request->getGet('nim'));
         
