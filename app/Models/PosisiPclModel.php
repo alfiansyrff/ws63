@@ -20,24 +20,22 @@ class PosisiPclModel extends Model
 
         $posisipcl = new PosisiPcl(
             $result['nim'],
-            $result['nama'],
-            $result['id_tim'],
-            $result['lokus'],
             $result['latitude'],
             $result['longitude'],
+            $result['akurasi'],
         );
 
         return $posisipcl;
     }    
 
-    public function updateLokasiPcl(string $nim, float $latitude, float $longitude, string $lokus): bool
+    public function updateLokasiPcl(string $nim, float $latitude, float $longitude, float $akurasi): bool
     {
         $jakartaTimezone = new \DateTimeZone('Asia/Jakarta');
         $now = new \DateTime('now', $jakartaTimezone);
         $data = [
             'latitude' => $latitude,
             'longitude' => $longitude,
-            'lokus' => $lokus,
+            'akurasi' => $akurasi,
             'time_created' => $now->format('Y-m-d H:i:s')
         ];
         $this->update($nim, $data);
