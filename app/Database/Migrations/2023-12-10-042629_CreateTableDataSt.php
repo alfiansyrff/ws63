@@ -19,9 +19,11 @@ class CreateTableDataSt extends Migration
             ],
             'status' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '20',
+                'constraint' => '1',
+                'default' => '1' // 1 (belum cacah), 2(sudah cacah)
             ],
         ]);
+        $this->forge->addKey('kode_ruta', true);
         $this->forge->createTable('datast');
     }
 

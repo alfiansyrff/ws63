@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class RutaModel extends Model
 {
     protected $table            = 'rumahtangga';
-    protected $primaryKey       = 'kodeRuta';
+    protected $primaryKey       = 'kode_ruta';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
@@ -105,14 +105,41 @@ class RutaModel extends Model
     }
 
 
-    //Fungsi untuk memberikan nilai no_urut_rt_egb secara otomatis pada setiap blok sensus
+
     public function getNoUrutEgb($noBS)
     {
-
+        //Fungsi untuk memberikan nilai no_urut_rt_egb secara otomatis pada setiap blok sensus
         $data =  $this->where('no_bs', $noBS)
             ->where('is_genz_ortu', '1')
             ->orderBy('no_urut_rt_egb', 'DESC')
-            ->first();
+            ->first(); // mendapatkan no_urut_rt_egb terakhir di blok sensus yang bersangkutan
         return $data['no_urut_rt_egb'] + 1;
+    }
+
+
+    public function getSampelBS($noBS, $sampleSize) // Circular sistematic 
+    {
+        // mengambail semua ruta eligible dari BS yang bersangkutan
+        $ruta = $this->where('no_bs', $noBS)->where('is_genz_ortu', '1')->orderBy('jml_genz', 'DESC')->orderBy('no_urut_rt_egb', 'asc')->findAll();
+
+        // Hitung interval sampling
+        $interval = count($ruta) / $sampleSize;
+        // Pilih posisi awal dimulai dari data pertama
+        $startPosition = 1;
+        // Inisialisasi array untuk menyimpan sampel
+        $samples = [];
+        for ($i = 0; $i < $sampleSize; $i++) {
+            // Hitung posisi sampel
+            $position = ($startPosition + $i * $interval) % count($ruta);
+            // Ambil sampel pada posisi
+            $samples[] = $ruta[$position];
+        }
+
+        // karena sampling dengan circular, maka sampel harus diurutkan lagi
+        $noUrutRt = array_column($samples, 'no_urut_rt');
+        array_multisort($noUrutRt, SORT_ASC, $samples);
+
+        //sample terurut di kembalikan
+        return $samples;
     }
 }

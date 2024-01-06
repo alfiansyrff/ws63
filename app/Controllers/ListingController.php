@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Libraries\Rumahtangga;
+use App\Models\DataStModel;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MahasiswaModel;
 use App\Models\WilayahKerjaModel;
@@ -116,5 +117,19 @@ class ListingController extends BaseController
             return $this->respond($result);
         }
         return $this->respond(null, null, 'WHAT?');
+    }
+
+    public function generateSampel($noBS)
+    {
+        $rutaModel = new RutaModel();
+        $result = $rutaModel->getSampelBS($noBS, 10); // mendapatkan data sampel
+
+        // memasukkan sampel yang terpilih ke tabel datast
+        $dataStModel = new DataStModel();
+        if ($dataStModel->insertDataST($result)) {
+            return $this->respond($result); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
+        } else {
+            return $this->fail('Gagal menyimpan sampel', 400); // jika tidak berhasil mengembalikan pesan error
+        }
     }
 }

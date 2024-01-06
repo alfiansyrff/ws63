@@ -15,7 +15,7 @@ class WilayahKerjaController extends BaseController
     {
         $wilayahKerjaModel = new WilayahKerjaModel();
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getNoUrutEgb('444A'); 
+        $result = $rutaModel->getSampelBS('444B',5); 
         return $this->respond($result, 200);
         // echo json_encode($boolUpdateRekapitulasiBS);
         // die();
