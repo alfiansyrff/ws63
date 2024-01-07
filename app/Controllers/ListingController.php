@@ -121,15 +121,27 @@ class ListingController extends BaseController
 
     public function generateSampel($noBS)
     {
+
         $rutaModel = new RutaModel();
         $result = $rutaModel->getSampelBS($noBS, 10); // mendapatkan data sampel
-
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
-        if ($dataStModel->insertDataST($result)) {
+        try {
+            $dataStModel->insertDataST($result);
             return $this->respond($result); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
-        } else {
-            return $this->fail('Gagal menyimpan sampel', 400); // jika tidak berhasil mengembalikan pesan error
+        } catch (\Throwable $th) {
+            return $this->fail('Gagal menyimpan sampel [duplicate]', 400); // jika tidak berhasil mengembalikan pesan error
+        }
+    }
+
+    public function hapusSampelBS($noBS)
+    {
+        $dataStModel = new DataStModel();
+        try {
+            $dataStModel->hapusDataST($noBS);
+            return $this->respond("Berhasil menghapus sampel",200); // respon berhasil
+        } catch (\Throwable $th) {
+            return $this->fail('Gagal menghapus sampel', 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
 }

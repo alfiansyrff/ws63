@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\API\ResponseTrait;
+use PhpParser\Node\Stmt\TryCatch;
 
 class DataStModel extends Model
 {
@@ -28,11 +30,11 @@ class DataStModel extends Model
         }
         // Menyimpan ke database
         return $this->db->table('datast')->insertBatch($sampels);
-
     }
 
-    // public function simpanData($datast)
-    // {
-    //     return $this->db->table('datast')->insert($datast);
-    // }
+    public function hapusDataST($noBS)
+    {
+        // melakukan penghapusan semua ruta yang memiliki no_bs bersangkutan
+        return ($this->db->table('datast')->where('no_bs', $noBS)->delete()); 
+    }
 }
