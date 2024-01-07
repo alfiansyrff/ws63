@@ -9,7 +9,7 @@ class KelurahanSeeder extends Seeder
     public function run()
     {
         // Tambahkan data kelurahan ke dalam tabel
-        $data = [
+        $data = [ // tambahkan id kab, dan id kec
             [
                 'id_kelurahan'   => '001',
                 'nama_kelurahan' => 'Kelurahan A',
@@ -22,6 +22,6 @@ class KelurahanSeeder extends Seeder
         ];
 
         // Insert data ke dalam tabel
-        $this->db->table('kelurahan')->insertBatch($data);
+        $this->db->table('kelurahan')->insertBatch($data); // pk adalah id kab + ida kec + id kel
     }
 }

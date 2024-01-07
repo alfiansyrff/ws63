@@ -47,11 +47,18 @@ class RutaModel extends Model
 
     public function getAllRuta($noBS): array
     {
-        $result = $this->where('no_bs', $noBS)->findAll();
-        if (!$result) {
+        $results = $this->where('no_bs', $noBS)->findAll();
+        if (!$results) {
             return [];
         }
-        return $result;
+
+        // ubag dari array biasa menjadi array of objek RumahTangga
+        $listRuta = [];
+        foreach ($results as $result) {
+            $rutaTemp = Rumahtangga::createFromArray($result); // mengembalikan dalam bentuk objek
+            array_push($listRuta, $rutaTemp);
+        }
+        return $listRuta;
     }
 
     public function addRuta(Rumahtangga $ruta): bool

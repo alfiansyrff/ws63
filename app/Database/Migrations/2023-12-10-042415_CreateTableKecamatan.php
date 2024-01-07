@@ -8,7 +8,7 @@ class CreateTableKecamatan extends Migration
 {
     public function up()
     {
-        $this->forge->addField([
+        $this->forge->addField([ // tambahkan untuk menyimpan id kab 
             'id_kec' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 3,
@@ -18,7 +18,7 @@ class CreateTableKecamatan extends Migration
                 'constraint' => '255',
             ],
         ]);
-        $this->forge->addKey('id_kec', true);
+        $this->forge->addKey('id_kec', true); // primary key adalah id kab  + id kec
         $this->forge->createTable('kecamatan');
     }
 
