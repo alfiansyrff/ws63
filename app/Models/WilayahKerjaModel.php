@@ -18,7 +18,7 @@ class WilayahKerjaModel extends Model
     public function getWilayahKerja($nim)
     {
         // Fungsi ini digunakna untuk mendapatkan wilayah kerja dari mahasiswa tertentu, wilayah kerja adalah blok sensus yang menjadi beban kerja dari mahasiswa yang bersangkutan
-        $result = $this
+        $results = $this
             ->join(
                 'kelurahan',
                 'bloksensus.id_kelurahan = kelurahan.id_kelurahan',
@@ -31,35 +31,38 @@ class WilayahKerjaModel extends Model
             )
             ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')
             ->where('nim_pencacah', $nim)
-            ->first();
+            ->findAll();
 
-        global $wilayah_kerja;
-
-        if ($result != NULL) {
+        $listWilayahKerja = [];
+        if ($results != NULL) {
             $rumahTanggaModel = new RutaModel(); //untuk menggunakan fungsi getAllRuta yang ada di rumah tangga model
-
             // $sampelModel = new SampelModelR1(); // ini  untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
-            $wilayah_kerja = new WilayahKerja(
-                $result['no_bs'],
-                $result['id_kelurahan'],
-                $result['nama_kelurahan'],
-                $result['id_kec'],
-                $result['nama_kec'],
-                $result['id_kab'],
-                $result['nama_kab'],
-                $result['jml_rt'],
-                $result['jml_rt_genz'],
-                $result['jml_genz'],
-                $result['tgl_listing'],
-                $result['tgl_periksa'],
-                $result['status'],
-                $result['catatan'],
-                $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
-            );
+     
+            foreach ($results as $result) {
+                $wilayah_kerja = new WilayahKerja(
+                    $result['no_bs'],
+                    $result['id_kelurahan'],
+                    $result['nama_kelurahan'],
+                    $result['id_kec'],
+                    $result['nama_kec'],
+                    $result['id_kab'],
+                    $result['nama_kab'],
+                    $result['jml_rt'],
+                    $result['jml_rt_genz'],
+                    $result['jml_genz'],
+                    $result['tgl_listing'],
+                    $result['tgl_periksa'],
+                    $result['status'],
+                    $result['catatan'],
+                    $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
+                );
+                
+                array_push($listWilayahKerja, $wilayah_kerja);                 
+            }
         };
-        return $wilayah_kerja;
+        return $listWilayahKerja;
     }
 
     public function updateRekapitulasiBs($noBS)

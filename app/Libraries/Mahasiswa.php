@@ -11,9 +11,11 @@ class Mahasiswa
     public string $no_hp;
     public string $alamat;
     public string $email;
+
+    public string $password;
     public string $foto;
     public string $id_tim;
-    public  WilayahKerja $wilayah_kerja;
+    public  $wilayah_kerja;
     // public int $total_progress;
     public bool $isKoor;
 
