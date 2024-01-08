@@ -10,10 +10,12 @@ class KecamatanSeeder extends Seeder
     {
         $data = [
             [
+                'id_kab' => '001',
                 'id_kec' => '001',
                 'nama_kec' => 'Kecamatan A',
             ],
             [
+                'id_kab' => '001',
                 'id_kec' => '002',
                 'nama_kec' => 'Kecamatan B',
             ],

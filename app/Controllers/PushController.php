@@ -57,7 +57,7 @@ class PushController extends BaseController
             'contents' => $content,
             'headings' => $heading,
 
-             // Icon disesuaikan 
+             // Icon disesuaikan
             'small_icon' => 'capifix',
             'large_icon' => 'capifix',
 
