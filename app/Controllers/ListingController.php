@@ -29,7 +29,8 @@ class ListingController extends BaseController
         $json = $this->request->getPost('json');
         $nim = $this->request->getPost('nim');
         if ($json) {
-            $object_array = (array) json_decode($json);
+            $json = str_replace("\n", '', $json);
+            $object_array = json_decode($json, true);
             $success = 0;
 
             foreach ($object_array as $object) {
@@ -139,9 +140,23 @@ class ListingController extends BaseController
         $dataStModel = new DataStModel();
         try {
             $dataStModel->hapusDataST($noBS);
-            return $this->respond("Berhasil menghapus sampel",200); // respon berhasil
+            return $this->respond("Berhasil menghapus sampel", 200); // respon berhasil
         } catch (\Throwable $th) {
             return $this->fail('Gagal menghapus sampel', 400); // jika tidak berhasil mengembalikan pesan error
+        }
+    }
+
+    public function getSampelBS($noBS)
+    {
+        $dataStModel = new DataStModel();
+        try {
+            $results = $dataStModel->getSampelByNoBS($noBS);
+            if ($results == null) {
+                return $this->respondNoContent(); // jika data sampel tidak ditemukan, kembalikan kode 204
+            }
+            return $this->respond($results, 200); // respon berhasil
+        } catch (\Throwable $th) {
+            return $this->fail('Gagal mendapatkan data sampel', 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
 }
