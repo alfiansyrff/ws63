@@ -29,9 +29,9 @@ class ListingController extends BaseController
         $json = $this->request->getPost('json');
         $nim = $this->request->getPost('nim');
         if ($json) {
-            $object_array = (array) json_decode($json);
+            $json = str_replace("\n",'', $json);
+            $object_array = json_decode($json, true);
             $success = 0;
-
             foreach ($object_array as $object) {
                 $object = (array) $object;
                 $kodeRuta = '';
@@ -69,10 +69,8 @@ class ListingController extends BaseController
                     $object['lat'],
                     $object['catatan']
                 );
-
-
-
                 if ($object['status'] == 'delete') {
+                 
                     if ($rutaModel->deleteRuta($ruta)) {
                         $success++;
                     }
@@ -113,6 +111,7 @@ class ListingController extends BaseController
             } else {
                 $result = 'IDK';
             }
+          
 
             return $this->respond($result);
         }
