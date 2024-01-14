@@ -117,7 +117,7 @@ class ListingController extends BaseController
 
             return $this->respond($result);
         }
-        return $this->respond(null, null, 'WHAT?');
+        return $this->respond(null, null, 'Paramter JSON tidak terbaca');
     }
 
     public function generateSampel($noBS)
@@ -158,5 +158,17 @@ class ListingController extends BaseController
         } catch (\Throwable $th) {
             return $this->fail('Gagal mendapatkan data sampel', 400); // jika tidak berhasil mengembalikan pesan error
         }
+    }
+
+    public function changeBsStatus($noBS, $status){
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $result = $wilayahKerjaModel->changeStatusBS($noBS, $status);
+        if($result){
+            return $this->respondUpdated($result);
+        } else{
+            return $this->fail("Blok sensus gagal di update",400);
+        }
+
+
     }
 }

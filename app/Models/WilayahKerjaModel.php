@@ -98,4 +98,17 @@ class WilayahKerjaModel extends Model
 
         return $query;
     }
+
+    
+    public function changeStatusBS($noBS, $status){
+        $data = [
+            'status' => $status
+        ];
+        $result =  $this->db->table('bloksensus')->where('no_bs', $noBS)->update($data);
+        if($result ){
+            $updatedData = $this->where('no_bs', $noBS)->first();
+            return $updatedData;
+        }
+        return false;
+    }
 }
