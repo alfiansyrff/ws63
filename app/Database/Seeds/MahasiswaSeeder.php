@@ -19,6 +19,7 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Danang',
                 'password' => password_hash('danang123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
+                'token'=> 'test token 1'
             ],
             [
                 'nim' => '222112322',
@@ -30,6 +31,7 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto RIfky',
                 'password' => password_hash('rifky123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
+                'token'=> 'test token 1'
             ],
             [
                 'nim' => '222111333',
@@ -41,6 +43,7 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Farid',
                 'password' => password_hash('farid123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
+                'token'=> 'test token 1'
             ],
         ];
         $this->db->table('mahasiswa')->insertBatch($data);

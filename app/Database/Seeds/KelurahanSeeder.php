@@ -9,19 +9,34 @@ class KelurahanSeeder extends Seeder
     public function run()
     {
         // Tambahkan data kelurahan ke dalam tabel
-        $data = [ // tambahkan id kab, dan id kec
+        $data = [
             [
-                'id_kelurahan'   => '001',
-                'nama_kelurahan' => 'Kelurahan A',
+                'id_kab' => '001',
+                'id_kec' => '001',
+                'id_kel' => '001', // sesuaikan dengan nama kolom yang digunakan di migrasi
+                'nama_kel' => 'Kelurahan A',
             ],
             [
-                'id_kelurahan'   => '002',
-                'nama_kelurahan' => 'Kelurahan B',
+                'id_kab' => '001',
+                'id_kec' => '001',
+                'id_kel' => '002',
+                'nama_kel' => 'Kelurahan B',
             ],
-            // Tambahkan data kelurahan lainnya sesuai kebutuhan
+            [
+                'id_kab' => '001',
+                'id_kec' => '002',
+                'id_kel' => '003', // pastikan nilai unik
+                'nama_kel' => 'Kelurahan C',
+            ],
+            [
+                'id_kab' => '001',
+                'id_kec' => '002',
+                'id_kel' => '004', // pastikan nilai unik
+                'nama_kel' => 'Kelurahan D',
+            ],
         ];
 
         // Insert data ke dalam tabel
-        $this->db->table('kelurahan')->insertBatch($data); // pk adalah id kab + ida kec + id kel
+        $this->db->table('kelurahan')->insertBatch($data);
     }
 }

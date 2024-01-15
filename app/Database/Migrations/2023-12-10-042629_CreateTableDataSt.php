@@ -23,6 +23,8 @@ class CreateTableDataSt extends Migration
                 'default' => '1' // 1 (belum cacah), 2(sudah cacah)
             ],
         ]);
+        $this->forge->addForeignKey('kode_ruta', 'rumahtangga', 'kode_ruta','CASCADE','CASCADE');
+        $this->forge->addForeignKey('no_bs', 'bloksensus', 'no_bs','CASCADE','CASCADE');
         $this->forge->addKey('kode_ruta', true);
         $this->forge->createTable('datast');
     }

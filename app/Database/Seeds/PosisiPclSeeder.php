@@ -10,14 +10,11 @@ class PosisiPclSeeder extends Seeder
     {
         $data = [
             [
-                'nim' => '222112975',
-                'nama' => 'Imalia Rosyida',
-                'no_hp' => '082334907089',
-                'id_tim' => '44',
+                'nim' => '222111975',
                 'lokus' => 'Jakarta Timur',
-                'latitude' => '12345678',
-                'longitude' => '12345678',
-                'akurasi' => '12345678',
+                'latitude' => -6.9175,
+                'longitude' => 107.6098,
+                'akurasi' => 23.0,
             ],
         ];
         $this->db->table('posisi_pcl')->insertBatch($data);
