@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Libraries\Keluarga;
 use App\Libraries\Rumahtangga;
 use App\Models\DataStModel;
+use App\Models\KeluargaModel;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MahasiswaModel;
 use App\Models\WilayahKerjaModel;
@@ -19,7 +21,7 @@ class ListingController extends BaseController
     {
         // fungsi ini mencakup insert, update, dan delete ruta
 
-        $rutaModel = new RutaModel();
+        $keluargaModel = new KeluargaModel();
         $wilayahKerjaModel = new WilayahKerjaModel();
         // $mahasiswaModel = new MahasiswaModel();
         // $timModel = new TimPencacahModel();
@@ -29,64 +31,67 @@ class ListingController extends BaseController
         $json = $this->request->getPost('json');
         $nim = $this->request->getPost('nim');
         if ($json) {
-            $json = str_replace("\n",'', $json);
+            $json = str_replace("\n", '', $json);
             $object_array = json_decode($json, true);
             $success = 0;
             foreach ($object_array as $object) {
                 $object = (array) $object;
-                $kodeRuta = '';
-                if (!isset($object['kode_ruta']) || empty($object['kode_ruta'])) { // ketika insert kode_ruta akan kosong
-                    // ketika  $object['kode_ruta'] kosong, akan dibuatkan kode ruta berdasarkan nomer BS dan no urut terakhir
-                    $kodeRuta = '' . $object['no_bs'] . '' . sprintf('%03d', $object['no_urut_ruta']);
-                } else {
-                    $kodeRuta = $object['kode_ruta'];
-                }
-                $jmlGenz = 0;
-                if ($object['is_genz_ortu'] == "1") {
-                    $jmlGenz = $object['jml_genz'];
-                    $object['no_urut_rt_egb'] =  $rutaModel->getNoUrutEgb($noBS);
+                // echo json_encode($object);
 
-                    // echo json_encode("test");
-                    // die;
-                } else {
-                    $object['no_urut_rt_egb'] = 0;
-                }
+                // die;
+                // $kodeRuta = '';
+                // if (!isset($object['kode_ruta']) || empty($object['kode_ruta'])) { // ketika insert kode_ruta akan kosong
+                //     // ketika  $object['kode_ruta'] kosong, akan dibuatkan kode ruta berdasarkan nomer BS dan no urut terakhir
+                //     $kodeRuta = '' . $object['no_bs'] . '' . sprintf('%03d', $object['no_urut_ruta']);
+                // } else {
+                //     $kodeRuta = $object['kode_ruta'];
+                // }
+                // $jmlGenz = 0;
+                // if ($object['is_genz_ortu'] == "1") {
+                //     $jmlGenz = $object['jml_genz'];
+                //     $object['no_urut_rt_egb'] =  $rutaModel->getNoUrutEgb($noBS);
 
+                //     // echo json_encode("test");
+                //     // die;
+                // } else {
+                //     $object['no_urut_rt_egb'] = 0;
+                // }
 
-                $ruta = new Rumahtangga(
-                    $kodeRuta,
-                    $object['no_segmen'],
-                    $object['no_bg_fisik'],
-                    $object['no_bg_sensus'],
-                    $object['no_urut_ruta'],
-                    $object['nama_krt'],
-                    $object['alamat'],
-                    $object['no_bs'],
-                    $object['is_genz_ortu'],
-                    $jmlGenz,
-                    $object['no_urut_rt_egb'],
-                    $object['long'],
-                    $object['lat'],
-                    $object['catatan']
-                );
+                $keluarga = Keluarga::createFromArray($object);
+                // echo json_encode($keluarga);
+                // die;
+                // $ruta = new Rumahtangga(
+                //     $kodeRuta,
+                //     $object['no_segmen'],
+                //     $object['no_bg_fisik'],
+                //     $object['no_bg_sensus'],
+                //     $object['no_urut_ruta'],
+                //     $object['nama_krt'],
+                //     $object['alamat'],
+                //     $object['no_bs'],
+                //     $object['is_genz_ortu'],
+                //     $jmlGenz,
+                //     $object['no_urut_rt_egb'],
+                //     $object['long'],
+                //     $object['lat'],
+                //     $object['catatan']
+                // );
+
                 if ($object['status'] == 'delete') {
-                 
-                    if ($rutaModel->deleteRuta($ruta)) {
-                        $success++;
-                    }
+                    $keluargaModel->addKeluarga($keluarga);
                 } else {
-                    if ($rutaModel->addRuta($ruta)) {
-                        $success++;
-                    }
+                    $keluargaModel->addKeluarga($keluarga);
                 }
             }
 
             $wilayahKerjaModel = new WilayahKerjaModel();
             $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
 
+            echo json_encode($boolUpdateRekapitulasiBS);
+            die;
             $result = array();
 
-            if ($success == count($object_array) && $boolUpdateRekapitulasiBS) {
+            if ( $boolUpdateRekapitulasiBS) {
                 $data_bs = $rutaModel->getAllRuta($noBS);
 
                 if (is_array($data_bs)) {
@@ -111,7 +116,7 @@ class ListingController extends BaseController
             } else {
                 $result = 'IDK';
             }
-          
+
 
             return $this->respond($result);
         }
@@ -138,7 +143,7 @@ class ListingController extends BaseController
         $dataStModel = new DataStModel();
         try {
             $dataStModel->hapusDataST($noBS);
-            return $this->respond("Berhasil menghapus sampel",200); // respon berhasil
+            return $this->respond("Berhasil menghapus sampel", 200); // respon berhasil
         } catch (\Throwable $th) {
             return $this->fail('Gagal menghapus sampel', 400); // jika tidak berhasil mengembalikan pesan error
         }

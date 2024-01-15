@@ -39,7 +39,7 @@ class WilayahKerjaModel extends Model
             // $sampelModel = new SampelModelR1(); // ini  untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
-     
+
             foreach ($results as $result) {
                 $wilayah_kerja = new WilayahKerja(
                     $result['no_bs'],
@@ -58,8 +58,8 @@ class WilayahKerjaModel extends Model
                     $result['catatan'],
                     $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
                 );
-                
-                array_push($listWilayahKerja, $wilayah_kerja);                 
+
+                array_push($listWilayahKerja, $wilayah_kerja);
             }
         };
         return $listWilayahKerja;
@@ -67,6 +67,7 @@ class WilayahKerjaModel extends Model
 
     public function updateRekapitulasiBs($noBS)
     {
+
         // Fungsi ini digunakan untuk mengupdate rekapitulasi pada BS, panggil fungsi ini ketika ada perubahan data Ruta
 
         // jml_rt : jumlah semua ruta dalam satu BS
@@ -74,20 +75,25 @@ class WilayahKerjaModel extends Model
         // jml_genz : jumlah semua genz dalam satu blok sensus
         $query = $this->db->query('UPDATE bloksensus 
         SET 
-            jml_rt = ( 
+            jml_klg = ( 
                 SELECT COUNT(*) 
+                FROM keluarga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . '
+            ),
+            jml_klg_egb = (
+                SELECT COUNT(*)
+                FROM keluarga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu != 0
+            ),
+            jml_rt = (
+                SELECT COUNT(*)
                 FROM rumahtangga 
                 WHERE no_bs = ' . $this->db->escape($noBS) . '
             ),
-            jml_rt_genz = (
+            jml_rt_egb = (
                 SELECT COUNT(*)
                 FROM rumahtangga 
-                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu = \'1\'
-            ),
-            jml_genz = (
-                SELECT SUM(jml_genz)
-                FROM rumahtangga 
-                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu =\'1\'
+                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu != 0
             )
         WHERE no_bs = ' . $this->db->escape($noBS));
 

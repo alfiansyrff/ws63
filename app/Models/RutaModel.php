@@ -20,27 +20,26 @@ class RutaModel extends Model
     {
         $data = [
             'kode_ruta' => $ruta->kodeRuta,
-            'no_segmen' => $ruta->noSegmen,
-            'no_bg_fisik' => $ruta->noBgFisik,
-            'no_bg_sensus' => $ruta->noBgSensus,
-            'no_urut_rt' => $ruta->noUrutRuta,
+            'no_urut_ruta' => $ruta->noUrutRuta,
+            'kk_or_krt' => $ruta->kkOrKrt,
             'nama_krt' => $ruta->namaKrt,
-            'alamat' => $ruta->alamat,
-            'no_bs' => $ruta->noBS,
             'is_genz_ortu' => $ruta->isGenzOrtu,
+            'kat_genz' => $ruta->katGenz,
             'long' => $ruta->long,
             'lat' => $ruta->lat,
-            'catatan' => $ruta->catatan
+            'catatan' => $ruta->catatan,
+            'no_bs' => $ruta->noBS,
         ];
+        
 
         // menambahkan 'no_urut_rt_egb' hanya jika nilainya bukan 0
-        if ($ruta->noUrutRtEgb != 0) {
-            $data['no_urut_rt_egb'] = $ruta->noUrutRtEgb;
-        }
+        // if ($ruta->noUrutRtEgb != 0) {
+        //     $data['no_urut_rt_egb'] = $ruta->noUrutRtEgb;
+        // }
         //menambahkan jumlah genz jika hanya is_genz_ortu bernilai 1
-        if ($ruta->isGenzOrtu == 1) {
-            $data['jml_genz'] = $ruta->jmlGenz;
-        }
+        // if ($ruta->isGenzOrtu == 1) {
+        //     $data['jml_genz'] = $ruta->jmlGenz;
+        // }
 
         return $data;
     }
