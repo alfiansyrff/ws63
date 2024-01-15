@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Libraries\Rumahtangga;
+use App\Libraries\RumahTangga;
 use CodeIgniter\Model;
 
 class RutaModel extends Model

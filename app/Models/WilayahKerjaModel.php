@@ -24,9 +24,14 @@ class WilayahKerjaModel extends Model
                 'bloksensus.id_kelurahan = kelurahan.id_kelurahan',
                 'inner'
             )
+            // ->join(
+            //     'kecamatan',
+            //     'bloksensus.id_kec = kecamatan.id_kec',
+            //     'inner'
+            // )
             ->join(
                 'kecamatan',
-                'bloksensus.id_kec = kecamatan.id_kec',
+                'bloksensus.id_kab = kecamatan.id_kab AND bloksensus.id_kec = kecamatan.id_kec',
                 'inner'
             )
             ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')

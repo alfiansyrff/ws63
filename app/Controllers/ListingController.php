@@ -148,4 +148,18 @@ class ListingController extends BaseController
             return $this->fail('Gagal menghapus sampel', 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
+
+    public function getSampelBS($noBS)
+    {
+        $dataStModel = new DataStModel();
+        try {
+            $results = $dataStModel->getSampelByNoBS($noBS);
+            if ($results == null) {
+                return $this->respondNoContent(); // jika data sampel tidak ditemukan, kembalikan kode 204
+            }
+            return $this->respond($results, 200); // respon berhasil
+        } catch (\Throwable $th) {
+            return $this->fail('Gagal mendapatkan data sampel', 400); // jika tidak berhasil mengembalikan pesan error
+        }
+    }
 }

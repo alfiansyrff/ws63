@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Rumahtangga;
 use CodeIgniter\Model;
 use CodeIgniter\API\ResponseTrait;
 use PhpParser\Node\Stmt\TryCatch;
@@ -35,6 +36,20 @@ class DataStModel extends Model
     public function hapusDataST($noBS)
     {
         // melakukan penghapusan semua ruta yang memiliki no_bs bersangkutan
-        return ($this->db->table('datast')->where('no_bs', $noBS)->delete()); 
+        return ($this->db->table('datast')->where('no_bs', $noBS)->delete());
+    }
+
+    public function getSampelByNoBS($noBS)
+    {
+        // fungsi untuk mendapatkan list sampel dari suatu BS
+        $query = $this->join('rumahtangga', 'datast.kode_ruta = rumahtangga.kode_ruta', 'inner')->where('datast.no_bs', $noBS)->findAll();
+
+        $results = [];
+        foreach ($query as $data) {
+            $rutaTemp = Rumahtangga::createFromArray($data);
+            array_push($results, $rutaTemp);
+   
+        }
+        return $results;
     }
 }
