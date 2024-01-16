@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Keluarga;
 use App\Libraries\RumahTangga;
 use CodeIgniter\Model;
 
@@ -80,6 +81,13 @@ class RutaModel extends Model
     public function deleteRuta(Rumahtangga $ruta): bool
     {
         return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+    }
+
+    public function deletedRutaBatch(Keluarga $keluarga){
+        foreach ($keluarga->ruta as $ruta) {
+            return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+        }
+        return true;
     }
 
     public function getRuta($kodeRuta): Rumahtangga

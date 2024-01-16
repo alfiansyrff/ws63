@@ -57,4 +57,20 @@ class KeluargaModel extends Model
         return  $this->db->table('keluarga')->replace($data);
 
     }
+
+    public function deleteKeluarga(Keluarga $keluarga){
+        return $this->delete(['kode_ruta' => $keluarga->kodeKlg]);
+    }
+
+    public function getAllKeluarga($noBS){
+        $listKeluarga = [];
+        $listKeluarga = $this->where('no_bs',$noBS)->findAll();
+
+        $keluargaRutaModel = new KeluargaRutaModel();
+        foreach ($listKeluarga as $keluarga) {
+            $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);           
+            // lalu ambil semua ruta dari keluarga ruta temp
+        }
+        
+    }
 }

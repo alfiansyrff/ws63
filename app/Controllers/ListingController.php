@@ -22,6 +22,7 @@ class ListingController extends BaseController
     {
         // fungsi ini mencakup insert, update, dan delete ruta
         $keluargaModel = new KeluargaModel();
+        $rutaModel = new RutaModel();
         $wilayahKerjaModel = new WilayahKerjaModel();
         $keluargaRutaModel = new KeluargaRutaModel();
         // $mahasiswaModel = new MahasiswaModel();
@@ -39,7 +40,9 @@ class ListingController extends BaseController
                 $object = (array) $object;
                 $keluarga = Keluarga::createFromArray($object);
                 if ($object['status'] == 'delete') {
-                    $keluargaModel->addKeluarga($keluarga); // ini masih salah harusnya delete
+                    $keluargaRutaModel->deletedKeluargaRuta($keluarga); // ini masih salah harusnya delete
+                    $rutaModel->deletedRutaBatch($keluarga); 
+                    $keluargaModel->deleteKeluarga($keluarga);   
                 } else {
                     $keluargaModel->addKeluarga($keluarga);
                     $keluargaRutaModel->addKeluargaRuta($keluarga);
@@ -47,20 +50,18 @@ class ListingController extends BaseController
             }
             $wilayahKerjaModel = new WilayahKerjaModel();
             $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
-            echo json_encode($boolUpdateRekapitulasiBS);
-            die;
+            // echo json_encode($boolUpdateRekapitulasiBS);
+            // die;
             $result = array();
-
             if ($boolUpdateRekapitulasiBS) {
-                $data_bs = $rutaModel->getAllRuta($noBS);
-
+                // $data_bs = $rutaModel->getAllRuta($noBS);
+                $keluargaModel->getAllKeluarga($noBS);
                 if (is_array($data_bs)) {
                     foreach ($data_bs as $data) {
                         // $data->status = 'uploaded';
                         array_push($result, $data);
                     }
                 }
-
                 // $infoBs = $wilayahKerjaModel->getBSPCLKortim($kodeBs);
 
                 // $data = array(
