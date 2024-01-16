@@ -118,6 +118,12 @@ class RutaModel extends Model
         return $ruta;
     }
 
+    public function getRutaReturnArray($kodeRuta){
+        return $this->find($kodeRuta);
+
+
+    }
+
 
 
     public function getNoUrutEgb($noBS)

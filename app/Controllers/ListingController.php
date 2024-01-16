@@ -50,18 +50,10 @@ class ListingController extends BaseController
             }
             $wilayahKerjaModel = new WilayahKerjaModel();
             $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
-            // echo json_encode($boolUpdateRekapitulasiBS);
-            // die;
             $result = array();
             if ($boolUpdateRekapitulasiBS) {
                 // $data_bs = $rutaModel->getAllRuta($noBS);
-                $keluargaModel->getAllKeluarga($noBS);
-                if (is_array($data_bs)) {
-                    foreach ($data_bs as $data) {
-                        // $data->status = 'uploaded';
-                        array_push($result, $data);
-                    }
-                }
+                $result = $keluargaModel->getAllKeluarga($noBS);
                 // $infoBs = $wilayahKerjaModel->getBSPCLKortim($kodeBs);
 
                 // $data = array(
@@ -74,6 +66,8 @@ class ListingController extends BaseController
                 // if ($nim != $infoBs['nim_kortim']) {
                 //     $push->prepareMessageToNim($infoBs['nim_kortim'], 'Data Blok Sensus Diperbarui', $message, $data);
                 // }
+
+                return $this->respond($result);
             } else {
                 $result = 'IDK';
             }

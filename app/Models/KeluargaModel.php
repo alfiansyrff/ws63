@@ -66,11 +66,20 @@ class KeluargaModel extends Model
         $listKeluarga = [];
         $listKeluarga = $this->where('no_bs',$noBS)->findAll();
 
+        $listKeluargaObject = [];
+
         $keluargaRutaModel = new KeluargaRutaModel();
+        $rutaModel = new RutaModel();
         foreach ($listKeluarga as $keluarga) {
             $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);           
             // lalu ambil semua ruta dari keluarga ruta temp
+            $keluarga['ruta'] = [];
+            foreach ($keluargaRutaTemp as $keluargaRuta) {
+                array_push($keluarga['ruta'], $rutaModel->getRutaReturnArray($keluargaRuta['kode_ruta']));
+            }
+            array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
         }
         
+        return $listKeluargaObject;
     }
 }
