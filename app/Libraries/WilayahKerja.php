@@ -19,7 +19,7 @@ class WilayahKerja
     public $tglPeriksa;
     public $catatan;
     public $status;
-    public array $ruta;
+    public array $keluarga;
 
     public function __construct(
         $noBS,
@@ -30,13 +30,13 @@ class WilayahKerja
         $idKab,
         $namaKab,
         $jmlRt,
-        $jmlRtGenz,
-        $jmlGenZ,
+        // $jmlRtGenz,
+        // $jmlGenZ,
         $tglListing,
         $tglPeriksa,
         $status,
         $catatan,
-        array $ruta
+        array $keluarga
     ) {
         $this->noBS = $noBS;
         $this->idKel = $idKel;
@@ -46,12 +46,12 @@ class WilayahKerja
         $this->idKab = $idKab;
         $this->namaKab = $namaKab;
         $this->jmlRt = $jmlRt;
-        $this->jmlRtGenz = $jmlRtGenz;
-        $this->jmlGenZ = $jmlGenZ;
+        // $this->jmlRtGenz = $jmlRtGenz;
+        // $this->jmlGenZ = $jmlGenZ;
         $this->tglListing = $tglListing;
         $this->tglPeriksa = $tglPeriksa;
         $this->status = $status;
         $this->catatan = $catatan;
-        $this->ruta = $ruta;
+        $this->keluarga = $keluarga;
     }
 }

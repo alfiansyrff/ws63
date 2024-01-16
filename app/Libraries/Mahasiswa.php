@@ -18,8 +18,9 @@ class Mahasiswa
     public  $wilayah_kerja;
     // public int $total_progress;
     public bool $isKoor;
+    public string $token;
 
-    public function __construct($nim, $nama, $no_hp, $alamat, $email, $password, $foto, $id_tim, $wilayah_kerja, $isKoor)
+    public function __construct($nim, $nama, $no_hp, $alamat, $email, $password, $foto, $id_tim, $wilayah_kerja, $isKoor, $token)
     {
         $this->nim = $nim;
         $this->nama = $nama;
@@ -32,5 +33,6 @@ class Mahasiswa
         $this->wilayah_kerja = $wilayah_kerja;
         // $this->total_progress = $total_progress;
         $this->isKoor = $isKoor;
+        $this->token = $token;
     }
 }

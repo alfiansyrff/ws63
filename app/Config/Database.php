@@ -29,7 +29,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'postgres',
         'password' => 'Lampu123',
-        'database' => 'pkl63Rev',
+        'database' => 'pkl63rev',
         'DBDriver' => 'Postgre',
         'DBPrefix' => '',
         'pConnect' => false,

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libraries;
+use App\Libraries\RumahTangga;
 
 class Keluarga
 {

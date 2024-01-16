@@ -21,7 +21,7 @@ class WilayahKerjaModel extends Model
         $results = $this
             ->join(
                 'kelurahan',
-                'bloksensus.id_kelurahan = kelurahan.id_kelurahan',
+                'bloksensus.id_kel = kelurahan.id_kel',
                 'inner'
             )
             // ->join(
@@ -45,23 +45,26 @@ class WilayahKerjaModel extends Model
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
 
+            $keluargaModel = new KeluargaModel();
+
             foreach ($results as $result) {
                 $wilayah_kerja = new WilayahKerja(
                     $result['no_bs'],
-                    $result['id_kelurahan'],
-                    $result['nama_kelurahan'],
+                    $result['id_kel'],
+                    $result['nama_kel'],
                     $result['id_kec'],
                     $result['nama_kec'],
                     $result['id_kab'],
                     $result['nama_kab'],
                     $result['jml_rt'],
-                    $result['jml_rt_genz'],
-                    $result['jml_genz'],
+                    // $result['jml_rt_genz'],
+                    // $result['jml_genz'],
                     $result['tgl_listing'],
                     $result['tgl_periksa'],
                     $result['status'],
                     $result['catatan'],
-                    $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
+                    $keluargaModel->getAllKeluarga($result['no_bs']) 
+                    // $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
                 );
 
                 array_push($listWilayahKerja, $wilayah_kerja);
@@ -104,4 +107,16 @@ class WilayahKerjaModel extends Model
 
         return $query;
     }
+
+    public function updateStatusBs($noBS, $status) {
+
+        $query = $this->db->query("UPDATE bloksensus SET status = '{$status}' WHERE no_bs = " . $this->db->escape($noBS));
+
+        $result = ($query)
+            ? ['status' => 'success', 'message' => 'Berhasil update status BS']
+            : ['status' => 'error', 'message' => 'Gagal update status BS'];
+
+        return $result;
+    }
+    
 }
