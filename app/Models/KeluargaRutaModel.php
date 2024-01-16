@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 
 class KeluargaRutaModel extends Model
 {
-    protected $table            = 'keluarga-ruta';
+    protected $table            = 'keluarga_ruta';
     protected $primaryKey       = ['kode_klg', 'kode_ruta'];
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -24,7 +24,7 @@ class KeluargaRutaModel extends Model
             $temp = [];
             $temp['kode_klg'] = $keluarga->kodeKlg;
             $temp['kode_ruta'] = $ruta->kodeRuta;
-            $this->db->table('keluarga-ruta')->replace($temp);
+            $this->db->table('keluarga_ruta')->replace($temp);
         }
 
         return true;

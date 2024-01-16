@@ -36,6 +36,6 @@ class KeluragaRutaSeeder extends Seeder
             ]
 
         ];
-        $this->db->table('keluarga-ruta')->insertBatch($data);
+        $this->db->table('keluarga_ruta')->insertBatch($data);
     }
 }

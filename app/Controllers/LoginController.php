@@ -40,6 +40,7 @@ class LoginController extends BaseController
         $result['isKoor'] ? $result['dataTim']['passPML'] = $tim->nim_pml->password : "";
         
         $result['wilayah'] = $mahasiswa->wilayah_kerja == null ? "Kosong" : $mahasiswa->wilayah_kerja;
+        $result['token'] = $mahasiswa->token;
         // $result['idTim'] = $mahasiswa->id_tim;
         // $result['namaTim'] = $tim->nama_tim;
         // $result['namaPML'] = $tim->nim_pml->nama;

@@ -21,11 +21,11 @@ class CreateTableKeluargaRuta extends Migration
         $this->forge->addForeignKey('kode_klg', 'keluarga', 'kode_klg', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('kode_ruta', 'rumahtangga', 'kode_ruta', 'CASCADE', 'CASCADE');
         $this->forge->addPrimaryKey(['kode_klg', 'kode_ruta']);
-        $this->forge->createTable('keluarga-ruta');
+        $this->forge->createTable('keluarga_ruta');
     }
 
     public function down()
     {
-        $this->forge->dropTable('keluarga-ruta');
+        $this->forge->dropTable('keluarga_ruta');
     }
 }

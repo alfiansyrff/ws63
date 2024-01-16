@@ -30,8 +30,8 @@ class WilayahKerja
         $idKab,
         $namaKab,
         $jmlRt,
-        $jmlRtGenz,
-        $jmlGenZ,
+        // $jmlRtGenz,
+        // $jmlGenZ,
         $tglListing,
         $tglPeriksa,
         $status,
@@ -46,8 +46,8 @@ class WilayahKerja
         $this->idKab = $idKab;
         $this->namaKab = $namaKab;
         $this->jmlRt = $jmlRt;
-        $this->jmlRtGenz = $jmlRtGenz;
-        $this->jmlGenZ = $jmlGenZ;
+        // $this->jmlRtGenz = $jmlRtGenz;
+        // $this->jmlGenZ = $jmlGenZ;
         $this->tglListing = $tglListing;
         $this->tglPeriksa = $tglPeriksa;
         $this->status = $status;
