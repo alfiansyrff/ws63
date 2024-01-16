@@ -35,13 +35,19 @@ class KeluargaRutaModel extends Model
     {
         foreach ($keluarga->ruta as $ruta) {
             $this->where('kode_klg', $keluarga->kodeKlg)
-            ->where('kode_ruta', $ruta->kodeRuta)
-            ->delete();
+                ->where('kode_ruta', $ruta->kodeRuta)
+                ->delete();
         }
         return true;
     }
 
-    public function getKeluargaRutaByKodeKlg($kodeKlg){
-        return  $this->where('kode_klg',$kodeKlg)->findAll();    
+    public function getKeluargaRutaByKodeKlg($kodeKlg)
+    {
+        return  $this->where('kode_klg', $kodeKlg)->findAll();
+    }
+
+    public function getKeluargaRutaByKodeRuta($kodeRuta)
+    {
+        return $this->where('kode_ruta', $kodeRuta)->findAll();
     }
 }

@@ -42,7 +42,7 @@ class KeluargaModel extends Model
             'no_bs' => $keluarga->noBS,
         ];
     }
-    
+
 
     public function addKeluarga(Keluarga $keluarga): bool
     {
@@ -55,23 +55,24 @@ class KeluargaModel extends Model
         // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
         return  $this->db->table('keluarga')->replace($data);
-
     }
 
-    public function deleteKeluarga(Keluarga $keluarga){
+    public function deleteKeluarga(Keluarga $keluarga)
+    {
         return $this->delete(['kode_ruta' => $keluarga->kodeKlg]);
     }
 
-    public function getAllKeluarga($noBS){
+    public function getAllKeluarga($noBS)
+    {
         $listKeluarga = [];
-        $listKeluarga = $this->where('no_bs',$noBS)->findAll();
+        $listKeluarga = $this->where('no_bs', $noBS)->findAll();
 
         $listKeluargaObject = [];
 
         $keluargaRutaModel = new KeluargaRutaModel();
         $rutaModel = new RutaModel();
         foreach ($listKeluarga as $keluarga) {
-            $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);           
+            $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);
             // lalu ambil semua ruta dari keluarga ruta temp
             $keluarga['ruta'] = [];
             foreach ($keluargaRutaTemp as $keluargaRuta) {
@@ -79,7 +80,22 @@ class KeluargaModel extends Model
             }
             array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
         }
-        
+
         return $listKeluargaObject;
+    }
+
+    public function getKeluargaByRuta($kodeRuta)
+    {
+      
+        $keluargaRutaModel = new KeluargaRutaModel();
+        $keluargaRuta = $keluargaRutaModel->getKeluargaRutaByKodeRuta($kodeRuta);
+        $listKodeKeluarga = [];
+      
+        foreach ($keluargaRuta as $temp) {
+            array_push($listKodeKeluarga,$temp['kode_klg']);
+        };
+      
+        $listKeluarga = $this->whereIn('kode_klg', $listKodeKeluarga)->findAll();
+        return $listKeluarga;
     }
 }

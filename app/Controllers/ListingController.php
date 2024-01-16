@@ -82,7 +82,7 @@ class ListingController extends BaseController
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($noBS, 10); // mendapatkan data sampel
+        $result = $rutaModel->getSampelBS($noBS, 2); // mendapatkan data sampel
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {

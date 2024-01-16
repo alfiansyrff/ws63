@@ -9,7 +9,7 @@ class Rumahtangga
     public ?int $noUrutRuta;
     public ?string $kkOrKrt;
     public ?string $namaKrt;
-    public ?string $isGenzOrtu;
+    public ?int $isGenzOrtu;
     public ?int $katGenz;
     public ?float $long;
     public ?float $lat;
@@ -21,7 +21,7 @@ class Rumahtangga
         ?int $noUrutRuta,
         ?string $kkOrKrt,
         ?string $namaKrt,
-        ?string $isGenzOrtu,
+        ?int $isGenzOrtu,
         ?int $katGenz,
         ?float $long,
         ?float $lat,
