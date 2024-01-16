@@ -19,10 +19,6 @@ class KeluragaRutaSeeder extends Seeder
                 'kode_ruta'  => 'R444A002',
             ],
             [
-                'kode_klg'     => 'K444A002',
-                'kode_ruta'  => 'R444A002',
-            ],
-            [
                 'kode_klg'     => 'K444A003',
                 'kode_ruta'  => 'R444A003',
             ],

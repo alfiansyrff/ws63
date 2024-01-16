@@ -18,8 +18,9 @@ class CreateTableKeluargaRuta extends Migration
                 'constraint' => '20',
             ],
         ]);
-        $this->forge->addForeignKey('kode_klg', 'keluarga', 'kode_klg','CASCADE','CASCADE');
-        $this->forge->addForeignKey('kode_ruta', 'rumahtangga', 'kode_ruta','CASCADE','CASCADE');
+        $this->forge->addForeignKey('kode_klg', 'keluarga', 'kode_klg', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('kode_ruta', 'rumahtangga', 'kode_ruta', 'CASCADE', 'CASCADE');
+        $this->forge->addPrimaryKey(['kode_klg', 'kode_ruta']);
         $this->forge->createTable('keluarga-ruta');
     }
 

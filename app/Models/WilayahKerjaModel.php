@@ -85,11 +85,7 @@ class WilayahKerjaModel extends Model
                 FROM keluarga 
                 WHERE no_bs = ' . $this->db->escape($noBS) . '
             ),
-            jml_klg_egb = (
-                SELECT COUNT(*)
-                FROM keluarga 
-                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu != 0
-            ),
+            jml_klg_egb = 2,
             jml_rt = (
                 SELECT COUNT(*)
                 FROM rumahtangga 

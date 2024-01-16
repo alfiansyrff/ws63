@@ -7,6 +7,7 @@ use App\Libraries\Keluarga;
 use App\Libraries\Rumahtangga;
 use App\Models\DataStModel;
 use App\Models\KeluargaModel;
+use App\Models\KeluargaRutaModel;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MahasiswaModel;
 use App\Models\WilayahKerjaModel;
@@ -20,9 +21,9 @@ class ListingController extends BaseController
     public function sinkronisasiRuta()
     {
         // fungsi ini mencakup insert, update, dan delete ruta
-
         $keluargaModel = new KeluargaModel();
         $wilayahKerjaModel = new WilayahKerjaModel();
+        $keluargaRutaModel = new KeluargaRutaModel();
         // $mahasiswaModel = new MahasiswaModel();
         // $timModel = new TimPencacahModel();
         // $sampelModel = new SampelModel();
@@ -36,62 +37,21 @@ class ListingController extends BaseController
             $success = 0;
             foreach ($object_array as $object) {
                 $object = (array) $object;
-                // echo json_encode($object);
-
-                // die;
-                // $kodeRuta = '';
-                // if (!isset($object['kode_ruta']) || empty($object['kode_ruta'])) { // ketika insert kode_ruta akan kosong
-                //     // ketika  $object['kode_ruta'] kosong, akan dibuatkan kode ruta berdasarkan nomer BS dan no urut terakhir
-                //     $kodeRuta = '' . $object['no_bs'] . '' . sprintf('%03d', $object['no_urut_ruta']);
-                // } else {
-                //     $kodeRuta = $object['kode_ruta'];
-                // }
-                // $jmlGenz = 0;
-                // if ($object['is_genz_ortu'] == "1") {
-                //     $jmlGenz = $object['jml_genz'];
-                //     $object['no_urut_rt_egb'] =  $rutaModel->getNoUrutEgb($noBS);
-
-                //     // echo json_encode("test");
-                //     // die;
-                // } else {
-                //     $object['no_urut_rt_egb'] = 0;
-                // }
-
                 $keluarga = Keluarga::createFromArray($object);
-                // echo json_encode($keluarga);
-                // die;
-                // $ruta = new Rumahtangga(
-                //     $kodeRuta,
-                //     $object['no_segmen'],
-                //     $object['no_bg_fisik'],
-                //     $object['no_bg_sensus'],
-                //     $object['no_urut_ruta'],
-                //     $object['nama_krt'],
-                //     $object['alamat'],
-                //     $object['no_bs'],
-                //     $object['is_genz_ortu'],
-                //     $jmlGenz,
-                //     $object['no_urut_rt_egb'],
-                //     $object['long'],
-                //     $object['lat'],
-                //     $object['catatan']
-                // );
-
                 if ($object['status'] == 'delete') {
-                    $keluargaModel->addKeluarga($keluarga);
+                    $keluargaModel->addKeluarga($keluarga); // ini masih salah harusnya delete
                 } else {
                     $keluargaModel->addKeluarga($keluarga);
+                    $keluargaRutaModel->addKeluargaRuta($keluarga);
                 }
             }
-
             $wilayahKerjaModel = new WilayahKerjaModel();
             $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
-
             echo json_encode($boolUpdateRekapitulasiBS);
             die;
             $result = array();
 
-            if ( $boolUpdateRekapitulasiBS) {
+            if ($boolUpdateRekapitulasiBS) {
                 $data_bs = $rutaModel->getAllRuta($noBS);
 
                 if (is_array($data_bs)) {

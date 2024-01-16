@@ -39,7 +39,7 @@ class CreateTableBlokSensus extends Migration
                 'constraint' => 3,
                 'default' => 0
             ],
-            'jml_klg_egb ' => [
+            'jml_klg_egb' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'default' => 0

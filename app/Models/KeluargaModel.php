@@ -48,11 +48,13 @@ class KeluargaModel extends Model
     {
         // insert ruta terlebih dahulu
         $rutaModel = new RutaModel();
+        // Ulang untuk setiap ruta, simpan ke database rumah tangga
         foreach ($keluarga->ruta as $ruta) {
             $rutaModel->addRuta($ruta);
         }
+        // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
         return  $this->db->table('keluarga')->replace($data);
-        
+
     }
 }
