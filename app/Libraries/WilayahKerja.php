@@ -19,7 +19,7 @@ class WilayahKerja
     public $tglPeriksa;
     public $catatan;
     public $status;
-    public array $ruta;
+    public array $keluarga;
 
     public function __construct(
         $noBS,
@@ -36,7 +36,7 @@ class WilayahKerja
         $tglPeriksa,
         $status,
         $catatan,
-        array $ruta
+        array $keluarga
     ) {
         $this->noBS = $noBS;
         $this->idKel = $idKel;
@@ -52,6 +52,6 @@ class WilayahKerja
         $this->tglPeriksa = $tglPeriksa;
         $this->status = $status;
         $this->catatan = $catatan;
-        $this->ruta = $ruta;
+        $this->keluarga = $keluarga;
     }
 }
