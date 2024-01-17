@@ -140,6 +140,7 @@ class RutaModel extends Model
 
     public function getSampelBS($noBS, $sampleSize) // Circular sistematic 
     {
+ 
         // mengambail semua ruta eligible dari BS yang bersangkutan
         $keluargaModel = new KeluargaModel();
         $listRuta = [];
@@ -147,6 +148,9 @@ class RutaModel extends Model
         $ruta2 = [];
         $ruta3 = [];
         $ruta1 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '1')->findAll();
+        // echo "test";
+        // die;
+  
         $ruta2 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '2')->findAll();
         $ruta3 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '3')->findAll();
         $listRuta = array_merge($ruta1, $ruta2, $ruta3);
@@ -164,6 +168,7 @@ class RutaModel extends Model
             $samples[] = $listRuta[$position];
         }
 
+
         // karena sampling dengan circular, maka sampel harus diurutkan lagi
         $noUrutRt = array_column($samples, 'no_urut_ruta');
         array_multisort($noUrutRt, SORT_ASC, $samples);
@@ -178,7 +183,10 @@ class RutaModel extends Model
         foreach ($semiResult as $item) {
             array_push($result, Sampel::createFromArrayRutaKeluarga($item));
         }
+
+        echo json_encode($result);
+        die;
         //sample terurut di kembalikan
-        return $semiResult;
+        return $result;
     }
 }
