@@ -11,9 +11,10 @@ class WilayahKerja
     public $namaKec;
     public $idKab;
     public $namaKab;
-    public int $jmlRt;
-    public int  $jmlRtGenz;
-    public int $jmlGenZ;
+    public int $jmlKlg;
+    public int  $jmlKlgEgb;
+    public int $jmlRuta;
+    public int $jmlRutaEgb;
 
     public $tglListing;
     public $tglPeriksa;
@@ -29,9 +30,10 @@ class WilayahKerja
         $namaKec,
         $idKab,
         $namaKab,
-        $jmlRt,
-        // $jmlRtGenz,
-        // $jmlGenZ,
+        $jmlKlg,
+        $jmlKlgEgb,
+        $jmlRuta,
+        $jmlRutaEgb,
         $tglListing,
         $tglPeriksa,
         $status,
@@ -45,9 +47,10 @@ class WilayahKerja
         $this->namaKec = $namaKec;
         $this->idKab = $idKab;
         $this->namaKab = $namaKab;
-        $this->jmlRt = $jmlRt;
-        // $this->jmlRtGenz = $jmlRtGenz;
-        // $this->jmlGenZ = $jmlGenZ;
+        $this->jmlKlg = $jmlKlg;
+        $this->jmlKlgEgb = $jmlKlgEgb;
+        $this->jmlRuta = $jmlRuta;
+        $this->jmlRutaEgb = $jmlRutaEgb;
         $this->tglListing = $tglListing;
         $this->tglPeriksa = $tglPeriksa;
         $this->status = $status;
