@@ -18,8 +18,8 @@ class CreateTableKeluarga extends Migration
                 'constraint' => '255',
             ],
             'no_segmen' => [
-                'type' => 'INT',
-                'constraint' => 3,
+                'type' => 'VARCHAR',
+                'constraint' => '255',
             ],
             'no_bg_fisik' => [
                 'type' => 'INT',

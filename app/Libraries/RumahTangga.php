@@ -11,6 +11,7 @@ class Rumahtangga
     public ?string $namaKrt;
     public ?int $isGenzOrtu;
     public ?int $katGenz;
+    public ?int $noUrutEgb;
     public ?float $long;
     public ?float $lat;
     public ?string $catatan;
@@ -23,6 +24,7 @@ class Rumahtangga
         ?string $namaKrt,
         ?int $isGenzOrtu,
         ?int $katGenz,
+        ?int $noUrutEgb,
         ?float $long,
         ?float $lat,
         ?string $catatan,
@@ -34,6 +36,7 @@ class Rumahtangga
         $this->namaKrt = $namaKrt;
         $this->isGenzOrtu = $isGenzOrtu;
         $this->katGenz = $katGenz;
+        $this->noUrutEgb = $noUrutEgb;
         $this->long = $long;
         $this->lat = $lat;
         $this->catatan = $catatan;
@@ -49,6 +52,7 @@ class Rumahtangga
             $data['nama_krt'] ?? null,
             $data['is_genz_ortu'] ?? null,
             $data['kat_genz'] ?? null,
+            $data['no_urut_ruta_egb'] ?? null,
             $data['long'] ?? null,
             $data['lat'] ?? null,
             $data['catatan'] ?? null,

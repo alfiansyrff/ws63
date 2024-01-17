@@ -19,4 +19,6 @@ $routes->delete('listing/delete-sampel/(:segment)', 'ListingController::hapusSam
 $routes->get('latestversion', 'LatestVersionController::sinkronisasiRuta'); // INI PEMANGGILAN SINKRONISASI RUTA SALAH
 
 $routes->post('listing/update-bs', 'WilayahKerjaController::updateStatusBs'); // update bs
+
+$routes->post('listing/finalisasi-ruta', 'ListingController::finalisasiRuta'); // finalisasi ruta
 // $routes->get('check/(:segment)', 'ListingController::generateSampel/$1');

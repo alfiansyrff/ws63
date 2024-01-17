@@ -12,7 +12,7 @@ class KeluargaSeeder extends Seeder
             [
                 'kode_klg'        => 'K444A001',
                 'SLS'             => 'Gentan',
-                'no_segmen'       => 1,
+                'no_segmen'       => '1',
                 'no_bg_fisik'     => 1,
                 'no_bg_sensus'    => 1,
                 'no_urut_klg'     => 1,
@@ -26,7 +26,7 @@ class KeluargaSeeder extends Seeder
             [
                 'kode_klg'        => 'K444A002',
                 'SLS'             => 'Krapayak',
-                'no_segmen'       => 2,
+                'no_segmen'       => '2',
                 'no_bg_fisik'     => 2,
                 'no_bg_sensus'    => 2,
                 'no_urut_klg'     => 2,
@@ -40,7 +40,7 @@ class KeluargaSeeder extends Seeder
             [
                 'kode_klg'        => 'K444A003',
                 'SLS'             => 'Krapayak',
-                'no_segmen'       => 3,
+                'no_segmen'       => '3',
                 'no_bg_fisik'     => 3,
                 'no_bg_sensus'    => 3,
                 'no_urut_klg'     => 3,
@@ -54,7 +54,7 @@ class KeluargaSeeder extends Seeder
             [
                 'kode_klg'        => 'K444A004',
                 'SLS'             => 'bantul',
-                'no_segmen'       => 4,
+                'no_segmen'       => '4',
                 'no_bg_fisik'     => 4,
                 'no_bg_sensus'    => 4,
                 'no_urut_klg'     => 4,
@@ -67,7 +67,7 @@ class KeluargaSeeder extends Seeder
             ], [
                 'kode_klg'        => 'K444A005',
                 'SLS'             => 'bantul',
-                'no_segmen'       => 5,
+                'no_segmen'       => '5',
                 'no_bg_fisik'     => 5,
                 'no_bg_sensus'    => 5,
                 'no_urut_klg'     => 5,

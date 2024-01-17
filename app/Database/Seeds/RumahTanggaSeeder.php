@@ -63,7 +63,7 @@ class RumahTanggaSeeder extends Seeder
                 'kk_or_krt'     => '1',
                 'nama_krt'      => 'Anang Kurnia Hidayat',
                 'is_genz_ortu'  => 1,
-                'kat_genz'      => '1',
+                'kat_genz'      => null,
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',

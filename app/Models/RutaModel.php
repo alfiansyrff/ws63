@@ -15,7 +15,7 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'is_genz_ortu','kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
 
 
     public function parseToArray($ruta): array
@@ -48,7 +48,30 @@ class RutaModel extends Model
 
     public function getAllRuta($noBS): array
     {
-        $results = $this->where('no_bs', $noBS)->findAll();
+        $results = $this->where('no_bs', $noBS)
+        // ->orderBy('kat_genz', 'asc')
+        ->findAll();
+
+        if (!$results) {
+            return [];
+        }
+
+        // ubag dari array biasa menjadi array of objek RumahTangga
+        $listRuta = [];
+        foreach ($results as $result) {
+            $rutaTemp = Rumahtangga::createFromArray($result); // mengembalikan dalam bentuk objek
+            array_push($listRuta, $rutaTemp);
+        }
+        return $listRuta;
+    }
+
+    public function getAllRutaOrderedByKatGenZ($noBS): array
+    {
+        $results = $this->where('no_bs', $noBS)
+        ->where('kat_genz IS NOT NULL', null, false)
+        ->orderBy('kat_genz', 'asc')
+        ->findAll();
+
         if (!$results) {
             return [];
         }

@@ -117,4 +117,26 @@ class ListingController extends BaseController
             return $this->fail('Gagal mendapatkan data sampel', 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
+
+    public function finalisasiRuta() 
+    {
+        $rutaModel = new RutaModel();
+
+        $noBS = $this->request->getPost('no_bs');
+
+        $result = $rutaModel->getAllRutaOrderedByKatGenZ($noBS);
+        $totalResult = count($result);
+
+        foreach ($result as $key => $ruta) {
+            $result[$key]->noUrutEgb = $key + 1;
+
+            $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'data' => $result,
+            'count' => $totalResult,
+        ]);
+    }
 }

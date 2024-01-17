@@ -34,6 +34,11 @@ class CreateTableRumahTangga extends Migration
                 'constraint' => 1,
                 'null' => true,
             ],
+            'no_urut_ruta_egb' => [
+                'type' => 'INT',
+                'constraint' => 3,
+                'null' => true,
+            ],
             'long' => [
                 'type' => 'FLOAT',  
                 'null' => true, 
