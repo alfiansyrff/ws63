@@ -82,12 +82,12 @@ class ListingController extends BaseController
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($noBS, 2); // mendapatkan data sampel
+        $result = $rutaModel->getSampelBS($noBS, 5);
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {
             $dataStModel->insertDataST($result);
-            return $this->respond($result); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
+            return $this->respond("Berhasil mendapatkan sampel"); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
         } catch (\Throwable $th) {
             return $this->fail('Gagal menyimpan sampel [duplicate]', 400); // jika tidak berhasil mengembalikan pesan error
         }

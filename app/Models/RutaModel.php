@@ -199,17 +199,15 @@ class RutaModel extends Model
         $semiResult = [];
         foreach ($samples as $sample) {
             $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);
+            // $sample['status'] = 'Menunggu';
             array_push($semiResult, $sample);
         }
 
-        $result = [];
-        foreach ($semiResult as $item) {
-            array_push($result, Sampel::createFromArrayRutaKeluarga($item));
-        }
-
-        echo json_encode($result);
-        die;
+        // $result = [];
+        // foreach ($semiResult as $item) {
+        //     array_push($result, Sampel::createFromArrayRutaKeluarga($item));
+        // }
         //sample terurut di kembalikan
-        return $result;
+        return $semiResult;
     }
 }
