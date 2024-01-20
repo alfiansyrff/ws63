@@ -43,6 +43,7 @@ class DataStModel extends Model
 
     public function getSampelByNoBS($noBS)
     {
+        ;
         // fungsi untuk mendapatkan list sampel dari suatu BS
         $query = $this->join('rumahtangga', 'datast.kode_ruta = rumahtangga.kode_ruta', 'inner')->where('datast.no_bs', $noBS)->findAll();  
         $results = [];

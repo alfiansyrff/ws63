@@ -42,6 +42,17 @@ class BlokSensusSeeder extends Seeder
                 'catatan' => 'Catatan blok sensus 3',
                 'status' => 'listing',
             ],
+            [
+                'no_bs' => '444D',
+                'nama_sls' => 'Nama SLS 3',
+                'id_kab' => '001',
+                'id_kec' => '001',
+                'id_kel' => '002',
+                'nim_pencacah' => '222112224',
+                'tim' => '1',
+                'catatan' => 'Catatan blok sensus 3',
+                'status' => 'listing',
+            ],
         ];
 
         // Insert data into bloksensus table

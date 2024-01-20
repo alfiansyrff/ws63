@@ -56,10 +56,10 @@ class Keluarga
         if (count($data['ruta']) > 0) {
             $ruta_array = $data['ruta'];
             foreach ($ruta_array as $rutaTemp) {
+                $rutaTemp = (array) $rutaTemp;
                 array_push($listRuta, Rumahtangga::createFromArray($rutaTemp));
             }
         }
-
         return new self(
             $data['kode_klg'],
             $data['SLS'],

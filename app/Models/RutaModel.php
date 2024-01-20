@@ -96,15 +96,21 @@ class RutaModel extends Model
         }
     }
 
+    public function addRutaFromKeluarga(Keluarga $keluarga){
+        foreach ($keluarga->ruta as $ruta) {
+            $this->addRuta($ruta);
+        }
+    }
+
     public function updateRuta(Rumahtangga $ruta): bool
     {
         $data = $this->parseToArray($ruta);
         return $this->db->table('rumahtangga')->replace($data);
     }
 
-    public function deleteRuta(Rumahtangga $ruta): bool
+    public function deleteRuta($kodeRuta): bool
     {
-        return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+        return $this->delete(['kode_ruta' => $kodeRuta]);
     }
 
     public function deletedRutaBatch(Keluarga $keluarga)
