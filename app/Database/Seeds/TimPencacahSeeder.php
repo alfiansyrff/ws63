@@ -13,6 +13,22 @@ class TimPencacahSeeder extends Seeder
                 'nama_tim' => 'Tim PKL 63_1',
                 'nim_pml' => '222111333',
             ],
+            [
+                'nama_tim' => 'Tim SP_1',
+                'nim_pml' => '222112384',
+            ],
+            [
+                'nama_tim' => 'Tim SP_2',
+                'nim_pml' => '222112133',
+            ],
+            [
+                'nama_tim' => 'Tim SP_3',
+                'nim_pml' => '212112316',
+            ],
+               [
+                'nama_tim' => 'Tim SP_4',
+                'nim_pml' => '222111942',
+            ],
         ];
         $this->db->table('timpencacah')->insertBatch($data);
     }

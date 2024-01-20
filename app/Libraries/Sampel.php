@@ -53,7 +53,7 @@ class Sampel
         foreach ($data['keluarga'] as $keluarga) {    
             $noBgFisik = $noBgFisik . ", ".str_pad($keluarga['no_bg_fisik'], 3, '0', STR_PAD_LEFT);
             $noBgSensus = $noBgSensus . ", ". str_pad(trim($keluarga['no_bg_sensus']), 3, '0', STR_PAD_LEFT);
-            $noUrutKlg = $noUrutKlg . ", " . str_pad(trim($keluarga['no_urut_klg']), 3, '0', STR_PAD_LEFT);
+            $noUrutKlg = $noUrutKlg . ", " . str_pad(trim($keluarga['no_urut_klg_egb']), 3, '0', STR_PAD_LEFT);
             $isGenzOrtuKeluarga = $isGenzOrtuKeluarga. ", " . $keluarga['is_genz_ortu'];
         }
 

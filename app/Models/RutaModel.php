@@ -15,7 +15,7 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'is_genz_ortu','kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'is_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
 
 
     public function parseToArray($ruta): array
@@ -49,8 +49,8 @@ class RutaModel extends Model
     public function getAllRuta($noBS): array
     {
         $results = $this->where('no_bs', $noBS)
-        // ->orderBy('kat_genz', 'asc')
-        ->findAll();
+            // ->orderBy('kat_genz', 'asc')
+            ->findAll();
 
         if (!$results) {
             return [];
@@ -68,9 +68,9 @@ class RutaModel extends Model
     public function getAllRutaOrderedByKatGenZ($noBS): array
     {
         $results = $this->where('no_bs', $noBS)
-        ->where('kat_genz IS NOT NULL', null, false)
-        ->orderBy('kat_genz', 'asc')
-        ->findAll();
+            ->where('kat_genz IS NOT NULL', null, false)
+            ->orderBy('kat_genz', 'asc')
+            ->findAll();
 
         if (!$results) {
             return [];
@@ -96,7 +96,8 @@ class RutaModel extends Model
         }
     }
 
-    public function addRutaFromKeluarga(Keluarga $keluarga){
+    public function addRutaFromKeluarga(Keluarga $keluarga)
+    {
         foreach ($keluarga->ruta as $ruta) {
             $this->addRuta($ruta);
         }
@@ -169,7 +170,7 @@ class RutaModel extends Model
 
     public function getSampelBS($noBS, $sampleSize) // Circular sistematic 
     {
- 
+
         // mengambail semua ruta eligible dari BS yang bersangkutan
         $keluargaModel = new KeluargaModel();
         $listRuta = [];
@@ -177,27 +178,31 @@ class RutaModel extends Model
         $ruta2 = [];
         $ruta3 = [];
         $ruta1 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '1')->findAll();
-        // echo "test";
-        // die;
-  
         $ruta2 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '2')->findAll();
         $ruta3 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '3')->findAll();
         $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
         // Hitung interval sampling
         $interval = count($listRuta) / $sampleSize;
+        // Inisialisasi array untuk menyimpan posisi sampel yang sudah dipilih
+        $selectedPositions = [];
         // Pilih posisi awal dimulai dari data pertama
-        $startPosition = 1;
+        $startPosition = mt_rand(0, count($listRuta) - 1);
         // Inisialisasi array untuk menyimpan sampel
         $samples = [];
+  
         for ($i = 0; $i < $sampleSize; $i++) {
             // Hitung posisi sampel
             $position = ($startPosition + $i * $interval) % count($listRuta);
+            // Pastikan posisi sampel belum terpilih sebelumnya
+            while (in_array($position, $selectedPositions)) {
+                $position = ($position + 1) % count($listRuta); // Pindah ke posisi berikutnya jika sudah terpilih
+            }
+            // Tandai posisi sampel sebagai terpilih
+            $selectedPositions[] = $position;
             // Ambil sampel pada posisi
             $samples[] = $listRuta[$position];
-        }
-
-
+        }      
         // karena sampling dengan circular, maka sampel harus diurutkan lagi
         $noUrutRt = array_column($samples, 'no_urut_ruta');
         array_multisort($noUrutRt, SORT_ASC, $samples);
@@ -205,8 +210,7 @@ class RutaModel extends Model
         $semiResult = [];
         foreach ($samples as $sample) {
             $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);
-            // $sample['status'] = 'Menunggu';
-            array_push($semiResult, $sample);
+                array_push($semiResult, $sample);
         }
 
         // $result = [];

@@ -12,7 +12,7 @@ class BlokSensusSeeder extends Seeder
             [
                 'no_bs' => '444A',
                 'nama_sls' => 'Nama SLS 1',
-                'id_kab' => '01',
+                'id_kab' => '71',
                 'id_kec' => '010',
                 'id_kel' => '001',
                 'nim_pencacah' => '222111975',
@@ -23,7 +23,7 @@ class BlokSensusSeeder extends Seeder
             [
                 'no_bs' => '444B',
                 'nama_sls' => 'Nama SLS 2',
-                'id_kab' => '01',
+                'id_kab' => '71',
                 'id_kec' => '010',
                 'id_kel' => '002',
                 'nim_pencacah' => '222112322',
@@ -34,7 +34,7 @@ class BlokSensusSeeder extends Seeder
             [
                 'no_bs' => '444C',
                 'nama_sls' => 'Nama SLS 3',
-                'id_kab' => '01',
+                'id_kab' => '71',
                 'id_kec' => '010',
                 'id_kel' => '003',
                 'nim_pencacah' => '222111333',
@@ -45,14 +45,25 @@ class BlokSensusSeeder extends Seeder
             [
                 'no_bs' => '444D',
                 'nama_sls' => 'Nama SLS 3',
-                'id_kab' => '001',
-                'id_kec' => '001',
-                'id_kel' => '002',
+                'id_kab' => '71',
+                'id_kec' => '010',
+                'id_kel' => '004',
                 'nim_pencacah' => '222112224',
                 'tim' => '1',
                 'catatan' => 'Catatan blok sensus 3',
                 'status' => 'listing',
             ],
+            // [
+            //     'no_bs' => '007B',
+            //     'nama_sls' => 'Banjar Bon Nyuh',
+            //     'id_kab' => '04',
+            //     'id_kec' => '030',
+            //     'id_kel' => '014',
+            //     'nim_pencacah' => '222112224',
+            //     'tim' => '1',
+            //     'catatan' => '',
+            //     'status' => 'listing',
+            // ],
         ];
 
         // Insert data into bloksensus table

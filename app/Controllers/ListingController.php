@@ -26,23 +26,13 @@ class ListingController extends BaseController
         $rutaModel = new RutaModel();
         $wilayahKerjaModel = new WilayahKerjaModel();
         $keluargaRutaModel = new KeluargaRutaModel();
-        // $mahasiswaModel = new MahasiswaModel();
-        // $timModel = new TimPencacahModel();
-        // $sampelModel = new SampelModel();
-        // $push = new Push();
         $jsonBody = $this->request->getJSON();
-        // $noBS = $this->request->getPost('no_bs');
-        // $json = $this->request->getPost('json');
-        // $nim = $this->request->getPost('nim');
 
         $noBS = $jsonBody->no_bs;
         $nim = $jsonBody->nim;
         $json = $jsonBody->json;
         if ($json) {
-            // $json = str_replace("\n", '', $json);
-
             $object_array = $json;
-
             $success = 0;
             foreach ($object_array as $object) {
                 $object = (array) $object;
@@ -68,18 +58,6 @@ class ListingController extends BaseController
             $result = array();
             if ($boolUpdateRekapitulasiBS) {
                 $result = $keluargaModel->getAllKeluarga($noBS);
-                // $infoBs = $wilayahKerjaModel->getBSPCLKortim($kodeBs);
-
-                // $data = array(
-                //     'type' => 'sams_sync_ruta',
-                //     'kodeBs' => $kodeBs
-                // );
-
-                // $message = $infoBs['nama_pcl'] . " memperbarui data blok sensus " . $infoBs['nama'];
-
-                // if ($nim != $infoBs['nim_kortim']) {
-                //     $push->prepareMessageToNim($infoBs['nim_kortim'], 'Data Blok Sensus Diperbarui', $message, $data);
-                // }
                 return $this->respond($result);
             } else {
                 return $this->fail('Gagal melakukan update rekapitulasi BS');
@@ -92,7 +70,7 @@ class ListingController extends BaseController
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($noBS, 5);
+        $result = $rutaModel->getSampelBS($noBS, 2);
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {
@@ -101,7 +79,7 @@ class ListingController extends BaseController
             $wilayahKerjaModel->updateStatusBs($noBS, "telah-disampel");
             return $this->respond("Berhasil mendapatkan sampel"); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
         } catch (\Throwable $th) {
-            return $this->fail('Gagal menyimpan sampel [duplicate]', 400); // jika tidak berhasil mengembalikan pesan error
+            return $this->fail("Data duplicate atau BS belum di finalisasi", 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
 
