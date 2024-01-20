@@ -22,11 +22,12 @@ class CreateTableKecamatan extends Migration
                 'constraint' => '255',
             ],
         ]);
-        // $this->forge->addKey('id_kec', true); // primary key adalah id kab  + id kec
+        $this->forge->addForeignKey('id_kab', 'kabupaten', 'id_kab', 'CASCADE', 'CASCADE');
+        // primary key tabel kecamatan adalah id kabupaten dan id kecematan
         $this->forge->addKey(['id_kab', 'id_kec'], true);
+
         $this->forge->createTable('kecamatan');
     }
-
     public function down()
     {
         $this->forge->dropTable('kecamatan');

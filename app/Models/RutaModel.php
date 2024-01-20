@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Libraries\Keluarga;
 use App\Libraries\RumahTangga;
+use App\Libraries\Sampel;
 use CodeIgniter\Model;
 
 class RutaModel extends Model
@@ -13,41 +15,63 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'is_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
 
 
     public function parseToArray($ruta): array
     {
         $data = [
             'kode_ruta' => $ruta->kodeRuta,
-            'no_segmen' => $ruta->noSegmen,
-            'no_bg_fisik' => $ruta->noBgFisik,
-            'no_bg_sensus' => $ruta->noBgSensus,
-            'no_urut_rt' => $ruta->noUrutRuta,
+            'no_urut_ruta' => $ruta->noUrutRuta,
+            'kk_or_krt' => $ruta->kkOrKrt,
             'nama_krt' => $ruta->namaKrt,
-            'alamat' => $ruta->alamat,
-            'no_bs' => $ruta->noBS,
             'is_genz_ortu' => $ruta->isGenzOrtu,
+            'kat_genz' => $ruta->katGenz,
             'long' => $ruta->long,
             'lat' => $ruta->lat,
-            'catatan' => $ruta->catatan
+            'catatan' => $ruta->catatan,
+            'no_bs' => $ruta->noBS,
         ];
 
+
         // menambahkan 'no_urut_rt_egb' hanya jika nilainya bukan 0
-        if ($ruta->noUrutRtEgb != 0) {
-            $data['no_urut_rt_egb'] = $ruta->noUrutRtEgb;
-        }
+        // if ($ruta->noUrutRtEgb != 0) {
+        //     $data['no_urut_rt_egb'] = $ruta->noUrutRtEgb;
+        // }
         //menambahkan jumlah genz jika hanya is_genz_ortu bernilai 1
-        if ($ruta->isGenzOrtu == 1) {
-            $data['jml_genz'] = $ruta->jmlGenz;
-        }
+        // if ($ruta->isGenzOrtu == 1) {
+        //     $data['jml_genz'] = $ruta->jmlGenz;
+        // }
 
         return $data;
     }
 
     public function getAllRuta($noBS): array
     {
-        $results = $this->where('no_bs', $noBS)->findAll();
+        $results = $this->where('no_bs', $noBS)
+            // ->orderBy('kat_genz', 'asc')
+            ->findAll();
+
+        if (!$results) {
+            return [];
+        }
+
+        // ubag dari array biasa menjadi array of objek RumahTangga
+        $listRuta = [];
+        foreach ($results as $result) {
+            $rutaTemp = Rumahtangga::createFromArray($result); // mengembalikan dalam bentuk objek
+            array_push($listRuta, $rutaTemp);
+        }
+        return $listRuta;
+    }
+
+    public function getAllRutaOrderedByKatGenZ($noBS): array
+    {
+        $results = $this->where('no_bs', $noBS)
+            ->where('kat_genz IS NOT NULL', null, false)
+            ->orderBy('kat_genz', 'asc')
+            ->findAll();
+
         if (!$results) {
             return [];
         }
@@ -72,15 +96,30 @@ class RutaModel extends Model
         }
     }
 
+    public function addRutaFromKeluarga(Keluarga $keluarga)
+    {
+        foreach ($keluarga->ruta as $ruta) {
+            $this->addRuta($ruta);
+        }
+    }
+
     public function updateRuta(Rumahtangga $ruta): bool
     {
         $data = $this->parseToArray($ruta);
         return $this->db->table('rumahtangga')->replace($data);
     }
 
-    public function deleteRuta(Rumahtangga $ruta): bool
+    public function deleteRuta($kodeRuta): bool
     {
-        return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+        return $this->delete(['kode_ruta' => $kodeRuta]);
+    }
+
+    public function deletedRutaBatch(Keluarga $keluarga)
+    {
+        foreach ($keluarga->ruta as $ruta) {
+            return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+        }
+        return true;
     }
 
     public function getRuta($kodeRuta): Rumahtangga
@@ -111,6 +150,11 @@ class RutaModel extends Model
         return $ruta;
     }
 
+    public function getRutaReturnArray($kodeRuta)
+    {
+        return $this->find($kodeRuta);
+    }
+
 
 
     public function getNoUrutEgb($noBS)
@@ -126,27 +170,48 @@ class RutaModel extends Model
 
     public function getSampelBS($noBS, $sampleSize) // Circular sistematic 
     {
+
         // mengambail semua ruta eligible dari BS yang bersangkutan
-        $ruta = $this->where('no_bs', $noBS)->where('is_genz_ortu', '1')->orderBy('jml_genz', 'DESC')->orderBy('no_urut_rt_egb', 'asc')->findAll();
+        $keluargaModel = new KeluargaModel();
+        $listRuta = [];
+        $ruta1 = [];
+        $ruta2 = [];
+        $ruta3 = [];
+        $ruta1 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '1')->findAll();
+        $ruta2 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '2')->findAll();
+        $ruta3 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '3')->findAll();
+        $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
         // Hitung interval sampling
-        $interval = count($ruta) / $sampleSize;
+        $interval = count($listRuta) / $sampleSize;
+        // Inisialisasi array untuk menyimpan posisi sampel yang sudah dipilih
+        $selectedPositions = [];
         // Pilih posisi awal dimulai dari data pertama
-        $startPosition = 1;
+        $startPosition = mt_rand(0, count($listRuta) - 1);
         // Inisialisasi array untuk menyimpan sampel
         $samples = [];
+  
         for ($i = 0; $i < $sampleSize; $i++) {
             // Hitung posisi sampel
-            $position = ($startPosition + $i * $interval) % count($ruta);
+            $position = ($startPosition + $i * $interval) % count($listRuta);
+            // Pastikan posisi sampel belum terpilih sebelumnya
+            while (in_array($position, $selectedPositions)) {
+                $position = ($position + 1) % count($listRuta); // Pindah ke posisi berikutnya jika sudah terpilih
+            }
+            // Tandai posisi sampel sebagai terpilih
+            $selectedPositions[] = $position;
             // Ambil sampel pada posisi
-            $samples[] = $ruta[$position];
-        }
-
+            $samples[] = $listRuta[$position];
+        }      
         // karena sampling dengan circular, maka sampel harus diurutkan lagi
-        $noUrutRt = array_column($samples, 'no_urut_rt');
+        $noUrutRt = array_column($samples, 'no_urut_ruta');
         array_multisort($noUrutRt, SORT_ASC, $samples);
 
-        //sample terurut di kembalikan
-        return $samples;
+        $semiResult = [];
+        foreach ($samples as $sample) {
+            $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);
+                array_push($semiResult, $sample);
+        }
+        return $semiResult;
     }
 }

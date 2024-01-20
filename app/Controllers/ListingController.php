@@ -3,8 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Database\Seeds\RumahTanggaSeeder;
+use App\Libraries\Keluarga;
 use App\Libraries\Rumahtangga;
 use App\Models\DataStModel;
+use App\Models\KeluargaModel;
+use App\Models\KeluargaRutaModel;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MahasiswaModel;
 use App\Models\WilayahKerjaModel;
@@ -18,120 +22,64 @@ class ListingController extends BaseController
     public function sinkronisasiRuta()
     {
         // fungsi ini mencakup insert, update, dan delete ruta
-
+        $keluargaModel = new KeluargaModel();
         $rutaModel = new RutaModel();
         $wilayahKerjaModel = new WilayahKerjaModel();
-        // $mahasiswaModel = new MahasiswaModel();
-        // $timModel = new TimPencacahModel();
-        // $sampelModel = new SampelModel();
-        // $push = new Push();
-        $noBS = $this->request->getPost('no_bs');
-        $json = $this->request->getPost('json');
-        $nim = $this->request->getPost('nim');
-        if ($json) {
-            $json = str_replace("\n", '', $json);
-            $object_array = json_decode($json, true);
-            $success = 0;
+        $keluargaRutaModel = new KeluargaRutaModel();
+        $jsonBody = $this->request->getJSON();
 
+        $noBS = $jsonBody->no_bs;
+        $nim = $jsonBody->nim;
+        $json = $jsonBody->json;
+        if ($json) {
+            $object_array = $json;
+            $success = 0;
             foreach ($object_array as $object) {
                 $object = (array) $object;
-                $kodeRuta = '';
-                if (!isset($object['kode_ruta']) || empty($object['kode_ruta'])) { // ketika insert kode_ruta akan kosong
-                    // ketika  $object['kode_ruta'] kosong, akan dibuatkan kode ruta berdasarkan nomer BS dan no urut terakhir
-                    $kodeRuta = '' . $object['no_bs'] . '' . sprintf('%03d', $object['no_urut_ruta']);
-                } else {
-                    $kodeRuta = $object['kode_ruta'];
-                }
-                $jmlGenz = 0;
-                if ($object['is_genz_ortu'] == "1") {
-                    $jmlGenz = $object['jml_genz'];
-                    $object['no_urut_rt_egb'] =  $rutaModel->getNoUrutEgb($noBS);
-
-                    // echo json_encode("test");
-                    // die;
-                } else {
-                    $object['no_urut_rt_egb'] = 0;
-                }
-
-
-                $ruta = new Rumahtangga(
-                    $kodeRuta,
-                    $object['no_segmen'],
-                    $object['no_bg_fisik'],
-                    $object['no_bg_sensus'],
-                    $object['no_urut_ruta'],
-                    $object['nama_krt'],
-                    $object['alamat'],
-                    $object['no_bs'],
-                    $object['is_genz_ortu'],
-                    $jmlGenz,
-                    $object['no_urut_rt_egb'],
-                    $object['long'],
-                    $object['lat'],
-                    $object['catatan']
-                );
-
-
-
+                $keluarga = Keluarga::createFromArray($object);
                 if ($object['status'] == 'delete') {
-                    if ($rutaModel->deleteRuta($ruta)) {
-                        $success++;
-                    }
+                    $rutaModel->deletedRutaBatch($keluarga);
+                    $keluargaModel->deleteKeluarga($keluarga);
                 } else {
-                    if ($rutaModel->addRuta($ruta)) {
-                        $success++;
+                    $keluargaModel->addKeluarga($keluarga);
+                    foreach($object['ruta'] as $ruta){
+                        $ruta = (array) $ruta;
+                        if($ruta['status'] == 'delete'){
+                            $rutaModel->deleteRuta($ruta['kode_ruta']);
+                        } else{
+                            $rutaModel->addRuta(Rumahtangga::createFromArray($ruta));
+                            $keluargaRutaModel->addKeluargaRuta($object['kode_klg'],$ruta['kode_ruta']);
+                        }
                     }
                 }
             }
-
             $wilayahKerjaModel = new WilayahKerjaModel();
             $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
-
             $result = array();
-
-            if ($success == count($object_array) && $boolUpdateRekapitulasiBS) {
-                $data_bs = $rutaModel->getAllRuta($noBS);
-
-                if (is_array($data_bs)) {
-                    foreach ($data_bs as $data) {
-                        // $data->status = 'uploaded';
-                        array_push($result, $data);
-                    }
-                }
-
-                // $infoBs = $wilayahKerjaModel->getBSPCLKortim($kodeBs);
-
-                // $data = array(
-                //     'type' => 'sams_sync_ruta',
-                //     'kodeBs' => $kodeBs
-                // );
-
-                // $message = $infoBs['nama_pcl'] . " memperbarui data blok sensus " . $infoBs['nama'];
-
-                // if ($nim != $infoBs['nim_kortim']) {
-                //     $push->prepareMessageToNim($infoBs['nim_kortim'], 'Data Blok Sensus Diperbarui', $message, $data);
-                // }
+            if ($boolUpdateRekapitulasiBS) {
+                $result = $keluargaModel->getAllKeluarga($noBS);
+                return $this->respond($result);
             } else {
-                $result = 'IDK';
+                return $this->fail('Gagal melakukan update rekapitulasi BS');
             }
-
-            return $this->respond($result);
         }
-        return $this->respond(null, null, 'Paramter JSON tidak terbaca');
+        return $this->fail('Atribut JSON tidak ditemukan !');
     }
 
     public function generateSampel($noBS)
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($noBS, 10); // mendapatkan data sampel
+        $result = $rutaModel->getSampelBS($noBS, 2);
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {
             $dataStModel->insertDataST($result);
-            return $this->respond($result); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
+            $wilayahKerjaModel = new WilayahKerjaModel();
+            $wilayahKerjaModel->updateStatusBs($noBS, "telah-disampel");
+            return $this->respond("Berhasil mendapatkan sampel"); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
         } catch (\Throwable $th) {
-            return $this->fail('Gagal menyimpan sampel [duplicate]', 400); // jika tidak berhasil mengembalikan pesan error
+            return $this->fail("Data duplicate atau BS belum di finalisasi", 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
 
@@ -156,19 +104,29 @@ class ListingController extends BaseController
             }
             return $this->respond($results, 200); // respon berhasil
         } catch (\Throwable $th) {
-            return $this->fail('Gagal mendapatkan data sampel', 400); // jika tidak berhasil mengembalikan pesan error
+            return $this->fail($th->getMessage(), 400); // jika tidak berhasil mengembalikan pesan error
         }
     }
 
-    public function changeBsStatus($noBS, $status){
-        $wilayahKerjaModel = new WilayahKerjaModel();
-        $result = $wilayahKerjaModel->changeStatusBS($noBS, $status);
-        if($result){
-            return $this->respondUpdated($result);
-        } else{
-            return $this->fail("Blok sensus gagal di update",400);
+    public function finalisasiRuta($noBS)
+    {
+        $rutaModel = new RutaModel();
+        $result = $rutaModel->getAllRutaOrderedByKatGenZ($noBS);
+        $totalResult = count($result);
+
+        foreach ($result as $key => $ruta) {
+            $result[$key]->noUrutEgb = $key + 1;
+
+            $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
         }
 
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $wilayahKerjaModel->updateStatusBs($noBS, "listing-selesai");
 
+        return $this->response->setJSON([
+            'status' => 'success',
+            'data' => $result,
+            'count' => $totalResult,
+        ]);
     }
 }

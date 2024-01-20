@@ -17,26 +17,30 @@ class WilayahKerjaModel extends Model
 
     public function getWilayahKerja($nim)
     {
+        $bloksensusMahasiswa = new BloksensusMahasiswaModel();
+        $listBs = $bloksensusMahasiswa->getListBSByNim($nim);
+        $listNoBS = [];
+        foreach ($listBs as $bs) {
+            array_push($listNoBS, $bs['no_bs']);
+        }
+
         // Fungsi ini digunakna untuk mendapatkan wilayah kerja dari mahasiswa tertentu, wilayah kerja adalah blok sensus yang menjadi beban kerja dari mahasiswa yang bersangkutan
         $results = $this
             ->join(
                 'kelurahan',
-                'bloksensus.id_kelurahan = kelurahan.id_kelurahan',
+                'bloksensus.id_kel = kelurahan.id_kel AND bloksensus.id_kec = kelurahan.id_kec AND bloksensus.id_kab = kelurahan.id_kab',
                 'inner'
             )
-            // ->join(
-            //     'kecamatan',
-            //     'bloksensus.id_kec = kecamatan.id_kec',
-            //     'inner'
-            // )
             ->join(
                 'kecamatan',
                 'bloksensus.id_kab = kecamatan.id_kab AND bloksensus.id_kec = kecamatan.id_kec',
                 'inner'
             )
             ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')
-            ->where('nim_pencacah', $nim)
+            ->whereIn('no_bs', $listNoBS)
             ->findAll();
+
+  
 
         $listWilayahKerja = [];
         if ($results != NULL) {
@@ -44,27 +48,29 @@ class WilayahKerjaModel extends Model
             // $sampelModel = new SampelModelR1(); // ini  untuk memanggil model sampel
             // $result['beban_cacah'] = $sampelModel->getBebanKerja($id);
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
-     
+
+            $keluargaModel = new KeluargaModel();
             foreach ($results as $result) {
                 $wilayah_kerja = new WilayahKerja(
                     $result['no_bs'],
-                    $result['id_kelurahan'],
-                    $result['nama_kelurahan'],
+                    $result['id_kel'],
+                    $result['nama_kel'],
                     $result['id_kec'],
                     $result['nama_kec'],
                     $result['id_kab'],
                     $result['nama_kab'],
+                    $result['jml_klg'],
+                    $result['jml_klg_egb'],
                     $result['jml_rt'],
-                    $result['jml_rt_genz'],
-                    $result['jml_genz'],
+                    $result['jml_rt_egb'],
                     $result['tgl_listing'],
                     $result['tgl_periksa'],
                     $result['status'],
                     $result['catatan'],
-                    $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
+                    (array) $keluargaModel->getAllKeluarga($result['no_bs']) 
+                    // $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
                 );
-                
-                array_push($listWilayahKerja, $wilayah_kerja);                 
+                array_push($listWilayahKerja, $wilayah_kerja);
             }
         };
         return $listWilayahKerja;
@@ -72,6 +78,7 @@ class WilayahKerjaModel extends Model
 
     public function updateRekapitulasiBs($noBS)
     {
+
         // Fungsi ini digunakan untuk mengupdate rekapitulasi pada BS, panggil fungsi ini ketika ada perubahan data Ruta
 
         // jml_rt : jumlah semua ruta dalam satu BS
@@ -79,36 +86,40 @@ class WilayahKerjaModel extends Model
         // jml_genz : jumlah semua genz dalam satu blok sensus
         $query = $this->db->query('UPDATE bloksensus 
         SET 
-            jml_rt = ( 
+            jml_klg = ( 
                 SELECT COUNT(*) 
+                FROM keluarga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . '
+            ),
+            jml_klg_egb = (
+                SELECT COUNT(*)
+                FROM keluarga 
+                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu != 0
+            ),
+            jml_rt = (
+                SELECT COUNT(*)
                 FROM rumahtangga 
                 WHERE no_bs = ' . $this->db->escape($noBS) . '
             ),
-            jml_rt_genz = (
+            jml_rt_egb = (
                 SELECT COUNT(*)
                 FROM rumahtangga 
-                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu = \'1\'
-            ),
-            jml_genz = (
-                SELECT SUM(jml_genz)
-                FROM rumahtangga 
-                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu =\'1\'
+                WHERE no_bs = ' . $this->db->escape($noBS) . ' AND is_genz_ortu != 0
             )
         WHERE no_bs = ' . $this->db->escape($noBS));
 
         return $query;
     }
 
-    
-    public function changeStatusBS($noBS, $status){
-        $data = [
-            'status' => $status
-        ];
-        $result =  $this->db->table('bloksensus')->where('no_bs', $noBS)->update($data);
-        if($result ){
-            $updatedData = $this->where('no_bs', $noBS)->first();
-            return $updatedData;
-        }
-        return false;
+    public function updateStatusBs($noBS, $status) {
+
+        $query = $this->db->query("UPDATE bloksensus SET status = '{$status}' WHERE no_bs = " . $this->db->escape($noBS));
+
+        $result = ($query)
+            ? ['status' => 'success', 'message' => 'Berhasil update status BS']
+            : ['status' => 'error', 'message' => 'Gagal update status BS'];
+
+        return $result;
     }
+    
 }

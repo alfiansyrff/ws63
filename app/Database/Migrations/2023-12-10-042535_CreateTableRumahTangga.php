@@ -13,43 +13,28 @@ class CreateTableRumahTangga extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => '20',
             ],
-            'no_segmen' => [
+            'no_urut_ruta' => [
                 'type' => 'INT',
                 'constraint' => 3,
             ],
-            'no_bg_fisik' => [
-                'type' => 'INT',
-                'constraint' => 3,
-            ],
-            'no_bg_sensus' => [
-                'type' => 'INT',
-                'constraint' => 3,
-            ],
-            'no_urut_rt' => [
-                'type' => 'INT',
-                'constraint' => 3,
+            'kk_or_krt' => [
+                'type' => 'VARCHAR',
+                'constraint' => '1',
             ],
             'nama_krt' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'alamat' => [
-                'type' => 'TEXT',
-            ],
-            'no_bs' => [
-                'type' => 'VARCHAR',
-                'constraint' => 4,
-            ],
             'is_genz_ortu' => [
-                'type' => 'VARCHAR',
-                'constraint' => 1,
-            ],
-            'jml_genz' => [
                 'type' => 'INT',
                 'constraint' => 3,
+            ],
+            'kat_genz' => [
+                'type' => 'VARCHAR',
+                'constraint' => 1,
                 'null' => true,
             ],
-            'no_urut_rt_egb' => [
+            'no_urut_ruta_egb' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'null' => true,
@@ -64,7 +49,11 @@ class CreateTableRumahTangga extends Migration
             ],  
             'catatan' => [
                 'type' => 'TEXT',
-            ]
+            ],
+            'no_bs' => [
+                'type' => 'VARCHAR',
+                'constraint' => 4,
+            ],
         ]);
         $this->forge->addKey('kode_ruta', true);
         $this->forge->createTable('rumahtangga');
