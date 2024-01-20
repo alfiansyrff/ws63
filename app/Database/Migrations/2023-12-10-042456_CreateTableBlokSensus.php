@@ -29,6 +29,11 @@ class CreateTableBlokSensus extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 3,
             ],
+            'jml_klg' => [
+                'type' => 'INT',
+                'constraint' => 3,
+                'default' => 0
+            ],
             'jml_rt' => [
                 'type' => 'INT',
                 'constraint' => 3,
