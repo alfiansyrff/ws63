@@ -9,42 +9,42 @@ class MahasiswaSeeder extends Seeder
     public function run()
     {
         $data = [
-            // [
-            //     'nim' => '222111975',
-            //     'nama' => 'Danang Wisnu Prabowo',
-            //     'no_hp' => '08123456789',
-            //     'alamat' => 'Gentan, Sidorejo, Lendah, Kulon Progo',
-            //     'email' => '222111975@stis.ac.id',
-            //     'plain_password' => 'danang123',
-            //     'foto' => 'foto Danang',
-            //     'password' => password_hash('danang123', PASSWORD_BCRYPT),
-            //     'id_tim' => 1,
-            //     'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
-            // ],
-            // [
-            //     'nim' => '222112322',
-            //     'nama' => 'Rifky Maulana Putra',
-            //     'no_hp' => '08234567890',
-            //     'alamat' => 'Jatineraga, Jakarta Timur',
-            //     'email' => '222112322@stis.ac.id',
-            //     'plain_password' => 'rifky123',
-            //     'foto' => 'foto RIfky',
-            //     'password' => password_hash('rifky123', PASSWORD_BCRYPT),
-            //     'id_tim' => 1,
-            //     'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
-            // ],
-            // [
-            //     'nim' => '222111333',
-            //     'nama' => 'Farid Ridho',
-            //     'no_hp' => '08234567890',
-            //     'email' => '222111333@stis.ac.id',
-            //     'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
-            //     'plain_password' => 'farid123',
-            //     'foto' => 'foto Farid',
-            //     'password' => password_hash('farid123', PASSWORD_BCRYPT),
-            //     'id_tim' => 1,
-            //     'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
-            // ],
+            [
+                'nim' => '222112217',
+                'nama' => 'Nuhammad Julian Firdaus',
+                'no_hp' => '08123456789',
+                'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
+                'email' => '222112217@stis.ac.id',
+                'plain_password' => 'muhjulian123',
+                'foto' => 'foto Muhammad Julian FIrdaus',
+                'password' => password_hash('muhjulian123', PASSWORD_BCRYPT),
+                'id_tim' => 5,
+                'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
+            ],
+            [
+                'nim' => '222111975',
+                'nama' => 'Danang Wisnu Prabowo',
+                'no_hp' => '08234567890',
+                'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
+                'email' => '222111975@stis.ac.id',
+                'plain_password' => 'danang123',
+                'foto' => 'foto Danang Wisnu Prabowo',
+                'password' => password_hash('danang123', PASSWORD_BCRYPT),
+                'id_tim' => 5,
+                'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
+            ],
+            [
+                'nim' => '222112210',
+                'nama' => 'Muhammad Diva Amrullah',
+                'no_hp' => '08234567890',
+                'email' => '222112210@stis.ac.id',
+                'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
+                'plain_password' => 'muhdiva123',
+                'foto' => 'foto Muhammad Diva Amrullah',
+                'password' => password_hash('muhdiva123', PASSWORD_BCRYPT),
+                'id_tim' => 5,
+                'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
+            ],
             [
                 'nim' => '222112224',
                 'nama' => 'Muhammad Sultan Hafiz',
