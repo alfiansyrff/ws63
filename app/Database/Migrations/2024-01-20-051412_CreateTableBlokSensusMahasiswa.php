@@ -6,7 +6,7 @@ use CodeIgniter\Database\Migration;
 
 class CreateTableBlokSensusMahasiswa extends Migration
 {
-    public function up()
+    public function up()    
     {
         $this->forge->addField([ // tambahkan untuk menyimpan id kab 
             'no_bs' => [
