@@ -81,8 +81,8 @@ class CreateTableBlokSensus extends Migration
                 'constraint' => '20',
             ],
         ]);
-        $this->forge->addForeignKey(['id_kab', 'id_kec','id_kel'], 'kelurahan', ['id_kab', 'id_kec','id_kel'], 'CASCADE', 'CASCADE');
         $this->forge->addKey('id_bs', true);
+        $this->forge->addForeignKey(['id_kab', 'id_kec','id_kel'], 'kelurahan', ['id_kab', 'id_kec','id_kel'], 'CASCADE', 'CASCADE');
         $this->forge->createTable('bloksensus');
     }
 

@@ -106,12 +106,12 @@ class RutaModel extends Model
         }
     }
 
-    public function addRutaFromKeluarga(Keluarga $keluarga)
-    {
-        foreach ($keluarga->ruta as $ruta) {
-            $this->addRuta($ruta);
-        }
-    }
+    // public function addRutaFromKeluarga(Keluarga $keluarga)
+    // {
+    //     foreach ($keluarga->ruta as $ruta) {
+    //         $this->addRuta($ruta);
+    //     }
+    // }
 
     public function deleteRuta($kodeRuta): bool
     {
