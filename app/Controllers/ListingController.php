@@ -10,9 +10,7 @@ use App\Models\DataStModel;
 use App\Models\KeluargaModel;
 use App\Models\KeluargaRutaModel;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\MahasiswaModel;
 use App\Models\WilayahKerjaModel;
-use App\Models\TimPencacahModel;
 use App\Models\RutaModel;
 
 
@@ -21,49 +19,61 @@ class ListingController extends BaseController
     use ResponseTrait;
     public function sinkronisasiRuta()
     {
-        // fungsi ini mencakup insert, update, dan delete ruta
-        $keluargaModel = new KeluargaModel();
-        $rutaModel = new RutaModel();
-        $wilayahKerjaModel = new WilayahKerjaModel();
-        $keluargaRutaModel = new KeluargaRutaModel();
-        $jsonBody = $this->request->getJSON();
+        try {
+            // fungsi ini mencakup insert, update, dan delete ruta
+            $keluargaModel = new KeluargaModel();
+            $rutaModel = new RutaModel();
+            $wilayahKerjaModel = new WilayahKerjaModel();
+            $keluargaRutaModel = new KeluargaRutaModel();
+            $jsonBody = $this->request->getJSON();
 
-        $noBS = $jsonBody->no_bs;
-        $nim = $jsonBody->nim;
-        $json = $jsonBody->json;
-        if ($json) {
-            $object_array = $json;
-            $success = 0;
-            foreach ($object_array as $object) {
-                $object = (array) $object;
-                $keluarga = Keluarga::createFromArray($object);
-                if ($object['status'] == 'delete') {
-                    $rutaModel->deletedRutaBatch($keluarga);
-                    $keluargaModel->deleteKeluarga($keluarga);
-                } else {
-                    $keluargaModel->addKeluarga($keluarga);
-                    foreach($object['ruta'] as $ruta){
-                        $ruta = (array) $ruta;
-                        if($ruta['status'] == 'delete'){
-                            $rutaModel->deleteRuta($ruta['kode_ruta']);
-                        } else{
-                            $rutaModel->addRuta(Rumahtangga::createFromArray($ruta));
-                            $keluargaRutaModel->addKeluargaRuta($object['kode_klg'],$ruta['kode_ruta']);
+            $noBS = $jsonBody->no_bs;
+            $nim = $jsonBody->nim;
+            $json = $jsonBody->json;
+            if ($json) {
+                $object_array = $json;
+                $success = 0;
+                foreach ($object_array as $object) {
+                    $object = (array) $object;
+                    $keluarga = Keluarga::createFromArray($object);
+                    if ($object['status'] == 'delete') {
+                        $rutaModel->deletedRutaBatch($keluarga);
+                        $keluargaModel->deleteKeluarga($keluarga);
+                    } else if ($object['status'] == 'insert') {
+                        $keluargaModel->addKeluarga($keluarga);
+                        $rutaModel->addRutaFromKeluarga($keluarga);
+                        $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
+                    } else if ($object['status'] == 'update') {
+                        $keluargaModel->updateKeluarga($keluarga);
+                        foreach ($object['ruta'] as $ruta) {
+                            $rutaObj = Rumahtangga::createFromArray((array)$ruta);
+                            if ($ruta->status == 'delete') {
+                                if (!$keluargaRutaModel->isRutaInAnotherKeluarga($keluarga->kodeKlg, $rutaObj->kodeRuta)) {
+                                    $rutaModel->deleteRuta($rutaObj->kodeRuta);
+                                }
+                                $keluargaRutaModel->deleteKeluargaRuta($keluarga->kodeKlg, $rutaObj->kodeRuta);
+                            } else if ($ruta->status == 'insert') {
+                                $rutaModel->addRuta(Rumahtangga::createFromArray((array) $ruta));
+                                $keluargaRutaModel->addKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
+                            } else {
+                                $rutaModel->updateRuta(Rumahtangga::createFromArray((array) $ruta));
+                            }
                         }
                     }
                 }
+                $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
+                $result = array();
+                if ($boolUpdateRekapitulasiBS) {
+                    $result = $wilayahKerjaModel->getInfoBS($noBS);
+                    return $this->respond($result);
+                } else {
+                    return $this->fail('Gagal melakukan update rekapitulasi BS');
+                }
             }
-            $wilayahKerjaModel = new WilayahKerjaModel();
-            $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
-            $result = array();
-            if ($boolUpdateRekapitulasiBS) {
-                $result = $keluargaModel->getAllKeluarga($noBS);
-                return $this->respond($result);
-            } else {
-                return $this->fail('Gagal melakukan update rekapitulasi BS');
-            }
+            return $this->fail('Atribut JSON tidak ditemukan !');
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-        return $this->fail('Atribut JSON tidak ditemukan !');
     }
 
     public function generateSampel($noBS)

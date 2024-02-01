@@ -9,7 +9,7 @@ class CreateTableDataSt extends Migration
     public function up()
     {
         $this->forge->addField([
-            'no_bs' => [
+            'id_bs' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '14',
             ],
@@ -24,7 +24,7 @@ class CreateTableDataSt extends Migration
             ],
         ]);
         $this->forge->addForeignKey('kode_ruta', 'rumahtangga', 'kode_ruta','CASCADE','CASCADE');
-        $this->forge->addForeignKey('no_bs', 'bloksensus', 'no_bs','CASCADE','CASCADE');
+        $this->forge->addForeignKey('id_bs', 'bloksensus', 'no_bs','CASCADE','CASCADE');
         $this->forge->addKey('kode_ruta', true);
         $this->forge->createTable('datast');
     }

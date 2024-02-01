@@ -32,17 +32,6 @@ class RutaModel extends Model
             'catatan' => $ruta->catatan,
             'no_bs' => $ruta->noBS,
         ];
-
-
-        // menambahkan 'no_urut_rt_egb' hanya jika nilainya bukan 0
-        // if ($ruta->noUrutRtEgb != 0) {
-        //     $data['no_urut_rt_egb'] = $ruta->noUrutRtEgb;
-        // }
-        //menambahkan jumlah genz jika hanya is_genz_ortu bernilai 1
-        // if ($ruta->isGenzOrtu == 1) {
-        //     $data['jml_genz'] = $ruta->jmlGenz;
-        // }
-
         return $data;
     }
 
@@ -105,8 +94,23 @@ class RutaModel extends Model
 
     public function updateRuta(Rumahtangga $ruta): bool
     {
-        $data = $this->parseToArray($ruta);
-        return $this->db->table('rumahtangga')->replace($data);
+        try {
+            $data = $this->parseToArray($ruta);
+            $check = $this->where('kode_ruta', $ruta->kodeRuta)->first();
+            if ($check) {
+                $bool = $this->db->table('rumahtangga')->replace($data);
+            }
+            return true;
+        } catch (\Throwable $th) {
+            return $this->respond->fail('Terjadi error saat melakukan update ruta');
+        }
+    }
+
+    public function addRutaFromKeluarga(Keluarga $keluarga)
+    {
+        foreach ($keluarga->ruta as $ruta) {
+            $this->addRuta($ruta);
+        }
     }
 
     public function deleteRuta($kodeRuta): bool
@@ -116,40 +120,15 @@ class RutaModel extends Model
 
     public function deletedRutaBatch(Keluarga $keluarga)
     {
+        $keluargaRutaModel = new KeluargaRutaModel();
         foreach ($keluarga->ruta as $ruta) {
-            return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+            if (!$keluargaRutaModel->isRutaInAnotherKeluarga($keluarga->kodeKlg, $ruta->kodeRuta)) {
+                // if digunakan untuk mengecek apakah ruta juga diacu oleh kelaurga lain atau tidak, jika tidak maka ruta akan terhapus
+                return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+            }
         }
         return true;
     }
-
-    public function getRuta($kodeRuta): Rumahtangga
-    {
-        $result = $this->find($kodeRuta);
-
-        if (!$result) {
-            return null;
-        }
-
-        $ruta = new Rumahtangga(
-            $result['kodeRuta'],
-            $result['noSegmen'],
-            $result['noBgFisik'],
-            $result['noBgSensus'],
-            $result['noUrutRuta'],
-            $result['namaKrt'],
-            $result['alamat'],
-            $result['noBS'],
-            $result['isGenzOrtu'],
-            $result['jmlGenz'],
-            $result['noUrutRtEgb'],
-            $result['long'],
-            $result['lat'],
-            $result['catatan']
-        );
-
-        return $ruta;
-    }
-
     public function getRutaReturnArray($kodeRuta)
     {
         return $this->find($kodeRuta);
@@ -190,7 +169,6 @@ class RutaModel extends Model
         $startPosition = mt_rand(0, count($listRuta) - 1);
         // Inisialisasi array untuk menyimpan sampel
         $samples = [];
-  
         for ($i = 0; $i < $sampleSize; $i++) {
             // Hitung posisi sampel
             $position = ($startPosition + $i * $interval) % count($listRuta);
@@ -202,7 +180,7 @@ class RutaModel extends Model
             $selectedPositions[] = $position;
             // Ambil sampel pada posisi
             $samples[] = $listRuta[$position];
-        }      
+        }
         // karena sampling dengan circular, maka sampel harus diurutkan lagi
         $noUrutRt = array_column($samples, 'no_urut_ruta');
         array_multisort($noUrutRt, SORT_ASC, $samples);

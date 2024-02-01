@@ -40,7 +40,6 @@ class WilayahKerjaModel extends Model
             ->whereIn('no_bs', $listNoBS)
             ->findAll();
 
-  
 
         $listWilayahKerja = [];
         if ($results != NULL) {
@@ -67,7 +66,7 @@ class WilayahKerjaModel extends Model
                     $result['tgl_periksa'],
                     $result['status'],
                     $result['catatan'],
-                    (array) $keluargaModel->getAllKeluarga($result['no_bs']) 
+                    (array) $keluargaModel->getAllKeluarga($result['no_bs'])
                     // $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
                 );
                 array_push($listWilayahKerja, $wilayah_kerja);
@@ -111,7 +110,8 @@ class WilayahKerjaModel extends Model
         return $query;
     }
 
-    public function updateStatusBs($noBS, $status) {
+    public function updateStatusBs($noBS, $status)
+    {
 
         $query = $this->db->query("UPDATE bloksensus SET status = '{$status}' WHERE no_bs = " . $this->db->escape($noBS));
 
@@ -121,5 +121,47 @@ class WilayahKerjaModel extends Model
 
         return $result;
     }
-    
+
+    public function getInfoBS($noBS)
+    {
+        $result = $this
+            ->join(
+                'kelurahan',
+                'bloksensus.id_kel = kelurahan.id_kel AND bloksensus.id_kec = kelurahan.id_kec AND bloksensus.id_kab = kelurahan.id_kab',
+                'inner'
+            )
+            ->join(
+                'kecamatan',
+                'bloksensus.id_kab = kecamatan.id_kab AND bloksensus.id_kec = kecamatan.id_kec',
+                'inner'
+            )
+            ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')
+            ->where('no_bs', $noBS)
+            ->first();
+
+        if ($result) {
+            $keluargaModel = new KeluargaModel();
+            $wilayah_kerja = new WilayahKerja(
+                $result['no_bs'],
+                $result['id_kel'],
+                $result['nama_kel'],
+                $result['id_kec'],
+                $result['nama_kec'],
+                $result['id_kab'],
+                $result['nama_kab'],
+                $result['jml_klg'],
+                $result['jml_klg_egb'],
+                $result['jml_rt'],
+                $result['jml_rt_egb'],
+                $result['tgl_listing'],
+                $result['tgl_periksa'],
+                $result['status'],
+                $result['catatan'],
+                (array) $keluargaModel->getAllKeluarga($result['no_bs'])
+            );
+            return $wilayah_kerja;
+        } else {
+            return "empty";
+        }
+    }
 }

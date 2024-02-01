@@ -37,22 +37,8 @@ class KeluargaRutaModel extends Model
         return true;
     }
 
-    public function deleteKeluargaRutaByRuta($kodeRuta){
-        $this->where('kode_ruta', $kodeRuta)
-        ->delete();
-
-        return true;
-    }
-
-
-    public function deletedKeluargaRutaBatch(Keluarga $keluarga)
-    {
-        foreach ($keluarga->ruta as $ruta) {
-            $this->where('kode_klg', $keluarga->kodeKlg)
-                ->where('kode_ruta', $ruta->kodeRuta)
-                ->delete();
-        }
-        return true;
+    public function deleteKeluargaRuta($kodeKlg, $kodeRuta){
+        return $this->where('kode_klg', $kodeKlg)->where('kode_ruta',$kodeRuta)->delete();
     }
 
     public function getKeluargaRutaByKodeKlg($kodeKlg)
@@ -63,5 +49,10 @@ class KeluargaRutaModel extends Model
     public function getKeluargaRutaByKodeRuta($kodeRuta)
     {
         return $this->where('kode_ruta', $kodeRuta)->findAll();
+    }
+
+
+    public function isRutaInAnotherKeluarga($kodeKlg, $kodeRuta){
+        return   $this->where('kode_ruta',$kodeRuta)->whereNotIn('kode_klg',[$kodeKlg])->first();
     }
 }

@@ -46,6 +46,39 @@ class MahasiswaSeeder extends Seeder
             //     'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
             // ],
             [
+                'nim' => '222112217',
+                'nama' => 'Nuhammad Julian Firdaus',
+                'no_hp' => '08123456789',
+                'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
+                'email' => '222112217@stis.ac.id',
+                'plain_password' => 'muhjulian123',
+                'foto' => 'foto Muhammad Julian FIrdaus',
+                'password' => password_hash('muhjulian123', PASSWORD_BCRYPT),
+                'id_tim' => 5,
+            ],
+            [
+                'nim' => '222111975',
+                'nama' => 'Danang Wisnu Prabowo',
+                'no_hp' => '08234567890',
+                'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
+                'email' => '222111975@stis.ac.id',
+                'plain_password' => 'danang123',
+                'foto' => 'foto Danang Wisnu Prabowo',
+                'password' => password_hash('danang123', PASSWORD_BCRYPT),
+                'id_tim' => 5,
+            ],
+            [
+                'nim' => '222112210',
+                'nama' => 'Muhammad Diva Amrullah',
+                'no_hp' => '08234567890',
+                'email' => '222112210@stis.ac.id',
+                'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',
+                'plain_password' => 'muhdiva123',
+                'foto' => 'foto Muhammad Diva Amrullah',
+                'password' => password_hash('muhdiva123', PASSWORD_BCRYPT),
+                'id_tim' => 5,
+            ],
+            [
                 'nim' => '222112224',
                 'nama' => 'Muhammad Sultan Hafiz',
                 'no_hp' => '08234567890',
@@ -55,7 +88,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Hafiz',
                 'password' => password_hash('sultanhafiz123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
-                'token' => 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
             ],
             [
                 'nim' => '222111908',
@@ -67,7 +99,7 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Annisa Rahma',
                 'password' => password_hash('annisarah123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
-                'token' => 'a5B67YyHFwwsrQQIchHJcWUv85sIH2P5O0InHjglIkFMRy0nj0Pce0wXDCVk5avX$qq'
+                
             ],
             [
                 'nim' => '222111912',
@@ -79,7 +111,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Annugrah Surya Atmaja',
                 'password' => password_hash('nugrahsu123', PASSWORD_BCRYPT),
                 'id_tim' => 3,
-                'token' => 'uSPkrN3GPpybNxpL3Pp3ZhO05qllSUdDDpjC!!tj6kjR27knX!!1aB7pv5leavNb'
             ],
             [
                 'nim' => '222112359',
@@ -91,7 +122,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Shabrina',
                 'password' => password_hash('shabrina123', PASSWORD_BCRYPT),
                 'id_tim' => 2,
-                'token' => 'XKsWZ5MDRild0t!S$i2bGYlrHRxutOcv6vZrU49fp8BIyejlSEcJA0kL6QFPJsPx'
             ],
             [
                 'nim' => '212112257',
@@ -103,7 +133,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Ni Putu Lidya Pramesty',
                 'password' => password_hash('putulidya123', PASSWORD_BCRYPT),
                 'id_tim' => 3,
-                'token' => 'mygEU0bg4CHA970IYahKDqtiX98D4izukL9f6C$L$GH4PkIofSoHyI7NbH7unQxN'
             ],
             [
                 'nim' => '212111915',
@@ -115,7 +144,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Ardian Putra Wardana',
                 'password' => password_hash('ardianput123', PASSWORD_BCRYPT),
                 'id_tim' => 3,
-                'token' => 'yWyDo6lcD523Iba$U8rKoaQzGNmyLMlZJOM1Vxg$Qd1x1eJy9bfcZL7P2NLxCFlu'
             ],
             [
                 'nim' => '212111897',
@@ -127,7 +155,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Angga Prayoga',
                 'password' => password_hash('anggapra123', PASSWORD_BCRYPT),
                 'id_tim' => 2,
-                'token' => '2idZK7!ktM0KtOfbXJ9jrt1oqPsHmP7eOYY4tEknooHkeCVcfLleOZM$PJsq3WpT'
             ],
             [
                 'nim' => '212112316',
@@ -139,7 +166,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Ria Dini Hanifah',
                 'password' => password_hash('riadinihan123', PASSWORD_BCRYPT),
                 'id_tim' => 3,
-                'token' => 'oqGL0hlX2vFGe$Pc01bDmcxKRKolNh!hPiob6Hjej75TLmi5yNLHoNGO8HBmFivd'
             ],
             [
                 'nim' => '222112915',
@@ -151,7 +177,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Muh Farhan',
                 'password' => password_hash('muhfarhan123', PASSWORD_BCRYPT),
                 'id_tim' => 4,
-                'token' => 'Fzjf2ZpJaHbjEdWg5wlC4$G3!gpylw6fqiqGTZjwTX1FqDSVQzROPD11SwCMnYR5'
             ],
             [
                 'nim' => '222112133',
@@ -163,7 +188,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Kevin Ananda Puspita',
                 'password' => password_hash('kevinan123', PASSWORD_BCRYPT),
                 'id_tim' => 2,
-                'token' => 'MVmlNi2R7mtjs1YauV62k29z4A!yEw!TYXgPs4vLITxI1x9swJ04TutGi7k1gTI3'
             ],
             [
                 'nim' => '212112124',
@@ -175,7 +199,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Kadek Agus Dwi Candra',
                 'password' => password_hash('agusdwi123', PASSWORD_BCRYPT),
                 'id_tim' => 2,
-                'token' => '2atvUuwlwLkGhZ2qU!GLKU4YaO2iux66uxdpyob5Fe5Fr5SQ0jGKlIT6ycUPkPdb'
             ],
             [
                 'nim' => '222111992',
@@ -187,7 +210,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Dina Yanti Nainggolan',
                 'password' => password_hash('dinayanti123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
-                'token' => '0GfZnin63AuvtsRGJ1Zd2VcA6jBXIRhxlazUh4eZ9WBOavhIe8X0OeuTYZk$1!yt'
             ],
             [
                 'nim' => '222111942',
@@ -199,7 +221,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Azwar Muhtar',
                 'password' => password_hash('azwarmuh123', PASSWORD_BCRYPT),
                 'id_tim' => 4,
-                'token' => 'wZS1qva$!!xyxjSc1SM5WDEVKyBrpNROVFpCZyojYosnwUMmDtJ48$WiR8!6dRSM'
             ],
             [
                 'nim' => '222112384',
@@ -211,7 +232,6 @@ class MahasiswaSeeder extends Seeder
                 'foto' => 'foto Sultan Hadi Prabowo',
                 'password' => password_hash('sultanhadi123', PASSWORD_BCRYPT),
                 'id_tim' => 1,
-                'token' => 'aE23q!PykCwc24kbiGV$k6n079ZLPjv5k0T70LCjdV2bTGlqzM1asaiTx8vyPMuH'
             ],
         ];
         $this->db->table('mahasiswa')->insertBatch($data);

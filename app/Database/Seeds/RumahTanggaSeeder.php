@@ -11,7 +11,7 @@ class RumahTanggaSeeder extends Seeder
         $data = [
             [
                 'kode_ruta'     => 'R007B001',
-                'no_urut_ruta'  => 1,
+                'no_urut_ruta'  => '1',
                 'kk_or_krt'     => '3',
                 'nama_krt'      => 'KH Ahmad Syamsuri',
                 'is_genz_ortu'  => 1,
@@ -19,11 +19,11 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'no_bs'         => '007B',
+                'id_bs'         => '007B',
             ],
             [
                 'kode_ruta'     => 'R007B002',
-                'no_urut_ruta'  => 2,
+                'no_urut_ruta'  => '2',
                 'kk_or_krt'     => '3',
                 'nama_krt'      => 'KH Ahmad Syamsuri',
                 'is_genz_ortu'  => 4,
@@ -31,11 +31,11 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'no_bs'         => '007B',
+                'id_bs'         => '007B',
             ],
             [
                 'kode_ruta'     => 'R007B003',
-                'no_urut_ruta'  => 3,
+                'no_urut_ruta'  => '3',
                 'kk_or_krt'     => '3',
                 'nama_krt'      => 'Oktafiano Asset Pradana',
                 'is_genz_ortu'  => 3,
@@ -43,11 +43,11 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'no_bs'         => '007B',
+                'id_bs'         => '007B',
             ],
             [
                 'kode_ruta'     => 'R007B004',
-                'no_urut_ruta'  => 4,
+                'no_urut_ruta'  => '4',
                 'kk_or_krt'     => '2',
                 'nama_krt'      => 'Yulius Krisna Adhi',
                 'is_genz_ortu'  => 3,
@@ -55,11 +55,11 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'no_bs'         => '007B',
+                'id_bs'         => '007B',
             ],
             [
                 'kode_ruta'     => 'R007B005',
-                'no_urut_ruta'  => 5,
+                'no_urut_ruta'  => '5',
                 'kk_or_krt'     => '1',
                 'nama_krt'      => 'Anang Kurnia Hidayat',
                 'is_genz_ortu'  => 1,
@@ -67,7 +67,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'no_bs'         => '007B',
+                'id_bs'         => '007B',
             ],
           
         ];
