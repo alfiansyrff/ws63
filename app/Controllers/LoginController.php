@@ -13,6 +13,7 @@ class LoginController extends BaseController
 
     public function index()
     {
+    
         // KALAU NIM TIDAK MEMPUNYAI WILAYAH KERJA, AKAN 500 ERROR
         $mahasiswaModel = new MahasiswaModel(); 
         $timModel = new TimPencacahModel();
@@ -20,16 +21,13 @@ class LoginController extends BaseController
         
         if (!$mahasiswa)
             return $this->failNotFound('NIM tidak ditemukan');
-
+   
         if (!password_verify($this->request->getGet('password'), $mahasiswa->password))
             return $this->fail('Password Salah');
 
-        
         $tim = $timModel->getTim($mahasiswa->id_tim);
-
         $result = array();
         $dataTim = array();
-
         $result['nama'] = $mahasiswa->nama;
         $result['nim'] = $mahasiswa->nim;
         $result['isKoor'] = $mahasiswa->isKoor;
@@ -38,7 +36,6 @@ class LoginController extends BaseController
         $result['dataTim']['idTim'] = $mahasiswa->id_tim;
         $result['dataTim']['namaTim'] = $tim->nama_tim;
         $result['isKoor'] ? $result['dataTim']['passPML'] = $tim->nim_pml->password : "";
-        
         $result['wilayah'] = $mahasiswa->wilayah_kerja == null ? "Kosong" : $mahasiswa->wilayah_kerja;
         $result['token'] = $mahasiswa->token;
         // $result['idTim'] = $mahasiswa->id_tim;
@@ -48,7 +45,7 @@ class LoginController extends BaseController
         // $result['passKoor'] = $tim->nim_pml->password;
         if ((!$result['isKoor']) && ($mahasiswa->wilayah_kerja == null)) $result['status'] = 'fail_user';
         else $result['status'] = 'success';
-        
+
 
         //Cek apakah merupakan koorTim atau bukan
         if (!$result['isKoor']) {

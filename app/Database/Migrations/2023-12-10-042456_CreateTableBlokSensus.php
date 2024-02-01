@@ -55,10 +55,10 @@ class CreateTableBlokSensus extends Migration
                 'constraint' => 3,
                 'default' => 0
             ],
-            'nim_pencacah' => [
-                'type' => 'VARCHAR',
-                'constraint' => '9',
-            ],
+            // 'nim_pencacah' => [
+            //     'type' => 'VARCHAR',
+            //     'constraint' => '9',
+            // ],
             'tim' => [
                 'type' => 'int',
                 'constraint' => '11',
@@ -81,7 +81,7 @@ class CreateTableBlokSensus extends Migration
                 'constraint' => '20',
             ],
         ]);
-        $this->forge->addForeignKey('nim_pencacah', 'mahasiswa', 'nim','CASCADE','CASCADE');
+        // $this->forge->addForeignKey('nim_pencacah', 'mahasiswa', 'nim','CASCADE','CASCADE');
         $this->forge->addForeignKey(['id_kab', 'id_kec','id_kel'], 'kelurahan', ['id_kab', 'id_kec','id_kel'], 'CASCADE', 'CASCADE');
         $this->forge->addKey('no_bs', true);
         $this->forge->createTable('bloksensus');

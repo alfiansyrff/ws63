@@ -17,26 +17,30 @@ class WilayahKerjaModel extends Model
 
     public function getWilayahKerja($nim)
     {
+        $bloksensusMahasiswa = new BloksensusMahasiswaModel();
+        $listBs = $bloksensusMahasiswa->getListBSByNim($nim);
+        $listNoBS = [];
+        foreach ($listBs as $bs) {
+            array_push($listNoBS, $bs['no_bs']);
+        }
+
         // Fungsi ini digunakna untuk mendapatkan wilayah kerja dari mahasiswa tertentu, wilayah kerja adalah blok sensus yang menjadi beban kerja dari mahasiswa yang bersangkutan
         $results = $this
             ->join(
                 'kelurahan',
-                'bloksensus.id_kel = kelurahan.id_kel',
+                'bloksensus.id_kel = kelurahan.id_kel AND bloksensus.id_kec = kelurahan.id_kec AND bloksensus.id_kab = kelurahan.id_kab',
                 'inner'
             )
-            // ->join(
-            //     'kecamatan',
-            //     'bloksensus.id_kec = kecamatan.id_kec',
-            //     'inner'
-            // )
             ->join(
                 'kecamatan',
                 'bloksensus.id_kab = kecamatan.id_kab AND bloksensus.id_kec = kecamatan.id_kec',
                 'inner'
             )
             ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')
-            ->where('nim_pencacah', $nim)
+            ->whereIn('no_bs', $listNoBS)
             ->findAll();
+
+  
 
         $listWilayahKerja = [];
         if ($results != NULL) {
@@ -46,7 +50,6 @@ class WilayahKerjaModel extends Model
             // $result['jumlah'] = $this->getJumlahTerkirim($id);
 
             $keluargaModel = new KeluargaModel();
-
             foreach ($results as $result) {
                 $wilayah_kerja = new WilayahKerja(
                     $result['no_bs'],
@@ -64,10 +67,9 @@ class WilayahKerjaModel extends Model
                     $result['tgl_periksa'],
                     $result['status'],
                     $result['catatan'],
-                    $keluargaModel->getAllKeluarga($result['no_bs']) 
+                    (array) $keluargaModel->getAllKeluarga($result['no_bs']) 
                     // $rumahTanggaModel->getAllRuta($result['no_bs']) // mendapatkan seluruh ruta yang tersimpan dalam blok sensus
                 );
-
                 array_push($listWilayahKerja, $wilayah_kerja);
             }
         };

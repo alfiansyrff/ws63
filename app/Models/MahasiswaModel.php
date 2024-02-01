@@ -72,6 +72,7 @@ class MahasiswaModel extends Model
     
         
         $wilayahKerjaModel = new WilayahKerjaModel();
+        $listWilayahKerja = [];
         $listWilayahKerja =  $wilayahKerjaModel->getWilayahKerja($result['nim']);
         // $wilayah_kerja = array();
         // // // $total_terkirim = 0;

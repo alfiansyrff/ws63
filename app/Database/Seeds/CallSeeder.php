@@ -14,9 +14,10 @@ class CallSeeder extends Seeder
         $this->call('KecamatanSeeder');
         $this->call('KelurahanSeeder');
         $this->call('BlokSensusSeeder');
-        $this->call('KeluargaSeeder');
-        $this->call('RumahTanggaSeeder');
-        $this->call('KeluragaRutaSeeder');
+        $this->call('BlokSensusMahasiswaSeeder');
+        // $this->call('KeluargaSeeder');
+        // $this->call('RumahTanggaSeeder');
+        // $this->call('KeluragaRutaSeeder');
         $this->call('PosisiPclSeeder');
     }
 }

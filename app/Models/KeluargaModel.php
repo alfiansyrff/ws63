@@ -46,12 +46,6 @@ class KeluargaModel extends Model
 
     public function addKeluarga(Keluarga $keluarga): bool
     {
-        // insert ruta terlebih dahulu
-        $rutaModel = new RutaModel();
-        // Ulang untuk setiap ruta, simpan ke database rumah tangga
-        foreach ($keluarga->ruta as $ruta) {
-            $rutaModel->addRuta($ruta);
-        }
         // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
         return  $this->db->table('keluarga')->replace($data);
@@ -66,7 +60,6 @@ class KeluargaModel extends Model
     {
         $listKeluarga = [];
         $listKeluarga = $this->where('no_bs', $noBS)->findAll();
-
         $listKeluargaObject = [];
 
         $keluargaRutaModel = new KeluargaRutaModel();
@@ -80,7 +73,6 @@ class KeluargaModel extends Model
             }
             array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
         }
-
         return $listKeluargaObject;
     }
 

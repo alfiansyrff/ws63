@@ -7,7 +7,7 @@ class Keluarga
 {
     public $kodeKlg;
     public $SLS;
-    public int $noSegmen;
+    public $noSegmen;
     public int $noBgFisik;
     public int $noBgSensus;
     public int $noUrutKlg;
@@ -22,7 +22,7 @@ class Keluarga
     public function __construct(
         $kodeKlg,
         $SLS,
-        int $noSegmen,
+        $noSegmen,
         int $noBgFisik,
         int $noBgSensus,
         int $noUrutKlg,
@@ -56,10 +56,10 @@ class Keluarga
         if (count($data['ruta']) > 0) {
             $ruta_array = $data['ruta'];
             foreach ($ruta_array as $rutaTemp) {
+                $rutaTemp = (array) $rutaTemp;
                 array_push($listRuta, Rumahtangga::createFromArray($rutaTemp));
             }
         }
-
         return new self(
             $data['kode_klg'],
             $data['SLS'],

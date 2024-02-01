@@ -16,10 +16,10 @@ class WilayahKerja
     public int $jmlRuta;
     public int $jmlRutaEgb;
 
-    public $tglListing;
-    public $tglPeriksa;
-    public $catatan;
-    public $status;
+    public ?string $tglListing;
+    public ?string $tglPeriksa;
+    public ?string $catatan;
+    public ?string $status;
     public array $keluarga;
 
     public function __construct(
@@ -51,10 +51,10 @@ class WilayahKerja
         $this->jmlKlgEgb = $jmlKlgEgb;
         $this->jmlRuta = $jmlRuta;
         $this->jmlRutaEgb = $jmlRutaEgb;
-        $this->tglListing = $tglListing;
-        $this->tglPeriksa = $tglPeriksa;
-        $this->status = $status;
-        $this->catatan = $catatan;
+        $this->tglListing = $tglListing ?? null;
+        $this->tglPeriksa = $tglPeriksa ?? null;
+        $this->status = $status ?? null;
+        $this->catatan = $catatan ?? null;
         $this->keluarga = $keluarga;
     }
 }

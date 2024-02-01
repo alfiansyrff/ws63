@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class KeluargaRutaModel extends Model
 {
     protected $table            = 'keluarga_ruta';
-    protected $primaryKey       = ['kode_klg', 'kode_ruta'];
+    protected $primaryKey       = ['kode_klg','kode_ruta'];
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -16,7 +16,14 @@ class KeluargaRutaModel extends Model
     protected $allowedFields    = [];
 
 
-    public function addKeluargaRuta(Keluarga $keluarga)
+    public function addKeluargaRuta($kodeKeluarga, $kodeRuta){
+        $temp = [];
+        $temp['kode_klg'] = $kodeKeluarga;
+        $temp['kode_ruta'] = $kodeRuta;
+        $this->db->table('keluarga_ruta')->insert($temp);
+    }
+
+    public function addKeluargaRutaBatch(Keluarga $keluarga)
     {
         // fungsi ini untuk menambahkan hubungan many to many antra keluarga dan ruta
         // ulang setiap ruta dan dapatkan pasangan kode kaluarga dan kode ruta
@@ -24,14 +31,21 @@ class KeluargaRutaModel extends Model
             $temp = [];
             $temp['kode_klg'] = $keluarga->kodeKlg;
             $temp['kode_ruta'] = $ruta->kodeRuta;
-            $this->db->table('keluarga_ruta')->replace($temp);
+            $this->db->table('keluarga_ruta')->insert($temp);
         }
 
         return true;
     }
 
+    public function deleteKeluargaRutaByRuta($kodeRuta){
+        $this->where('kode_ruta', $kodeRuta)
+        ->delete();
 
-    public function deletedKeluargaRuta(Keluarga $keluarga)
+        return true;
+    }
+
+
+    public function deletedKeluargaRutaBatch(Keluarga $keluarga)
     {
         foreach ($keluarga->ruta as $ruta) {
             $this->where('kode_klg', $keluarga->kodeKlg)
