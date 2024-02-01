@@ -20,4 +20,19 @@ class WilayahKerjaController extends BaseController
         // echo json_encode($boolUpdateRekapitulasiBS);
         // die();
     }
+
+    public function updateStatusBs() 
+    {
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $noBS = $this->request->getPost('no_bs');
+        $status = $this->request->getPost('status');
+
+        $result = $wilayahKerjaModel->updateStatusBs($noBS, $status);
+        
+        if($result["status"] == "error") {
+            return $this->respond($result, 400);
+        }
+
+        return $this->respond($result, 200);
+    }
 }

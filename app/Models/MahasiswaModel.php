@@ -72,6 +72,7 @@ class MahasiswaModel extends Model
     
         
         $wilayahKerjaModel = new WilayahKerjaModel();
+        $listWilayahKerja = [];
         $listWilayahKerja =  $wilayahKerjaModel->getWilayahKerja($result['nim']);
         // $wilayah_kerja = array();
         // // // $total_terkirim = 0;
@@ -102,7 +103,8 @@ class MahasiswaModel extends Model
             $result['id_tim'],
             $listWilayahKerja,
             // $total_progress, 
-            $isKoor
+            $isKoor,
+            $result['token']
         );
     
 

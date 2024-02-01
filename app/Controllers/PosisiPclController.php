@@ -32,15 +32,13 @@ class PosisiPclController extends BaseController
 
     public function updateLokasiPcl()
     {
-
-        if (isset($_POST['nim'])) {
+        $jsonBody = $this->request->getJSON();
+        $nim = (string) $jsonBody->nim;
+        $latitude = (float) $jsonBody->latitude;
+        $longitude = (float) $jsonBody->longitude;
+        $akurasi = (float) $jsonBody->akurasi;
+        if ($nim) {
             $model = new PosisiPclModel();
-
-            $nim = (string) $this->request->getPost('nim');
-            $latitude = (float) $this->request->getPost('latitude');
-            $longitude = (float) $this->request->getPost('longitude');
-            $akurasi = (string) $this->request->getPost('akurasi');
-
             $existingData = $model->find($nim);
 
             if (!$existingData) {
@@ -52,6 +50,7 @@ class PosisiPclController extends BaseController
                 return $this->respond("Lokasi berhasil diupdate.", 200);
             }
         }
+        // die;
         return $this->fail("Internal server error.");
     }
 }

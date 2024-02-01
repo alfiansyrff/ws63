@@ -14,21 +14,6 @@ class CreateTablePosisiPcl extends Migration
                 'constraint' => 9,
                 'null' => false,
             ],
-            'nama' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
-                'null' => true,
-            ],
-            'no_hp' => [
-                'type' => 'VARCHAR',
-                'constraint' => 16,
-                'null' => true,
-            ],
-            'id_tim' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => false,
-            ],
             'lokus' => [
                 'type' => 'VARCHAR',
                 'constraint' => 256,
@@ -56,7 +41,7 @@ class CreateTablePosisiPcl extends Migration
                 'on_update' => 'CURRENT_TIMESTAMP',
             ],
         ]);
-
+        $this->forge->addForeignKey('nim', 'mahasiswa', 'nim','CASCADE','CASCADE');
         $this->forge->addPrimaryKey('nim');
         $this->forge->createTable('posisi_pcl', true);
     }

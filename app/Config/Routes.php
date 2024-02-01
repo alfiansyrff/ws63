@@ -13,9 +13,11 @@ $routes->post('posisipcl','PosisiPclController::index');
 
 $routes->post('updateposisi','PosisiPclController::updateLokasiPcl');
 
-$routes->post('listing/sinkronisasi-ruta/sinkronisasi-ruta', 'ListingController::sinkronisasiRuta'); // sinkronisasi ruta mencakup insert, update, delete
+$routes->post('listing/sinkronisasi-ruta', 'ListingController::sinkronisasiRuta'); // sinkronisasi ruta mencakup insert, update, delete
 $routes->get('listing/generate-sampel/(:segment)', 'ListingController::generateSampel/$1'); // generate sampel dari suatu BS tertentu
-$routes->get('listing/delete-sampel/(:segment)', 'ListingController::hapusSampelBS/$1'); // Menghapus sampel dari suatu BS tertentu
-$routes->get('latestversion', 'LatestVersionController::sinkronisasiRuta'); // INI PEMANGGILAN SINKRONISASI RUTA SALAH
+$routes->delete('listing/delete-sampel/(:segment)', 'ListingController::hapusSampelBS/$1');
+$routes->get('listing/get-sampel/(:segment)', 'ListingController::getSampelBS/$1'); // Menghapus sampel dari suatu BS tertentu
+$routes->post('listing/update-bs-status', 'WilayahKerjaController::updateStatusBs'); // update bs
+$routes->get('listing/finalisasi-bs/(:segment)', 'ListingController::finalisasiRuta/$1'); // finalisasi ruta
 
-// $routes->get('check/(:segment)', 'ListingController::generateSampel/$1');
+$routes->get('latestversion', 'LatestVersionController::index'); // INI PEMANGGILAN SINKRONISASI RUTA SALAH
