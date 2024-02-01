@@ -14,7 +14,7 @@ class CreateTableRumahTangga extends Migration
                 'constraint'     => '20',
             ],
             'no_urut_ruta' => [
-                'type' => 'INT',
+                'type' => 'VARCHAR',
                 'constraint' => 3,
             ],
             'kk_or_krt' => [
@@ -49,8 +49,8 @@ class CreateTableRumahTangga extends Migration
             ],  
             'catatan' => [
                 'type' => 'TEXT',
-            ],
-            'no_bs' => [
+            ], 
+            'id_bs' => [ 
                 'type' => 'VARCHAR',
                 'constraint' => 4,
             ],

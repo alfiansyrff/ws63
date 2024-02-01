@@ -43,10 +43,6 @@ class CreateTableMahasiswa extends Migration
                 'type' => 'int',
                 'constraint' => '11',
             ],
-            'token' => [
-                'type' => 'VARCHAR',
-                'constraint' => '255',
-            ]
         ]);
         $this->forge->addPrimaryKey('nim');
         $this->forge->createTable('mahasiswa');

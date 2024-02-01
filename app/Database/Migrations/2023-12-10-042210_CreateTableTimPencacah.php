@@ -21,6 +21,10 @@ class CreateTableTimPencacah extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '9'
             ],
+            'token' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+            ]
         ]);
 
         $this->forge->addPrimaryKey('id_tim');

@@ -18,6 +18,7 @@ $routes->get('listing/generate-sampel/(:segment)', 'ListingController::generateS
 $routes->delete('listing/delete-sampel/(:segment)', 'ListingController::hapusSampelBS/$1');
 $routes->get('listing/get-sampel/(:segment)', 'ListingController::getSampelBS/$1'); // Menghapus sampel dari suatu BS tertentu
 $routes->post('listing/update-bs-status', 'WilayahKerjaController::updateStatusBs'); // update bs
+$routes->get('listing/get-info-bs/(:segment)', 'WilayahKerjaController::getInfoBS/$1'); // update bs
 $routes->get('listing/finalisasi-bs/(:segment)', 'ListingController::finalisasiRuta/$1'); // finalisasi ruta
 
 $routes->get('latestversion', 'LatestVersionController::index'); // INI PEMANGGILAN SINKRONISASI RUTA SALAH

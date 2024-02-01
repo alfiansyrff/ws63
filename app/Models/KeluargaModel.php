@@ -48,7 +48,18 @@ class KeluargaModel extends Model
     {
         // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
-        return  $this->db->table('keluarga')->replace($data);
+        return  $this->db->table('keluarga')->insert($data);
+    }
+
+    public function updateKeluarga(Keluarga $keluarga)
+    {
+        $data = $this->parseToArray($keluarga);
+        $check = $this->where('kode_klg', $keluarga->kodeKlg)->first();
+        if ($check) {
+            return  $this->db->table('keluarga')->replace($data);
+        } else {
+            return true;
+        }
     }
 
     public function deleteKeluarga(Keluarga $keluarga)
@@ -78,15 +89,15 @@ class KeluargaModel extends Model
 
     public function getKeluargaByRuta($kodeRuta)
     {
-      
+
         $keluargaRutaModel = new KeluargaRutaModel();
         $keluargaRuta = $keluargaRutaModel->getKeluargaRutaByKodeRuta($kodeRuta);
         $listKodeKeluarga = [];
-      
+
         foreach ($keluargaRuta as $temp) {
-            array_push($listKodeKeluarga,$temp['kode_klg']);
+            array_push($listKodeKeluarga, $temp['kode_klg']);
         };
-      
+
         $listKeluarga = $this->whereIn('kode_klg', $listKodeKeluarga)->findAll();
         return $listKeluarga;
     }

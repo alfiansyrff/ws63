@@ -22,16 +22,17 @@ class CreateTableKeluarga extends Migration
                 'constraint' => '255',
             ],
             'no_bg_fisik' => [
-                'type' => 'INT',
+                'type' => 'VARCHAR',
                 'constraint' => 3,
             ],
             'no_bg_sensus' => [
-                'type' => 'INT',
+                'type' => 'VARCHAR',
                 'constraint' => 3,
             ],
             'no_urut_klg' => [
-                'type' => 'INT',
+                'type' => 'VARCHAR',
                 'constraint' => 3,
+                'null' =>true
             ],
             'nama_kk' => [
                 'type' => 'VARCHAR',
@@ -54,7 +55,7 @@ class CreateTableKeluarga extends Migration
                 'constraint' => 3,
                 'null' => true,
             ],
-            'no_bs' => [
+            'id_bs' => [ 
                 'type' => 'VARCHAR',
                 'constraint' => 4,
             ],
