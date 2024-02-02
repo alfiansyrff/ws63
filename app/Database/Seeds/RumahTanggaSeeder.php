@@ -20,6 +20,7 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '007B',
+                'nim_pencacah'    => '222112915'
             ],
             [
                 'kode_ruta'     => 'R007B002',
@@ -32,6 +33,7 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '007B',
+                'nim_pencacah'    => '222112915'
             ],
             [
                 'kode_ruta'     => 'R007B003',
@@ -44,6 +46,7 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '007B',
+                'nim_pencacah'    => '222112915'
             ],
             [
                 'kode_ruta'     => 'R007B004',
@@ -56,6 +59,7 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '007B',
+                'nim_pencacah'    => '222112915'
             ],
             [
                 'kode_ruta'     => 'R007B005',
@@ -68,6 +72,7 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '007B',
+                'nim_pencacah'    => '222112915'
             ],
           
         ];
