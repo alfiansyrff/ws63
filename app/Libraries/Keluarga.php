@@ -18,6 +18,7 @@ class Keluarga
     public int $penglMkn;
     public $noBS;
     public array $ruta;
+    public $nimPencacah;
 
     public function __construct(
         $kodeKlg,
@@ -32,7 +33,8 @@ class Keluarga
         ?int $noUrutKlgEgb,
         int $penglMkn,
         $noBS,
-        array $ruta
+        array $ruta,
+        $nimPencacah
     ) {
         $this->kodeKlg = $kodeKlg;
         $this->SLS = $SLS;
@@ -47,6 +49,7 @@ class Keluarga
         $this->penglMkn = $penglMkn;
         $this->noBS = $noBS;
         $this->ruta = $ruta;
+        $this->nimPencacah = $nimPencacah;
     }
 
     public static function createFromArray(array $data): self
@@ -73,6 +76,7 @@ class Keluarga
             $data['no_urut_klg_egb'] ?? 0,
             $data['pengl_mkn'] ?? 0,
             $data['no_bs'],
+            $data['nim_pencacah'],
             $listRuta ?? []
         );
     }

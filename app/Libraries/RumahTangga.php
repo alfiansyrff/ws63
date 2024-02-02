@@ -16,6 +16,7 @@ class Rumahtangga
     public ?float $lat;
     public ?string $catatan;
     public ?string $noBS;
+    public ?string $nimPencacah;
 
     public function __construct(
         ?string $kodeRuta,
@@ -28,7 +29,8 @@ class Rumahtangga
         ?float $long,
         ?float $lat,
         ?string $catatan,
-        ?string $noBS
+        ?string $noBS,
+        ?string $nimPencacah
     ) {
         $this->kodeRuta = $kodeRuta;
         $this->noUrutRuta = $noUrutRuta;
@@ -41,6 +43,7 @@ class Rumahtangga
         $this->lat = $lat;
         $this->catatan = $catatan;
         $this->noBS = $noBS;
+        $this->nimPencacah = $nimPencacah;
     }
 
     public static function createFromArray(array $data): self
@@ -56,7 +59,8 @@ class Rumahtangga
             $data['long'] ?? null,
             $data['lat'] ?? null,
             $data['catatan'] ?? null,
-            $data['no_bs'] ?? null
+            $data['no_bs'] ?? null,
+            $data['nim_pencacah'] ?? null,  
         );
     }
 }

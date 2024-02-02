@@ -12,6 +12,7 @@ class AddNimPencacahToRuta extends Migration
             'nim_pencacah' => [
                 'type'    => 'VARCHAR',
                 'constraint' => '9',
+                'null' => false,
             ],
         ];
  

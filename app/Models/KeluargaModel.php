@@ -40,32 +40,105 @@ class KeluargaModel extends Model
             'no_urut_klg_egb' => $keluarga->noUrutKlgEgb,
             'pengl_mkn' => $keluarga->penglMkn,
             'no_bs' => $keluarga->noBS,
+            'nim_pencacah' => $keluarga->nimPencacah
         ];
     }
 
 
+    // public function addKeluarga(Keluarga $keluarga): bool
+    // {
+    //     // simpan data keluarga ke database keluarga
+    //     $data = $this->parseToArray($keluarga);
+    //     return  $this->db->table('keluarga')->insert($data);
+    // }
     public function addKeluarga(Keluarga $keluarga): bool
     {
-        // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
-        return  $this->db->table('keluarga')->insert($data);
-    }
+        $kodeKlg = $keluarga->kodeKlg;
 
-    public function updateKeluarga(Keluarga $keluarga)
-    {
-        $data = $this->parseToArray($keluarga);
-        $check = $this->where('kode_klg', $keluarga->kodeKlg)->first();
-        if ($check) {
-            return  $this->db->table('keluarga')->replace($data);
+        $existingKeluarga = $this->find($kodeKlg);
+
+        if ($existingKeluarga) {
+            $nimPencacahMatches = empty($existingKeluarga->nimPencacah) || $this->isNimPencacahMatch($keluarga->nimPencacah, $kodeKlg);
+
+            if (!$nimPencacahMatches) {
+                return false;
+            }
+    
+            $this->update($existingKeluarga['kode_klg'], $data);
         } else {
-            return true;
+            return false;
         }
+
+        return true;
     }
 
-    public function deleteKeluarga(Keluarga $keluarga)
+
+    public function updateKeluarga(Keluarga $keluarga): bool
     {
-        return $this->delete(['kode_ruta' => $keluarga->kodeKlg]);
+        $data = $this->parseToArray($keluarga);
+        $kodeKlg = $keluarga->kodeKlg;
+
+        $existingKeluarga = $this->find($kodeKlg);
+
+        if ($existingKeluarga) {
+            $nimPencacahMatches = $this->isNimPencacahMatch($keluarga->nimPencacah, $kodeKlg);
+
+            if (!$nimPencacahMatches) {
+                return false;
+            }
+    
+            $this->update($existingKeluarga['kode_klg'], $data);
+        } else {
+            return false;
+        }
+
+        return true;
     }
+
+    public function deleteRuta(Keluarga $keluarga): bool
+    {
+        $data = $this->parseToArray($keluarga);
+        $kodeKlg = $keluarga->kodeKlg;
+
+        $existingKeluarga = $this->find($kodeKlg);
+
+        if ($existingKeluarga) {
+            $nimPencacahMatches = $this->isNimPencacahMatch($keluarga->nimPencacah, $kodeKlg);
+
+            if (!$nimPencacahMatches) {
+                return false;
+            }
+    
+            return $this->delete(['kode_ruta' => $kodeRuta]);
+        } else {
+            return false;
+        }
+
+    }
+
+    private function isNimPencacahMatch($nimPencacah, $kodeKlg): bool
+    {
+        $keluarga = $this->find($kodeKlg);
+
+        return $keluarga && $keluarga['nim_pencacah'] == $nimPencacah;
+    }
+
+    // public function updateKeluarga(Keluarga $keluarga)
+    // {
+    //     $data = $this->parseToArray($keluarga);
+    //     $check = $this->where('kode_klg', $keluarga->kodeKlg)->first();
+    //     if ($check) {
+    //         return  $this->db->table('keluarga')->replace($data);
+    //     } else {
+    //         return true;
+    //     }
+    // }
+
+    // public function deleteKeluarga(Keluarga $keluarga)
+    // {
+    //     return $this->delete(['kode_ruta' => $keluarga->kodeKlg]);
+    // }
 
     public function getAllKeluarga($noBS)
     {
@@ -101,4 +174,5 @@ class KeluargaModel extends Model
         $listKeluarga = $this->whereIn('kode_klg', $listKodeKeluarga)->findAll();
         return $listKeluarga;
     }
+
 }
