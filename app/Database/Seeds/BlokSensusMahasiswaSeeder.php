@@ -58,6 +58,6 @@ class BlokSensusMahasiswaSeeder extends Seeder
             ], 
 
         ];
-        $this->db->table('bloksensus_mahasiswa')->insertBatch($data);
+        // $this->db->table('bloksensus_mahasiswa')->insertBatch($data);
     }
 }
