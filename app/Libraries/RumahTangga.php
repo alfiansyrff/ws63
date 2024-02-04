@@ -15,7 +15,7 @@ class Rumahtangga
     public ?float $long;
     public ?float $lat;
     public ?string $catatan;
-    public ?string $noBS;
+    public ?string $idBS;
     public ?string $nimPencacah;
 
     public function __construct(
@@ -29,7 +29,7 @@ class Rumahtangga
         ?float $long,
         ?float $lat,
         ?string $catatan,
-        ?string $noBS,
+        ?string $idBS,
         ?string $nimPencacah
     ) {
         $this->kodeRuta = $kodeRuta;
@@ -42,7 +42,7 @@ class Rumahtangga
         $this->long = $long;
         $this->lat = $lat;
         $this->catatan = $catatan;
-        $this->noBS = $noBS;
+        $this->idBS = $idBS;
         $this->nimPencacah = $nimPencacah;
     }
 
@@ -59,7 +59,7 @@ class Rumahtangga
             $data['long'] ?? null,
             $data['lat'] ?? null,
             $data['catatan'] ?? null,
-            $data['no_bs'] ?? null,
+            $data['id_bs'] ?? null,
             $data['nim_pencacah'] ?? null,  
         );
     }

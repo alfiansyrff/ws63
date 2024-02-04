@@ -16,7 +16,7 @@ class Keluarga
     public int $isGenzOrtu;
     public ?int $noUrutKlgEgb;
     public int $penglMkn;
-    public $noBS;
+    public $idBS;
     public array $ruta;
     public $nimPencacah;
 
@@ -32,7 +32,7 @@ class Keluarga
         int $isGenzOrtu,
         ?int $noUrutKlgEgb,
         int $penglMkn,
-        $noBS,
+        $idBS,
         array $ruta,
         $nimPencacah
     ) {
@@ -47,14 +47,13 @@ class Keluarga
         $this->isGenzOrtu = $isGenzOrtu;
         $this->noUrutKlgEgb = $noUrutKlgEgb ?? null;
         $this->penglMkn = $penglMkn;
-        $this->noBS = $noBS;
+        $this->idBS = $idBS;
         $this->ruta = $ruta;
         $this->nimPencacah = $nimPencacah;
     }
 
     public static function createFromArray(array $data): self
     {
-
         $listRuta = [];
         if (count($data['ruta']) > 0) {
             $ruta_array = $data['ruta'];
@@ -75,9 +74,9 @@ class Keluarga
             $data['is_genz_ortu'],
             $data['no_urut_klg_egb'] ?? 0,
             $data['pengl_mkn'] ?? 0,
-            $data['no_bs'],
-            $data['nim_pencacah'],
-            $listRuta ?? []
+            $data['id_bs'],
+            $listRuta ?? [],
+            $data['nim_pencacah']
         );
     }
 }

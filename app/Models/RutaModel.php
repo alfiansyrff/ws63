@@ -30,7 +30,7 @@ class RutaModel extends Model
             'long' => $ruta->long,
             'lat' => $ruta->lat,
             'catatan' => $ruta->catatan,
-            'no_bs' => $ruta->noBS,
+            'id_bs' => $ruta->idBS,
             'nim_pencacah' => $ruta->nimPencacah
         ];
         return $data;
@@ -55,9 +55,9 @@ class RutaModel extends Model
         return $listRuta;
     }
 
-    public function getAllRutaOrderedByKatGenZ($noBS): array
+    public function getAllRutaOrderedByKatGenZ($idBS): array
     {
-        $results = $this->where('no_bs', $noBS)
+        $results = $this->where('id_bs', $idBS)
             ->where('kat_genz IS NOT NULL', null, false)
             ->orderBy('kat_genz', 'asc')
             ->findAll();

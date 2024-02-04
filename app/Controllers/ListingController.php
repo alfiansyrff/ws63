@@ -27,8 +27,7 @@ class ListingController extends BaseController
             $keluargaRutaModel = new KeluargaRutaModel();
             $jsonBody = $this->request->getJSON();
 
-            $noBS = $jsonBody->no_bs;
-
+            $idBS = $jsonBody->id_bs;
             // nim pengirim 
             $nim = $jsonBody->nim;
             $json = $jsonBody->json;
@@ -40,12 +39,12 @@ class ListingController extends BaseController
                     $object = (array) $object;
                     $keluarga = Keluarga::createFromArray($object);
                      // di setiap object, ada nim pencacah. Cek apakah nim pencacah sama dengan nim pengirim request
-                    if ($object['nim_pencacah'] == $nim) {
-
+                    if ($object['nim_pencacah'] == $nim) { 
                         if ($object['status'] == 'delete') {
                             $rutaModel->deletedRutaBatch($keluarga);
                             $keluargaModel->deleteKeluarga($keluarga);
                         } else if ($object['status'] == 'insert') {
+                            // die;
                             $keluargaModel->addKeluarga($keluarga);
                             $rutaModel->addRutaFromKeluarga($keluarga);
                             $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
@@ -68,10 +67,10 @@ class ListingController extends BaseController
                         }
                     }
                 }
-                $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($noBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
+                $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($idBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
                 $result = array();
                 if ($boolUpdateRekapitulasiBS) {
-                    $result = $wilayahKerjaModel->getInfoBS($noBS);
+                    $result = $wilayahKerjaModel->getInfoBS($idBS);
                     return $this->respond($result);
                 } else {
                     return $this->fail('Gagal melakukan update rekapitulasi BS');
@@ -125,20 +124,18 @@ class ListingController extends BaseController
         }
     }
 
-    public function finalisasiRuta($noBS)
+    public function finalisasiBS($idBS)
     {
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getAllRutaOrderedByKatGenZ($noBS);
+        $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
         $totalResult = count($result);
-
         foreach ($result as $key => $ruta) {
             $result[$key]->noUrutEgb = $key + 1;
-
             $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
         }
 
         $wilayahKerjaModel = new WilayahKerjaModel();
-        $wilayahKerjaModel->updateStatusBs($noBS, "listing-selesai");
+        $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
 
         return $this->response->setJSON([
             'status' => 'success',

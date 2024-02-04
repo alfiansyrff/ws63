@@ -4,6 +4,7 @@ namespace App\Libraries;
 
 class WilayahKerja
 {
+    public $idBS;
     public $noBS;
     public $idKel;
     public $namaKel;
@@ -23,6 +24,7 @@ class WilayahKerja
     public array $keluarga;
 
     public function __construct(
+        $idBS,
         $noBS,
         $idKel,
         $namaKel,
@@ -40,6 +42,7 @@ class WilayahKerja
         $catatan,
         array $keluarga
     ) {
+        $this->idBS = $idBS;
         $this->noBS = $noBS;
         $this->idKel = $idKel;
         $this->namaKel = $namaKel;

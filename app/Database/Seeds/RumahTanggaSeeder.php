@@ -19,7 +19,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '007B',
+                'id_bs'         => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -32,7 +32,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '007B',
+                'id_bs'         => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -45,7 +45,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '007B',
+                'id_bs'         => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -58,7 +58,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '007B',
+                'id_bs'         => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -71,7 +71,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '007B',
+                'id_bs'         => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
           

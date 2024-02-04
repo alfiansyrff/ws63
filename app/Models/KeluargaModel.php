@@ -39,7 +39,7 @@ class KeluargaModel extends Model
             'is_genz_ortu' => $keluarga->isGenzOrtu,
             'no_urut_klg_egb' => $keluarga->noUrutKlgEgb,
             'pengl_mkn' => $keluarga->penglMkn,
-            'no_bs' => $keluarga->noBS,
+            'id_bs' => $keluarga->idBS,
             'nim_pencacah' => $keluarga->nimPencacah
         ];
     }
@@ -64,7 +64,7 @@ class KeluargaModel extends Model
     //         if (!$nimPencacahMatches) {
     //             return false;
     //         }
-    
+
     //         $this->update($existingKeluarga['kode_klg'], $data);
     //     } else {
     //         return false;
@@ -87,7 +87,7 @@ class KeluargaModel extends Model
     //         if (!$nimPencacahMatches) {
     //             return false;
     //         }
-    
+
     //         $this->update($existingKeluarga['kode_klg'], $data);
     //     } else {
     //         return false;
@@ -109,7 +109,7 @@ class KeluargaModel extends Model
     //         if (!$nimPencacahMatches) {
     //             return false;
     //         }
-    
+
     //         return $this->delete(['kode_ruta' => $kodeRuta]);
     //     } else {
     //         return false;
@@ -140,22 +140,23 @@ class KeluargaModel extends Model
         return $this->delete(['kode_ruta' => $keluarga->kodeKlg]);
     }
 
-    public function getAllKeluarga($noBS)
+    public function getAllKeluarga($id_bs)
     {
         $listKeluarga = [];
-        $listKeluarga = $this->where('no_bs', $noBS)->findAll();
+        $listKeluarga = $this->where('id_bs', $id_bs)->findAll();
         $listKeluargaObject = [];
-
         $keluargaRutaModel = new KeluargaRutaModel();
         $rutaModel = new RutaModel();
-        foreach ($listKeluarga as $keluarga) {
-            $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);
-            // lalu ambil semua ruta dari keluarga ruta temp
-            $keluarga['ruta'] = [];
-            foreach ($keluargaRutaTemp as $keluargaRuta) {
-                array_push($keluarga['ruta'], $rutaModel->getRutaReturnArray($keluargaRuta['kode_ruta']));
+        if (sizeof($listKeluarga) != 0) {
+            foreach ($listKeluarga as $keluarga) {
+                $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);
+                // lalu ambil semua ruta dari keluarga ruta temp
+                $keluarga['ruta'] = [];
+                foreach ($keluargaRutaTemp as $keluargaRuta) {
+                    array_push($keluarga['ruta'], $rutaModel->getRutaReturnArray($keluargaRuta['kode_ruta']));
+                }
+                array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
             }
-            array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
         }
         return $listKeluargaObject;
     }
@@ -174,5 +175,4 @@ class KeluargaModel extends Model
         $listKeluarga = $this->whereIn('kode_klg', $listKodeKeluarga)->findAll();
         return $listKeluarga;
     }
-
 }

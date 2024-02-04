@@ -11,7 +11,7 @@ class CreateTableKeluarga extends Migration
         $this->forge->addField([
             'kode_klg' => [
                 'type'           => 'VARCHAR',
-                'constraint'     => '20',
+                'constraint'     => '255',
             ],
             'SLS' => [
                 'type' => 'VARCHAR',
@@ -57,7 +57,7 @@ class CreateTableKeluarga extends Migration
             ],
             'id_bs' => [ 
                 'type' => 'VARCHAR',
-                'constraint' => 4,
+                'constraint' => '20',
             ],
         ]);
         $this->forge->addKey('kode_klg', true);

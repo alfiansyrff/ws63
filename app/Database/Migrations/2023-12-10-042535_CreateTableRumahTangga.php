@@ -11,7 +11,7 @@ class CreateTableRumahTangga extends Migration
         $this->forge->addField([
             'kode_ruta' => [
                 'type'           => 'VARCHAR',
-                'constraint'     => '20',
+                'constraint'     => '255',
             ],
             'no_urut_ruta' => [
                 'type' => 'VARCHAR',
@@ -52,7 +52,7 @@ class CreateTableRumahTangga extends Migration
             ], 
             'id_bs' => [ 
                 'type' => 'VARCHAR',
-                'constraint' => 4,
+                'constraint' => '20',
             ],
         ]);
         $this->forge->addKey('kode_ruta', true);

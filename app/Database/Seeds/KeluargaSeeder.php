@@ -21,7 +21,7 @@ class KeluargaSeeder extends Seeder
                 'is_genz_ortu'    => 1,
                 'no_urut_klg_egb' => 1,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '007B',
+                'id_bs'           => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -36,7 +36,7 @@ class KeluargaSeeder extends Seeder
                 'is_genz_ortu'    => 1,
                 'no_urut_klg_egb' => 2,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '007B',
+                'id_bs'           => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -51,7 +51,7 @@ class KeluargaSeeder extends Seeder
                 'is_genz_ortu'    => 3,
                 'no_urut_klg_egb' => 3,
                 'pengl_mkn'       => 2,
-                'id_bs'           => '007B',
+                'id_bs'           => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -66,7 +66,7 @@ class KeluargaSeeder extends Seeder
                 'is_genz_ortu'    => 1,
                 'no_urut_klg_egb' => 4,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '007B',
+                'id_bs'           => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ], [
                 'kode_klg'        => 'K007B005',
@@ -80,7 +80,7 @@ class KeluargaSeeder extends Seeder
                 'is_genz_ortu'    => 1,
                 'no_urut_klg_egb' => 5,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '007B',
+                'id_bs'           => '5104030014007B',
                 'nim_pencacah'    => '222112915'
             ],
         ];
