@@ -75,118 +75,45 @@ class RutaModel extends Model
         return $listRuta;
     }
 
-    // public function addRuta(Rumahtangga $ruta): bool
-    // {
-    //     $data = $this->parseToArray($ruta);
-    //     $bool = $this->db->table('rumahtangga')->replace($data);
-    //     if ($bool) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
     public function addRuta(Rumahtangga $ruta): bool
     {
         $data = $this->parseToArray($ruta);
-        $existingRuta = $this->find($ruta->kodeRuta);
-        // $nimPencacahMatches = $this->keluargaModel->isNimPencacahMatch($ruta->nimPencacah, $ruta->kodeRuta);
-
-        if ($existingRuta) {
-            // jika nim pencacah kosong masih bisa insert, tapi kalo semua false gagal insert
-            $nimPencacahMatches = empty($existingRuta->nimPencacah) || $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
-    
-            if (!$nimPencacahMatches) {
-                // nim_pencacah tidak sama maka gagal
-                return false;
-            }
-    
-            $this->update($existingRuta['kode_ruta'], $data);
-        } else {
-            // Insert baru ?
-            $this->update($existingRuta['kode_ruta'], $data);
-        }
-    
-        return true;
-    }
-
-    private function isNimPencacahMatch($nimPencacah, $kodeRuta): bool
-    {
-        $ruta = $this->find($kodeRuta);
-
-        return $ruta && $ruta['nim_pencacah'] == $nimPencacah;
-    }
-
-    public function addRutaFromKeluarga(Keluarga $keluarga)
-    {
-        foreach ($keluarga->ruta as $ruta) {
-            $this->addRuta($ruta);
-        }
-    }
-
-    public function updateRuta(Rumahtangga $ruta): bool
-    {
-        try {
-            $data = $this->parseToArray($ruta);
-            $kodeRuta = $ruta->kodeRuta;
-
-            $existingRuta = $this->find($kodeRuta);
-
-            if ($existingRuta) {
-
-                $nimPencacahMatches = $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
-
-                if (!$nimPencacahMatches) {
-      
-                    return false;
-                }
-
-                $this->update($existingRuta['kode_ruta'], $data);
-            } else {
-                // data tidak ditemukan
-                return false;
-            }
-
+        $bool = $this->db->table('rumahtangga')->replace($data);
+        if ($bool) {
             return true;
-        } catch (\Throwable $th) {
-            return $this->respond->fail('Terjadi error saat melakukan update ruta');
-        }
-    }
-
-    public function deleteRuta(Rumahtangga $ruta): bool
-    {
-        $kodeRuta = $ruta->kodeRuta;
-
-        $existingRuta = $this->find($kodeRuta);
-
-        if ($existingRuta) {
-            // cek nim pencacah
-            $nimPencacahMatches = $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
-    
-            if (!$nimPencacahMatches) {
-                // nim_pencacah tidak sama maka gagal
-                return false;
-            }
-    
-            return $this->delete(['kode_ruta' => $kodeRuta]);
         } else {
-  
             return false;
         }
-    
     }
-
-    // public function updateRuta(Rumahtangga $ruta): bool
+    // public function addRuta(Rumahtangga $ruta): bool
     // {
-    //     try {
-    //         $data = $this->parseToArray($ruta);
-    //         $check = $this->where('kode_ruta', $ruta->kodeRuta)->first();
-    //         if ($check) {
-    //             $bool = $this->db->table('rumahtangga')->replace($data);
+    //     $data = $this->parseToArray($ruta);
+    //     $existingRuta = $this->find($ruta->kodeRuta);
+    //     // $nimPencacahMatches = $this->keluargaModel->isNimPencacahMatch($ruta->nimPencacah, $ruta->kodeRuta);
+
+    //     if ($existingRuta) {
+    //         // jika nim pencacah kosong masih bisa insert, tapi kalo semua false gagal insert
+    //         $nimPencacahMatches = empty($existingRuta->nimPencacah) || $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
+    
+    //         if (!$nimPencacahMatches) {
+    //             // nim_pencacah tidak sama maka gagal
+    //             return false;
     //         }
-    //         return true;
-    //     } catch (\Throwable $th) {
-    //         return $this->respond->fail('Terjadi error saat melakukan update ruta');
+    
+    //         $this->update($existingRuta['kode_ruta'], $data);
+    //     } else {
+    //         // Insert baru ?
+    //         $this->update($existingRuta['kode_ruta'], $data);
     //     }
+    
+    //     return true;
+    // }
+
+    // private function isNimPencacahMatch($nimPencacah, $kodeRuta): bool
+    // {
+    //     $ruta = $this->find($kodeRuta);
+
+    //     return $ruta && $ruta['nim_pencacah'] == $nimPencacah;
     // }
 
     // public function addRutaFromKeluarga(Keluarga $keluarga)
@@ -196,10 +123,83 @@ class RutaModel extends Model
     //     }
     // }
 
-    // public function deleteRuta($kodeRuta): bool
+    // public function updateRuta(Rumahtangga $ruta): bool
     // {
-    //     return $this->delete(['kode_ruta' => $kodeRuta]);
+    //     try {
+    //         $data = $this->parseToArray($ruta);
+    //         $kodeRuta = $ruta->kodeRuta;
+
+    //         $existingRuta = $this->find($kodeRuta);
+
+    //         if ($existingRuta) {
+
+    //             $nimPencacahMatches = $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
+
+    //             if (!$nimPencacahMatches) {
+      
+    //                 return false;
+    //             }
+
+    //             $this->update($existingRuta['kode_ruta'], $data);
+    //         } else {
+    //             // data tidak ditemukan
+    //             return false;
+    //         }
+
+    //         return true;
+    //     } catch (\Throwable $th) {
+    //         return $this->respond->fail('Terjadi error saat melakukan update ruta');
+    //     }
     // }
+
+    // public function deleteRuta(Rumahtangga $ruta): bool
+    // {
+    //     $kodeRuta = $ruta->kodeRuta;
+
+    //     $existingRuta = $this->find($kodeRuta);
+
+    //     if ($existingRuta) {
+    //         // cek nim pencacah
+    //         $nimPencacahMatches = $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
+    
+    //         if (!$nimPencacahMatches) {
+    //             // nim_pencacah tidak sama maka gagal
+    //             return false;
+    //         }
+    
+    //         return $this->delete(['kode_ruta' => $kodeRuta]);
+    //     } else {
+  
+    //         return false;
+    //     }
+    
+    // }
+
+    public function updateRuta(Rumahtangga $ruta): bool
+    {
+        try {
+            $data = $this->parseToArray($ruta);
+            $check = $this->where('kode_ruta', $ruta->kodeRuta)->first();
+            if ($check) {
+                $bool = $this->db->table('rumahtangga')->replace($data);
+            }
+            return true;
+        } catch (\Throwable $th) {
+            return $this->respond->fail('Terjadi error saat melakukan update ruta');
+        }
+    }
+
+    public function addRutaFromKeluarga(Keluarga $keluarga)
+    {
+        foreach ($keluarga->ruta as $ruta) {
+            $this->addRuta($ruta);
+        }
+    }
+
+    public function deleteRuta($kodeRuta): bool
+    {
+        return $this->delete(['kode_ruta' => $kodeRuta]);
+    }
 
     public function deletedRutaBatch(Keluarga $keluarga)
     {

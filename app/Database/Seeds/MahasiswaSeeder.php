@@ -46,7 +46,7 @@ class MahasiswaSeeder extends Seeder
             //     'token'=> 'fKaPJ9kmrHUJsZ0mv2jx3dQir4SygjeDHgfByQIjyidK12HALTvTrrzek5VlC$qq'
             // ],
             [
-                'nim' => '222112217',
+                'nim' => '2221122177',
                 'nama' => 'Nuhammad Julian Firdaus',
                 'no_hp' => '08123456789',
                 'alamat' => 'Badan Pusat Statistik, Jakarta Pusat',

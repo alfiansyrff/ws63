@@ -28,35 +28,42 @@ class ListingController extends BaseController
             $jsonBody = $this->request->getJSON();
 
             $noBS = $jsonBody->no_bs;
+
+            // nim pengirim 
             $nim = $jsonBody->nim;
             $json = $jsonBody->json;
             if ($json) {
                 $object_array = $json;
                 $success = 0;
                 foreach ($object_array as $object) {
+                   
                     $object = (array) $object;
                     $keluarga = Keluarga::createFromArray($object);
-                    if ($object['status'] == 'delete') {
-                        $rutaModel->deletedRutaBatch($keluarga);
-                        $keluargaModel->deleteKeluarga($keluarga);
-                    } else if ($object['status'] == 'insert') {
-                        $keluargaModel->addKeluarga($keluarga);
-                        $rutaModel->addRutaFromKeluarga($keluarga);
-                        $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
-                    } else if ($object['status'] == 'update') {
-                        $keluargaModel->updateKeluarga($keluarga);
-                        foreach ($object['ruta'] as $ruta) {
-                            $rutaObj = Rumahtangga::createFromArray((array)$ruta);
-                            if ($ruta->status == 'delete') {
-                                if (!$keluargaRutaModel->isRutaInAnotherKeluarga($keluarga->kodeKlg, $rutaObj->kodeRuta)) {
-                                    $rutaModel->deleteRuta($rutaObj->kodeRuta);
+                     // di setiap object, ada nim pencacah. Cek apakah nim pencacah sama dengan nim pengirim request
+                    if ($object['nim_pencacah'] == $nim) {
+
+                        if ($object['status'] == 'delete') {
+                            $rutaModel->deletedRutaBatch($keluarga);
+                            $keluargaModel->deleteKeluarga($keluarga);
+                        } else if ($object['status'] == 'insert') {
+                            $keluargaModel->addKeluarga($keluarga);
+                            $rutaModel->addRutaFromKeluarga($keluarga);
+                            $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
+                        } else if ($object['status'] == 'update') {
+                            $keluargaModel->updateKeluarga($keluarga);
+                            foreach ($object['ruta'] as $ruta) {
+                                $rutaObj = Rumahtangga::createFromArray((array)$ruta);
+                                if ($ruta->status == 'delete') {
+                                    if (!$keluargaRutaModel->isRutaInAnotherKeluarga($keluarga->kodeKlg, $rutaObj->kodeRuta)) {
+                                        $rutaModel->deleteRuta($rutaObj->kodeRuta);
+                                    }
+                                    $keluargaRutaModel->deleteKeluargaRuta($keluarga->kodeKlg, $rutaObj->kodeRuta);
+                                } else if ($ruta->status == 'insert') {
+                                    $rutaModel->addRuta(Rumahtangga::createFromArray((array) $ruta));
+                                    $keluargaRutaModel->addKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
+                                } else {
+                                    $rutaModel->updateRuta(Rumahtangga::createFromArray((array) $ruta));
                                 }
-                                $keluargaRutaModel->deleteKeluargaRuta($keluarga->kodeKlg, $rutaObj->kodeRuta);
-                            } else if ($ruta->status == 'insert') {
-                                $rutaModel->addRuta(Rumahtangga::createFromArray((array) $ruta));
-                                $keluargaRutaModel->addKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
-                            } else {
-                                $rutaModel->updateRuta(Rumahtangga::createFromArray((array) $ruta));
                             }
                         }
                     }
