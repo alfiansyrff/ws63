@@ -20,9 +20,9 @@ class Sampel
     public float  $long;
     public float  $lat;
     public string $status;
-    public string $noBS;
+    public string $idBS;
 
-    public function __construct($kodeRuta, $SLS, $noSegmen, $noBgFisik, $noBgSensus, $noUrutKlg, $noUrutRuta,$noUrutRutaRgb, $isGenzOrtuKeluarga, $alamat, $namaKrt, $isGenzOrtuRuta, $long, $lat, $status, $noBS)
+    public function __construct($kodeRuta, $SLS, $noSegmen, $noBgFisik, $noBgSensus, $noUrutKlg, $noUrutRuta,$noUrutRutaRgb, $isGenzOrtuKeluarga, $alamat, $namaKrt, $isGenzOrtuRuta, $long, $lat, $status, $idBS)
     {
         $this->kodeRuta = $kodeRuta;
         $this->SLS = $SLS;
@@ -39,7 +39,7 @@ class Sampel
         $this->long = $long;
         $this->lat = $lat;
         $this->status = $status;
-        $this->noBS = $noBS;
+        $this->idBS = $idBS;
 
     }
 
@@ -78,7 +78,7 @@ class Sampel
             $data['long'],
             $data['lat'],
             $data['status'],
-            $data['no_bs']
+            $data['id_bs']
         );
     }
 }

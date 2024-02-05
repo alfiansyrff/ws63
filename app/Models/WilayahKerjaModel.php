@@ -112,7 +112,6 @@ class WilayahKerjaModel extends Model
 
     public function updateStatusBs($idBS, $status)
     {
-
         $query = $this->db->query("UPDATE bloksensus SET status = '{$status}' WHERE id_bs = " . $this->db->escape($idBS));
 
         $result = ($query)

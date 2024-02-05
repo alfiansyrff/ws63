@@ -35,11 +35,11 @@ class ListingController extends BaseController
                 $object_array = $json;
                 $success = 0;
                 foreach ($object_array as $object) {
-                   
+
                     $object = (array) $object;
                     $keluarga = Keluarga::createFromArray($object);
-                     // di setiap object, ada nim pencacah. Cek apakah nim pencacah sama dengan nim pengirim request
-                    if ($object['nim_pencacah'] == $nim) { 
+                    // di setiap object, ada nim pencacah. Cek apakah nim pencacah sama dengan nim pengirim request
+                    if ($object['nim_pencacah'] == $nim) {
                         if ($object['status'] == 'delete') {
                             $rutaModel->deletedRutaBatch($keluarga);
                             $keluargaModel->deleteKeluarga($keluarga);
@@ -51,7 +51,7 @@ class ListingController extends BaseController
                         } else if ($object['status'] == 'update') {
                             $keluargaModel->updateKeluarga($keluarga);
                             foreach ($object['ruta'] as $ruta) {
-                                $rutaObj = Rumahtangga::createFromArray((array)$ruta);
+                                $rutaObj = Rumahtangga::createFromArray((array) $ruta);
                                 if ($ruta->status == 'delete') {
                                     if (!$keluargaRutaModel->isRutaInAnotherKeluarga($keluarga->kodeKlg, $rutaObj->kodeRuta)) {
                                         $rutaModel->deleteRuta($rutaObj->kodeRuta);
@@ -82,17 +82,17 @@ class ListingController extends BaseController
         }
     }
 
-    public function generateSampel($noBS)
+    public function generateSampel($idBS)
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($noBS, 2);
+        $result = $rutaModel->getSampelBS($idBS, 1);
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {
             $dataStModel->insertDataST($result);
             $wilayahKerjaModel = new WilayahKerjaModel();
-            $wilayahKerjaModel->updateStatusBs($noBS, "telah-disampel");
+            $wilayahKerjaModel->updateStatusBs($idBS, "telah-disampel");
             return $this->respond("Berhasil mendapatkan sampel"); // jika behasil akan mengembalikan data ruta yang terpilih menjadi sampel
         } catch (\Throwable $th) {
             return $this->fail("Data duplicate atau BS belum di finalisasi", 400); // jika tidak berhasil mengembalikan pesan error
@@ -110,11 +110,11 @@ class ListingController extends BaseController
         }
     }
 
-    public function getSampelBS($noBS)
+    public function getSampelBS($idBS)
     {
         $dataStModel = new DataStModel();
         try {
-            $results = $dataStModel->getSampelByNoBS($noBS);
+            $results = $dataStModel->getSampelByNoBS($idBS);
             if ($results == null) {
                 return $this->respondNoContent(); // jika data sampel tidak ditemukan, kembalikan kode 204
             }
@@ -144,7 +144,19 @@ class ListingController extends BaseController
         ]);
     }
 
-    public function confirmSampel($kodeRuta){
-        
+    public function confirmSampel($kodeRuta)
+    {
+        $dataStModel = new DataStModel();
+        try {
+            $dataStModel->updateStatus($kodeRuta);
+            return $this->response->setJSON([
+                'status' => 'success',
+                'msg' => "Berhasil konfirmasi selesai cacah",
+            ]);
+
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage(), 400); // jika tidak berhasil mengembalikan pesan error
+        }
+
     }
 }

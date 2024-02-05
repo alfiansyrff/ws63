@@ -230,7 +230,7 @@ class RutaModel extends Model
     }
 
 
-    public function getSampelBS($noBS, $sampleSize) // Circular sistematic 
+    public function getSampelBS($idBS, $sampleSize) // Circular sistematic 
     {
 
         // mengambail semua ruta eligible dari BS yang bersangkutan
@@ -239,9 +239,9 @@ class RutaModel extends Model
         $ruta1 = [];
         $ruta2 = [];
         $ruta3 = [];
-        $ruta1 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '1')->findAll();
-        $ruta2 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '2')->findAll();
-        $ruta3 = $this->where('no_bs', $noBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '3')->findAll();
+        $ruta1 = $this->where('id_bs', $idBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '1')->findAll();
+        $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '2')->findAll();
+        $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '3')->findAll();
         $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
         // Hitung interval sampling
