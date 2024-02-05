@@ -25,9 +25,14 @@ class CreateTableRumahTangga extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'is_genz_ortu' => [
+            'jml_genz_ruta' => [
                 'type' => 'INT',
                 'constraint' => 3,
+            ],
+            'jml_genz_ortu' => [
+                'type' => 'INT',
+                'constraint' => 3,
+                'null' => true,
             ],
             'kat_genz' => [
                 'type' => 'VARCHAR',

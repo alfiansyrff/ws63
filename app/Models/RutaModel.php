@@ -15,7 +15,7 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'is_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta','jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
 
 
     public function parseToArray($ruta): array
@@ -25,7 +25,8 @@ class RutaModel extends Model
             'no_urut_ruta' => $ruta->noUrutRuta,
             'kk_or_krt' => $ruta->kkOrKrt,
             'nama_krt' => $ruta->namaKrt,
-            'is_genz_ortu' => $ruta->isGenzOrtu,
+            'jml_genz_ruta' => $ruta->jml_genz_ruta,
+            'jml_genz_ortu' => $ruta->jml_genz_ortu,
             'kat_genz' => $ruta->katGenz,
             'long' => $ruta->long,
             'lat' => $ruta->lat,
@@ -223,7 +224,7 @@ class RutaModel extends Model
     {
         //Fungsi untuk memberikan nilai no_urut_rt_egb secara otomatis pada setiap blok sensus
         $data =  $this->where('no_bs', $noBS)
-            ->where('is_genz_ortu', '1')
+            ->whereNotIn('jml_genz_ruta', [0])
             ->orderBy('no_urut_rt_egb', 'DESC')
             ->first(); // mendapatkan no_urut_rt_egb terakhir di blok sensus yang bersangkutan
         return $data['no_urut_rt_egb'] + 1;
@@ -239,9 +240,9 @@ class RutaModel extends Model
         $ruta1 = [];
         $ruta2 = [];
         $ruta3 = [];
-        $ruta1 = $this->where('id_bs', $idBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '1')->findAll();
-        $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '2')->findAll();
-        $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('is_genz_ortu', [0])->where('kat_genz', '3')->findAll();
+        $ruta1 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_ruta', [0])->where('kat_genz', '1')->findAll();
+        $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_ruta', [0])->where('kat_genz', '2')->findAll();
+        $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_ruta', [0])->where('kat_genz', '3')->findAll();
         $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
         // Hitung interval sampling
