@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libraries;
+
 use App\Libraries\RumahTangga;
 
 class Keluarga
@@ -8,9 +9,9 @@ class Keluarga
     public $kodeKlg;
     public $SLS;
     public $noSegmen;
-    public int $noBgFisik;
-    public int $noBgSensus;
-    public int $noUrutKlg;
+    public  $noBgFisik;
+    public  $noBgSensus;
+    public  $noUrutKlg;
     public $namaKK;
     public $alamat;
     public int $isGenzOrtu;
@@ -24,9 +25,9 @@ class Keluarga
         $kodeKlg,
         $SLS,
         $noSegmen,
-        int $noBgFisik,
-        int $noBgSensus,
-        int $noUrutKlg,
+        $noBgFisik,
+        $noBgSensus,
+        $noUrutKlg,
         $namaKK,
         $alamat,
         int $isGenzOrtu,

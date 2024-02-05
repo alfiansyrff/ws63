@@ -143,4 +143,8 @@ class ListingController extends BaseController
             'count' => $totalResult,
         ]);
     }
+
+    public function confirmSampel($kodeRuta){
+        
+    }
 }
