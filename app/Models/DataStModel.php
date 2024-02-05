@@ -10,13 +10,13 @@ use PhpParser\Node\Stmt\TryCatch;
 
 class DataStModel extends Model
 {
-    protected $table            = 'datast';
-    protected $primaryKey       = 'kode_ruta';
+    protected $table = 'datast';
+    protected $primaryKey = 'kode_ruta';
     // protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    // protected $allowedFields    = [];
+    protected $allowedFields = ['id_bs', 'kode_ruta', 'status'];
 
 
     // Fungsi untuk menyimpan hasil pengambilan sampel dengan argumen array dari ruta terpilih
@@ -45,7 +45,7 @@ class DataStModel extends Model
     {
         ;
         // fungsi untuk mendapatkan list sampel dari suatu BS
-        $query = $this->join('rumahtangga', 'datast.kode_ruta = rumahtangga.kode_ruta', 'inner')->where('datast.no_bs', $noBS)->findAll();  
+        $query = $this->join('rumahtangga', 'datast.kode_ruta = rumahtangga.kode_ruta', 'inner')->where('datast.no_bs', $noBS)->findAll();
         $results = [];
         $keluargaModel = new KeluargaModel();
         foreach ($query as $data) {
@@ -53,5 +53,12 @@ class DataStModel extends Model
             array_push($results, Sampel::createFromArrayRutaKeluarga($data));
         }
         return $results;
+    }
+
+    public function updateStatus($kodeRuta)
+    {
+        $existingRuta = $this->find($kodeRuta);
+
+        return $this->update($existingRuta['status'], '2');
     }
 }
