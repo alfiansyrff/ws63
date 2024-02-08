@@ -9,7 +9,8 @@ class Rumahtangga
     public ?int $noUrutRuta;
     public ?string $kkOrKrt;
     public ?string $namaKrt;
-    public ?int $isGenzOrtu;
+    public ?int $jmlGenzAnak;
+    public ?int $jmlGenzDewasa;
     public ?int $katGenz;
     public ?int $noUrutEgb;
     public ?float $long;
@@ -23,7 +24,8 @@ class Rumahtangga
         ?int $noUrutRuta,
         ?string $kkOrKrt,
         ?string $namaKrt,
-        ?int $isGenzOrtu,
+        ?int $jmlGenzAnak,
+        ?int $jmlGenzDewasa,
         ?int $katGenz,
         ?int $noUrutEgb,
         ?float $long,
@@ -36,7 +38,8 @@ class Rumahtangga
         $this->noUrutRuta = $noUrutRuta;
         $this->kkOrKrt = $kkOrKrt;
         $this->namaKrt = $namaKrt;
-        $this->isGenzOrtu = $isGenzOrtu;
+        $this->jmlGenzAnak = $jmlGenzAnak;
+        $this->jmlGenzDewasa = $jmlGenzDewasa;
         $this->katGenz = $katGenz;
         $this->noUrutEgb = $noUrutEgb;
         $this->long = $long;
@@ -53,7 +56,8 @@ class Rumahtangga
             $data['no_urut_ruta'] ?? null,
             $data['kk_or_krt'] ?? null,
             $data['nama_krt'] ?? null,
-            $data['is_genz_ortu'] ?? null,
+            $data['jml_genz_anak'] ?? null,
+            $data['jml_genz_dewasa'] ?? null,
             $data['kat_genz'] ?? null,
             $data['no_urut_ruta_egb'] ?? null,
             $data['long'] ?? null,

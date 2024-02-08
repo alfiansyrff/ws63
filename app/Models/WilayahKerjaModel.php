@@ -93,7 +93,7 @@ class WilayahKerjaModel extends Model
             jml_klg_egb = (
                 SELECT COUNT(*)
                 FROM keluarga 
-                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND is_genz_ortu != 0
+                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (is_genz_ortu != 0)
             ),
             jml_rt = (
                 SELECT COUNT(*)
@@ -103,7 +103,7 @@ class WilayahKerjaModel extends Model
             jml_rt_egb = (
                 SELECT COUNT(*)
                 FROM rumahtangga 
-                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND is_genz_ortu != 0
+                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (jml_genz_anak != 0 OR jml_genz_dewasa != 0)
             )
         WHERE id_bs = ' . $this->db->escape($idBS));
 

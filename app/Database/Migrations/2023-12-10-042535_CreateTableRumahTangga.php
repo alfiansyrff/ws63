@@ -25,19 +25,18 @@ class CreateTableRumahTangga extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'jml_genz_ruta' => [
+            'jml_genz_anak' => [
                 'type' => 'INT',
                 'constraint' => 3,
             ],
-            'jml_genz_ortu' => [
+            'jml_genz_dewasa' => [
                 'type' => 'INT',
                 'constraint' => 3,
-                'null' => true,
             ],
             'kat_genz' => [
                 'type' => 'VARCHAR',
                 'constraint' => 1,
-                'null' => true,
+                'null' => true, // 1 : anak, 2 : dewasa, 3 : anak + dewasa
             ],
             'no_urut_ruta_egb' => [
                 'type' => 'INT',

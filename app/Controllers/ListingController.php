@@ -44,7 +44,6 @@ class ListingController extends BaseController
                             $rutaModel->deletedRutaBatch($keluarga);
                             $keluargaModel->deleteKeluarga($keluarga);
                         } else if ($object['status'] == 'insert') {
-                            // die;
                             $keluargaModel->addKeluarga($keluarga);
                             $rutaModel->addRutaFromKeluarga($keluarga);
                             $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
