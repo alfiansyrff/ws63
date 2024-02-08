@@ -25,3 +25,5 @@ $routes->get('listing/finalisasi-bs/(:segment)', 'ListingController::finalisasiB
 $routes->get('listing/confirm-sampel/(:segment)', 'ListingController::confirmSampel/$1'); // finalisasi ruta
 
 $routes->get('latestversion', 'LatestVersionController::index'); // INI PEMANGGILAN SINKRONISASI RUTA SALAH
+
+$routes->get('photo/(:segment)', 'MahasiswaController::getPhoto/$1');
