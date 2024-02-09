@@ -15,7 +15,7 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta','jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta', 'jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
 
 
     public function parseToArray($ruta): array
@@ -95,18 +95,18 @@ class RutaModel extends Model
     //     if ($existingRuta) {
     //         // jika nim pencacah kosong masih bisa insert, tapi kalo semua false gagal insert
     //         $nimPencacahMatches = empty($existingRuta->nimPencacah) || $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
-    
+
     //         if (!$nimPencacahMatches) {
     //             // nim_pencacah tidak sama maka gagal
     //             return false;
     //         }
-    
+
     //         $this->update($existingRuta['kode_ruta'], $data);
     //     } else {
     //         // Insert baru ?
     //         $this->update($existingRuta['kode_ruta'], $data);
     //     }
-    
+
     //     return true;
     // }
 
@@ -137,7 +137,7 @@ class RutaModel extends Model
     //             $nimPencacahMatches = $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
 
     //             if (!$nimPencacahMatches) {
-      
+
     //                 return false;
     //             }
 
@@ -162,18 +162,18 @@ class RutaModel extends Model
     //     if ($existingRuta) {
     //         // cek nim pencacah
     //         $nimPencacahMatches = $this->isNimPencacahMatch($ruta->nimPencacah, $kodeRuta);
-    
+
     //         if (!$nimPencacahMatches) {
     //             // nim_pencacah tidak sama maka gagal
     //             return false;
     //         }
-    
+
     //         return $this->delete(['kode_ruta' => $kodeRuta]);
     //     } else {
-  
+
     //         return false;
     //     }
-    
+
     // }
 
     public function updateRuta(Rumahtangga $ruta): bool
@@ -224,7 +224,8 @@ class RutaModel extends Model
     {
         //Fungsi untuk memberikan nilai no_urut_rt_egb secara otomatis pada setiap blok sensus
         $data =  $this->where('no_bs', $noBS)
-            ->whereNotIn('jml_genz_ruta', [0])
+            ->whereNotIn('jml_genz_anak', [0])
+            ->whereNotIn('jml_genz_dewasa', [0])
             ->orderBy('no_urut_rt_egb', 'DESC')
             ->first(); // mendapatkan no_urut_rt_egb terakhir di blok sensus yang bersangkutan
         return $data['no_urut_rt_egb'] + 1;
@@ -240,9 +241,9 @@ class RutaModel extends Model
         $ruta1 = [];
         $ruta2 = [];
         $ruta3 = [];
-        $ruta1 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_ruta', [0])->where('kat_genz', '1')->findAll();
-        $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_ruta', [0])->where('kat_genz', '2')->findAll();
-        $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_ruta', [0])->where('kat_genz', '3')->findAll();
+        $ruta1 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '1')->findAll();
+        $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '2')->findAll();
+        $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '3')->findAll();
         $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
         // Hitung interval sampling
@@ -272,7 +273,7 @@ class RutaModel extends Model
         $semiResult = [];
         foreach ($samples as $sample) {
             $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);
-                array_push($semiResult, $sample);
+            array_push($semiResult, $sample);
         }
         return $semiResult;
     }
