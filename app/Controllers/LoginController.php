@@ -18,13 +18,11 @@ class LoginController extends BaseController
         $mahasiswaModel = new MahasiswaModel(); 
         $timModel = new TimPencacahModel();
         $mahasiswa = $mahasiswaModel->getMahasiswa($this->request->getGet('nim'));
-        
         if (!$mahasiswa)
             return $this->failNotFound('NIM tidak ditemukan');
    
         if (!password_verify($this->request->getGet('password'), $mahasiswa->password))
             return $this->fail('Password Salah');
-
         $tim = $timModel->getTim($mahasiswa->id_tim);
         $result = array();
         $dataTim = array();
@@ -38,14 +36,8 @@ class LoginController extends BaseController
         $result['isKoor'] ? $result['dataTim']['passPML'] = $tim->nim_pml->password : "";
         $result['wilayah'] = $mahasiswa->wilayah_kerja == null ? "Kosong" : $mahasiswa->wilayah_kerja;
         $result['token'] = $mahasiswa->token;
-        // $result['idTim'] = $mahasiswa->id_tim;
-        // $result['namaTim'] = $tim->nama_tim;
-        // $result['namaPML'] = $tim->nim_pml->nama;
-       
-        // $result['passKoor'] = $tim->nim_pml->password;
         if ((!$result['isKoor']) && ($mahasiswa->wilayah_kerja == null)) $result['status'] = 'fail_user';
         else $result['status'] = 'success';
-
 
         //Cek apakah merupakan koorTim atau bukan
         if (!$result['isKoor']) {
@@ -55,8 +47,6 @@ class LoginController extends BaseController
         } else {
             $result['dataTim']['anggota'] = $tim->anggota; 
         }
-
-
 
         return $this->respond($result, 200);
     }

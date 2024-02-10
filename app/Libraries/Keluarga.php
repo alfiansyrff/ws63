@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libraries;
+
 use App\Libraries\RumahTangga;
 
 class Keluarga
@@ -8,31 +9,33 @@ class Keluarga
     public $kodeKlg;
     public $SLS;
     public $noSegmen;
-    public int $noBgFisik;
-    public int $noBgSensus;
-    public int $noUrutKlg;
+    public  $noBgFisik;
+    public  $noBgSensus;
+    public  $noUrutKlg;
     public $namaKK;
     public $alamat;
     public int $isGenzOrtu;
     public ?int $noUrutKlgEgb;
     public int $penglMkn;
-    public $noBS;
+    public $idBS;
     public array $ruta;
+    public $nimPencacah;
 
     public function __construct(
         $kodeKlg,
         $SLS,
         $noSegmen,
-        int $noBgFisik,
-        int $noBgSensus,
-        int $noUrutKlg,
+        $noBgFisik,
+        $noBgSensus,
+        $noUrutKlg,
         $namaKK,
         $alamat,
         int $isGenzOrtu,
         ?int $noUrutKlgEgb,
         int $penglMkn,
-        $noBS,
-        array $ruta
+        $idBS,
+        array $ruta,
+        $nimPencacah
     ) {
         $this->kodeKlg = $kodeKlg;
         $this->SLS = $SLS;
@@ -45,13 +48,13 @@ class Keluarga
         $this->isGenzOrtu = $isGenzOrtu;
         $this->noUrutKlgEgb = $noUrutKlgEgb ?? null;
         $this->penglMkn = $penglMkn;
-        $this->noBS = $noBS;
+        $this->idBS = $idBS;
         $this->ruta = $ruta;
+        $this->nimPencacah = $nimPencacah;
     }
 
     public static function createFromArray(array $data): self
     {
-
         $listRuta = [];
         if (count($data['ruta']) > 0) {
             $ruta_array = $data['ruta'];
@@ -72,8 +75,9 @@ class Keluarga
             $data['is_genz_ortu'],
             $data['no_urut_klg_egb'] ?? 0,
             $data['pengl_mkn'] ?? 0,
-            $data['no_bs'],
-            $listRuta ?? []
+            $data['id_bs'],
+            $listRuta ?? [],
+            $data['nim_pencacah']
         );
     }
 }

@@ -11,7 +11,7 @@ class CreateTableRumahTangga extends Migration
         $this->forge->addField([
             'kode_ruta' => [
                 'type'           => 'VARCHAR',
-                'constraint'     => '20',
+                'constraint'     => '255',
             ],
             'no_urut_ruta' => [
                 'type' => 'VARCHAR',
@@ -25,14 +25,18 @@ class CreateTableRumahTangga extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'is_genz_ortu' => [
+            'jml_genz_anak' => [
+                'type' => 'INT',
+                'constraint' => 3,
+            ],
+            'jml_genz_dewasa' => [
                 'type' => 'INT',
                 'constraint' => 3,
             ],
             'kat_genz' => [
                 'type' => 'VARCHAR',
                 'constraint' => 1,
-                'null' => true,
+                'null' => true, // 1 : anak, 2 : dewasa, 3 : anak + dewasa
             ],
             'no_urut_ruta_egb' => [
                 'type' => 'INT',
@@ -52,7 +56,7 @@ class CreateTableRumahTangga extends Migration
             ], 
             'id_bs' => [ 
                 'type' => 'VARCHAR',
-                'constraint' => 4,
+                'constraint' => '20',
             ],
         ]);
         $this->forge->addKey('kode_ruta', true);

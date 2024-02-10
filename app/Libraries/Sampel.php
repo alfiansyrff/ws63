@@ -16,13 +16,13 @@ class Sampel
     public string $isGenzOrtuKeluarga;
     public $alamat;
     public string $namaKrt;
-    public int $isGenzOrtuRuta;
+    public string $katGenzRuta;
     public float  $long;
     public float  $lat;
     public string $status;
-    public string $noBS;
+    public string $idBS;
 
-    public function __construct($kodeRuta, $SLS, $noSegmen, $noBgFisik, $noBgSensus, $noUrutKlg, $noUrutRuta,$noUrutRutaRgb, $isGenzOrtuKeluarga, $alamat, $namaKrt, $isGenzOrtuRuta, $long, $lat, $status, $noBS)
+    public function __construct($kodeRuta, $SLS, $noSegmen, $noBgFisik, $noBgSensus, $noUrutKlg, $noUrutRuta,$noUrutRutaRgb, $isGenzOrtuKeluarga, $alamat, $namaKrt, $katGenzRuta, $long, $lat, $status, $idBS)
     {
         $this->kodeRuta = $kodeRuta;
         $this->SLS = $SLS;
@@ -35,11 +35,11 @@ class Sampel
         $this->isGenzOrtuKeluarga = $isGenzOrtuKeluarga;
         $this->alamat = $alamat;
         $this->namaKrt = $namaKrt;
-        $this->isGenzOrtuRuta = $isGenzOrtuRuta;
+        $this->katGenzRuta = $katGenzRuta;
         $this->long = $long;
         $this->lat = $lat;
         $this->status = $status;
-        $this->noBS = $noBS;
+        $this->idBS = $idBS;
 
     }
 
@@ -74,11 +74,11 @@ class Sampel
             $isGenzOrtuKeluarga,
             $data['keluarga'][0]['alamat'],
             $data['nama_krt'],
-            $data['is_genz_ortu'],
+            $data['kat_genz'],
             $data['long'],
             $data['lat'],
             $data['status'],
-            $data['no_bs']
+            $data['id_bs']
         );
     }
 }
