@@ -11,11 +11,11 @@ class MahasiswaModel extends Model
 {
     protected $table            = 'mahasiswa';
     protected $primaryKey       = 'nim';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["nim", "email", "nama", "alamat" ,"no_hp", "foto", "plain_password", "password", "id_tim", "token"];
 
     // Dates
     protected $useTimestamps = false;

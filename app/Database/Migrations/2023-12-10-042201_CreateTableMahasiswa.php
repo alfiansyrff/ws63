@@ -27,6 +27,7 @@ class CreateTableMahasiswa extends Migration
             ],
             'alamat' => [
                 'type' => 'TEXT',
+                'null' => true,
             ],
             'foto' => [
                 'type' => 'TEXT',
