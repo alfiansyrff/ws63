@@ -18,6 +18,6 @@ class CallSeeder extends Seeder
         $this->call('KeluargaSeeder');
         $this->call('RumahTanggaSeeder');
         $this->call('KeluragaRutaSeeder');
-        $this->call('PosisiPclSeeder');
+        // $this->call('PosisiPclSeeder');
     }
 }

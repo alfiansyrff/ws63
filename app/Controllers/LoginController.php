@@ -13,14 +13,14 @@ class LoginController extends BaseController
 
     public function index()
     {
-    
+
         // KALAU NIM TIDAK MEMPUNYAI WILAYAH KERJA, AKAN 500 ERROR
-        $mahasiswaModel = new MahasiswaModel(); 
+        $mahasiswaModel = new MahasiswaModel();
         $timModel = new TimPencacahModel();
         $mahasiswa = $mahasiswaModel->getMahasiswa($this->request->getGet('nim'));
         if (!$mahasiswa)
             return $this->failNotFound('NIM tidak ditemukan');
-   
+
         if (!password_verify($this->request->getGet('password'), $mahasiswa->password))
             return $this->fail('Password Salah');
         $tim = $timModel->getTim($mahasiswa->id_tim);
@@ -33,7 +33,7 @@ class LoginController extends BaseController
         $result['id_kuesioner'] = 'VKD.PKL56.RT.v1';
         $result['dataTim']['idTim'] = $mahasiswa->id_tim;
         $result['dataTim']['namaTim'] = $tim->nama_tim;
-        $result['isKoor'] ? $result['dataTim']['passPML'] = $tim->nim_pml->password : "";
+        // $result['isKoor'] ? $result['dataTim']['passPML'] = $tim->nim_pml->password : "";
         $result['wilayah'] = $mahasiswa->wilayah_kerja == null ? "Kosong" : $mahasiswa->wilayah_kerja;
         $result['token'] = $mahasiswa->token;
         if ((!$result['isKoor']) && ($mahasiswa->wilayah_kerja == null)) $result['status'] = 'fail_user';
@@ -45,9 +45,20 @@ class LoginController extends BaseController
             $result['dataTim']['namaPML'] = $tim->nim_pml->nama;
             $result['dataTim']['teleponPML'] = $tim->nim_pml->no_hp;
         } else {
-            $result['dataTim']['anggota'] = $tim->anggota; 
+            $result['dataTim']['anggota'] = $tim->anggota;
         }
 
         return $this->respond($result, 200);
+    }
+
+
+    public function getDataTim()
+    {
+        $timModel = new TimPencacahModel();
+        $mahasiswa = new MahasiswaModel();
+        $jsonBody = $this->request->getJSON();
+        $idTim = $mahasiswa->getIdTimMahasiswaByEmail($jsonBody->email);
+        $tim = $timModel->getAllAnggota($idTim);
+        return $this->respond($tim, 200);
     }
 }

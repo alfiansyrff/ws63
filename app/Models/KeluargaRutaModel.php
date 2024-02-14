@@ -33,7 +33,6 @@ class KeluargaRutaModel extends Model
             $temp['kode_ruta'] = $ruta->kodeRuta;
             $this->db->table('keluarga_ruta')->insert($temp);
         }
-
         return true;
     }
 

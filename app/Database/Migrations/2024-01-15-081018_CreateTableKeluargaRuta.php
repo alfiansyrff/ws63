@@ -11,11 +11,11 @@ class CreateTableKeluargaRuta extends Migration
         $this->forge->addField([ // tambahkan untuk menyimpan id kab 
             'kode_klg' => [
                 'type' => 'VARCHAR',
-                'constraint' => '20',
+                'constraint' => '255',
             ],
             'kode_ruta' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '20',
+                'constraint' => '255',
             ],
         ]);
         $this->forge->addForeignKey('kode_klg', 'keluarga', 'kode_klg', 'CASCADE', 'CASCADE');
