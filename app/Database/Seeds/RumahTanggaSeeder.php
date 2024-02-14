@@ -21,7 +21,8 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '5104030014007B',
-                'nim_pencacah'    => '222112915'
+                'nim_pencacah'    => '222112915',
+                'no_segmen' => 'S010'
             ],
             [
                 'kode_ruta'     => 'R007B002',
@@ -35,11 +36,12 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '5104030014007B',
-                'nim_pencacah'    => '222112915'
+                'nim_pencacah'    => '222112915',
+                'no_segmen' => 'S010'
             ],
             [
                 'kode_ruta'     => 'R007B003',
-                'no_urut_ruta'  => '3',
+                'no_urut_ruta'  => '1',
                 'kk_or_krt'     => '3',
                 'nama_krt'      => 'Oktafiano Asset Pradana',
                 'jml_genz_anak'  => 3,
@@ -49,11 +51,12 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '5104030014007B',
-                'nim_pencacah'    => '222112915'
+                'nim_pencacah'    => '222112915',
+                'no_segmen' => 'S011'
             ],
             [
                 'kode_ruta'     => 'R007B004',
-                'no_urut_ruta'  => '4',
+                'no_urut_ruta'  => '1',
                 'kk_or_krt'     => '2',
                 'nama_krt'      => 'Yulius Krisna Adhi',
                 'jml_genz_anak'  => 3,
@@ -63,11 +66,12 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '5104030014007B',
-                'nim_pencacah'    => '222112915'
+                'nim_pencacah'    => '222112915',
+                'no_segmen' => 'S020'
             ],
             [
                 'kode_ruta'     => 'R007B005',
-                'no_urut_ruta'  => '5',
+                'no_urut_ruta'  => '2',
                 'kk_or_krt'     => '1',
                 'nama_krt'      => 'Anang Kurnia Hidayat',
                 'jml_genz_anak'  => 1,
@@ -77,7 +81,8 @@ class RumahTanggaSeeder extends Seeder
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
                 'id_bs'         => '5104030014007B',
-                'nim_pencacah'    => '222112915'
+                'nim_pencacah'    => '222112915',
+                'no_segmen' => 'S020'
             ],
           
         ];
