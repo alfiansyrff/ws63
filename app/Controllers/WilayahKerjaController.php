@@ -47,4 +47,15 @@ class WilayahKerjaController extends BaseController
             $this->fail($th->getMessage());
         }
     }
+
+    public function getWilayahKerjaTim($idTim)
+    {
+        try {
+            $wilayahKerjaModel = new WilayahKerjaModel();
+            $result = $wilayahKerjaModel->getWilayahKerjaTim($idTim);
+            return  $this->respond($result, 200);
+        } catch (\Throwable $th) {
+            $this->fail($th->getMessage());
+        }
+    }
 }

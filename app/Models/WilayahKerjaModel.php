@@ -164,4 +164,10 @@ class WilayahKerjaModel extends Model
             return "empty";
         }
     }
+
+    public function getWilayahKerjaTim($idTim)
+    {
+        $result  =  $this->where('id_tim', $idTim)->findAll();
+        return $result;
+    }
 }
