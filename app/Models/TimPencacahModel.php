@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use CodeIgniter\Model;
 use App\Libraries\Tim;
 
@@ -59,13 +60,15 @@ class TimPencacahModel extends Model
         $result = $this->find($id_tim);
         $anggota_tim = array();
         foreach ($list_anggota as $anggota) {
-            if ($anggota['nim'] != $result['nim_pml']){
-                array_push($anggota_tim, $mahasiswaModel->getMahasiswa($anggota['nim']));
+            if ($anggota['nim'] != $result['nim_pml']) {
+                $temp_anggota['nim'] = $anggota['nim'];
+                $temp_anggota['email'] = $anggota['email'];
+                $temp_anggota['nama'] = $anggota['nama'];
+                $temp_anggota['no_hp'] = $anggota['no_hp'];
+                $temp_anggota['foto'] = $anggota['foto'];
+                array_push($anggota_tim, $temp_anggota);
             }
         }
-
-
-
         return $anggota_tim;
     }
 
@@ -73,7 +76,7 @@ class TimPencacahModel extends Model
     {
         $mahasiswaModel = new MahasiswaModel();
         $result = $mahasiswaModel->where('id_tim', $id_tim)->findAll();
-
         return $result;
     }
+    
 }

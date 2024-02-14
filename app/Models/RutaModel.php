@@ -245,7 +245,6 @@ class RutaModel extends Model
         $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '2')->findAll();
         $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '3')->findAll();
         $listRuta = array_merge($ruta1, $ruta2, $ruta3);
-
         // Hitung interval sampling
         $interval = count($listRuta) / $sampleSize;
         // Inisialisasi array untuk menyimpan posisi sampel yang sudah dipilih
@@ -253,6 +252,7 @@ class RutaModel extends Model
         // Pilih posisi awal dimulai dari data pertama
         $startPosition = mt_rand(0, count($listRuta) - 1);
         // Inisialisasi array untuk menyimpan sampel
+
         $samples = [];
         for ($i = 0; $i < $sampleSize; $i++) {
             // Hitung posisi sampel
@@ -269,7 +269,6 @@ class RutaModel extends Model
         // karena sampling dengan circular, maka sampel harus diurutkan lagi
         $noUrutRt = array_column($samples, 'no_urut_ruta');
         array_multisort($noUrutRt, SORT_ASC, $samples);
-
         $semiResult = [];
         foreach ($samples as $sample) {
             $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);

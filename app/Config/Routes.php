@@ -27,3 +27,8 @@ $routes->get('listing/confirm-sampel/(:segment)', 'ListingController::confirmSam
 $routes->get('latestversion', 'LatestVersionController::index'); // INI PEMANGGILAN SINKRONISASI RUTA SALAH
 
 $routes->get('photo/(:segment)', 'MahasiswaController::getPhoto/$1');
+
+
+$routes->get('listing/finalisasi-bs-2/(:segment)', 'ListingController::finalisasiBS2/$1'); // finalisasi ruta
+
+$routes->post('/get-data-tim', 'LoginController::getDataTim'); // finalisasi ruta

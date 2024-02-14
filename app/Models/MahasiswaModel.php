@@ -80,4 +80,15 @@ class MahasiswaModel extends Model
             return null;
         }
     }
+
+    public function getIdTimMahasiswaByEmail($email)
+    {
+        $mhs =  $this->where('email', $email)->first();
+        if ($mhs != null) {
+            return $mhs['id_tim'];
+        } else {
+            return null;
+        }
+    }
+
 }
