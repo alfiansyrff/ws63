@@ -15,7 +15,7 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta', 'jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan'];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta', 'jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan', 'no_segmen'];
 
 
     public function parseToArray($ruta): array
@@ -32,7 +32,8 @@ class RutaModel extends Model
             'lat' => $ruta->lat,
             'catatan' => $ruta->catatan,
             'id_bs' => $ruta->idBS,
-            'nim_pencacah' => $ruta->nimPencacah
+            'nim_pencacah' => $ruta->nimPencacah,
+            'no_segmen' => $ruta->noBs,
         ];
         return $data;
     }
@@ -276,4 +277,105 @@ class RutaModel extends Model
         }
         return $semiResult;
     }
+
+    public function addStringNoUrutBangunan($noUrut, $shifter)
+    {
+        $angka = intval($noUrut);
+        $non_numeric = preg_replace('/[0-9]/', '', $noUrut);
+        $hasil = (string)($angka + $shifter);
+        return $hasil . $non_numeric;;
+    }
+
+    public function processSegmentNumberRuta($idBS)
+    {
+        $query = $this->db->query("SELECT DISTINCT no_segmen FROM rumahtangga WHERE id_bs = ? ORDER BY no_segmen", [$idBS]);
+        $result = $query->getResult();
+        $no_segmen_array = array_column($result, 'no_segmen');
+
+        // $shifter_fisik = 0;
+        // $shifter_sensus = 0;
+        $shifter_urut = 0;
+        foreach ($no_segmen_array as $segmen) {
+            $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta')->findAll();
+            // $query = $this->db->query("SELECT DISTINCT no_bg_fisik FROM keluarga WHERE id_bs = ? AND no_segmen = ?", [$idBS, $segmen]);
+            // $add_shifter_fisik = count($query->getResult());
+            // $query = $this->db->query("SELECT DISTINCT no_bg_sensus FROM keluarga WHERE id_bs = ? AND no_segmen = ?", [$idBS, $segmen]);
+            // $add_shifter_sensus = count($query->getResult());
+            $add_shifter_urut = count($data_segmen);
+            foreach ($data_segmen as $data) {
+                // $data['no_bg_fisik'] = $this->addStringNoUrutBangunan($data['no_bg_fisik'], $shifter_fisik);
+                // $data['no_bg_sensus'] = $this->addStringNoUrutBangunan($data['no_bg_sensus'], $shifter_sensus);
+                $data['no_urut_ruta'] = $this->addStringNoUrutBangunan($data['no_urut_ruta'], $shifter_urut);
+                // if ($data['no_urut_ruta_egb'] != null) {
+                //     $data['no_urut_ruta_egb'] = $this->addStringNoUrutBangunan($data['no_urut_ruta_egb'], $shifter_urut);
+                // }
+                $this->replace($data);
+            }
+            
+            // $shifter_fisik += $add_shifter_fisik;
+            // $shifter_sensus += $add_shifter_sensus;
+            $shifter_urut += $add_shifter_urut;
+        }
+
+        // echo json_encode("success");
+        // die;
+
+
+
+
+
+        // $keluarga_list = $this->where('id_bs', $idBS)->orderBy('no_segmen')->orderBy('no_urut_klg')->findAll();
+        // $currentSegment = '';
+        // $currentNumber = 1;
+        // $currentNumberEgb = 1;
+        // $noUrutBangunanFisik = 0;
+        // $noUrutBangunanSensus = 0;
+        // $prevBgnFisik = 0;
+        // $prevBgnSensus = 0;
+
+        // $hasil = [];
+        // foreach ($keluarga_list as $row) {
+        //     // Menghubungkan nomor urut jika bukan segmen pertama
+        //     $row['no_urut_klg'] = (string)$currentNumber;
+        //     $currentNumber++;
+
+
+        //     if ($prevBgnFisik != $row['no_bg_fisik'] || $currentSegment != $row['no_segmen']) {
+        //         $noUrutBangunanFisik++;
+        //         $prevBgnFisik = $row['no_bg_fisik'];
+        //         $row['no_bg_fisik'] = (string)$noUrutBangunanFisik;
+        //     } else {
+        //         $row['no_bg_fisik'] = (string)$noUrutBangunanFisik;
+        //     }
+
+
+        //     if ($prevBgnSensus != $row['no_bg_sensus'] || $currentSegment != $row['no_segmen']) {
+        //         $noUrutBangunanSensus++;
+        //         $prevBgnSensus = $row['no_bg_sensus'];
+        //         $row['no_bg_sensus'] = (string)$noUrutBangunanSensus;
+        //     } else {
+        //         $row['no_bg_sensus'] = (string)$noUrutBangunanSensus;
+        //     }
+
+
+        //     if ($row['no_urut_klg_egb'] != null) {
+        //         $row['no_urut_klg_egb'] = $currentNumberEgb;
+        //         $currentNumberEgb++;
+        //     }
+
+        //     if ($currentSegment != $row['no_segmen']) {
+        //         $currentSegment = $row['no_segmen'];
+        //     }
+        //     // Menambahkan data ke array
+        //     array_push($hasil, $row);
+        // }
+
+        // foreach ($hasil as $row) {
+        //     $this->replace($row);
+        // }
+
+        // echo json_encode($hasil);
+        // die;
+    }
+
 }
