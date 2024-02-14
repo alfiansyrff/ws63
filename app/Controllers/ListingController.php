@@ -74,8 +74,10 @@ class ListingController extends BaseController
                 } else {
                     return $this->fail('Gagal melakukan update rekapitulasi BS');
                 }
+            } else {
+                $result = $wilayahKerjaModel->getInfoBS($idBS);
+                return $this->respond($result);
             }
-            return $this->fail('Atribut JSON tidak ditemukan !');
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
@@ -85,7 +87,7 @@ class ListingController extends BaseController
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($idBS, 1);
+        $result = $rutaModel->getSampelBS($idBS, 2);
         // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {
@@ -136,12 +138,35 @@ class ListingController extends BaseController
         $wilayahKerjaModel = new WilayahKerjaModel();
         $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
 
-        return $this->response->setJSON([
-            'status' => 'success',
-            'data' => $result,
-            'count' => $totalResult,
-        ]);
+        $response = $wilayahKerjaModel->getInfoBS($idBS);
+
+        return $this->respond($response, 200);
     }
+
+    public function finalisasiBS2($idBS)
+    {
+        // $rutaModel = new RutaModel();
+        // $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
+        // $totalResult = count($result);
+        // foreach ($result as $key => $ruta) {
+        //     $result[$key]->noUrutEgb = $key + 1;
+        //     $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
+        // }
+
+        // $wilayahKerjaModel = new WilayahKerjaModel();
+        // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
+
+        $model = new KeluargaModel();
+        $model->processSegmentNumberKeluarga($idBS);
+
+
+        // return $this->response->setJSON([
+        //     'status' => 'success',
+        //     'data' => $result,
+        //     'count' => $totalResult,
+        // ]);
+    }
+
 
     public function confirmSampel($kodeRuta)
     {
@@ -152,10 +177,8 @@ class ListingController extends BaseController
                 'status' => 'success',
                 'msg' => "Berhasil konfirmasi selesai cacah",
             ]);
-
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage(), 400); // jika tidak berhasil mengembalikan pesan error
         }
-
     }
 }
