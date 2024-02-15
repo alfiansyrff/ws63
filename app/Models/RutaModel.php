@@ -33,7 +33,7 @@ class RutaModel extends Model
             'catatan' => $ruta->catatan,
             'id_bs' => $ruta->idBS,
             'nim_pencacah' => $ruta->nimPencacah,
-            'no_segmen' => $ruta->noBs,
+            'no_segmen' => $ruta->noSegmen,
         ];
         return $data;
     }
