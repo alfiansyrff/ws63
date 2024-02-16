@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use CodeIgniter\Model;
 use App\Libraries\Tim;
 
@@ -12,7 +13,7 @@ class TimPencacahModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
+    protected $protectFields    = false;
     protected $allowedFields    = [];
 
     // Dates
@@ -42,7 +43,6 @@ class TimPencacahModel extends Model
     public function getTim($id_tim): Tim
     {
         $result = $this->find($id_tim);
-
         $mahasiswaModel = new MahasiswaModel();
         $tim = new Tim(
             $result['id_tim'],
@@ -50,24 +50,26 @@ class TimPencacahModel extends Model
             $mahasiswaModel->getMahasiswa($result['nim_pml']),
             $this->getAnggotaTim($id_tim)
         );
-
         return $tim;
     }
 
     public function getAnggotaTim($id_tim): array
     {
+        
         $mahasiswaModel = new MahasiswaModel();
-
         $list_anggota = $this->getAllAnggota($id_tim);
         $result = $this->find($id_tim);
-
         $anggota_tim = array();
         foreach ($list_anggota as $anggota) {
-            if ($anggota['nim'] == $result['nim_pml'])
-                continue;
-            array_push($anggota_tim, $mahasiswaModel->getMahasiswa($anggota['nim']));
+            if ($anggota['nim'] != $result['nim_pml']) {
+                $temp_anggota['nim'] = $anggota['nim'];
+                $temp_anggota['email'] = $anggota['email'];
+                $temp_anggota['nama'] = $anggota['nama'];
+                $temp_anggota['no_hp'] = $anggota['no_hp'];
+                $temp_anggota['foto'] = $anggota['foto'];
+                array_push($anggota_tim, $temp_anggota);
+            }
         }
-
         return $anggota_tim;
     }
 
@@ -75,7 +77,7 @@ class TimPencacahModel extends Model
     {
         $mahasiswaModel = new MahasiswaModel();
         $result = $mahasiswaModel->where('id_tim', $id_tim)->findAll();
-
         return $result;
     }
+    
 }

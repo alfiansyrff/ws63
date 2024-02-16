@@ -8,14 +8,20 @@ class CreateTableBlokSensus extends Migration
 {
     public function up()
     {
-        $this->forge->addField([
+        $this->forge->addField([ // tambah satu atribut id bs, gabungan id prov, id kab, id kec, id kel, no_bs
+            // tambah atribut id tim
+            'id_bs' =>[
+                'type' => 'VARCHAR',
+                'constraint' => '20'
+            ],
             'no_bs' => [
                 'type' => 'VARCHAR',
                 'constraint' => 4,
             ],
-            'nama_sls' => [
+            'id_prov' =>[
                 'type' => 'VARCHAR',
-                'constraint' => '255',
+                'constraint' => '2',
+                'default' => '51',
             ],
             'id_kab' => [
                 'type' => 'VARCHAR',
@@ -25,32 +31,37 @@ class CreateTableBlokSensus extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 3,
             ],
-            'id_kelurahan' => [
+            'id_kel' => [
                 'type' => 'VARCHAR',
                 'constraint' => 3,
+            ],
+            'nama_sls' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+            ],
+            'jml_klg' => [
+                'type' => 'INT',
+                'constraint' => 3,
+                'default' => 0
+            ],
+            'jml_klg_egb' => [
+                'type' => 'INT',
+                'constraint' => 3,
+                'default' => 0
             ],
             'jml_rt' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'default' => 0
             ],
-            'jml_rt_genz' => [
+            'jml_rt_egb' => [
                 'type' => 'INT',
                 'constraint' => 3,
                 'default' => 0
             ],
-            'jml_genz' => [
-                'type' => 'INT',
-                'constraint' => 3,
-                'default' => 0
-            ],
-            'nim_pencacah' => [
-                'type' => 'VARCHAR',
-                'constraint' => '9',
-            ],
-            'tim_pencacah' => [
-                'type' => 'VARCHAR',
-                'constraint' => '9',
+            'id_tim' => [
+                'type' => 'int',
+                'constraint' => '11',
             ],
             'tgl_listing' => [
                 'type' => 'DATE',
@@ -70,7 +81,8 @@ class CreateTableBlokSensus extends Migration
                 'constraint' => '20',
             ],
         ]);
-        $this->forge->addKey('no_bs', true);
+        $this->forge->addKey('id_bs', true);
+        $this->forge->addForeignKey(['id_kab', 'id_kec','id_kel'], 'kelurahan', ['id_kab', 'id_kec','id_kel'], 'CASCADE', 'CASCADE');
         $this->forge->createTable('bloksensus');
     }
 

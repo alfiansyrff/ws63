@@ -11,11 +11,11 @@ class MahasiswaModel extends Model
 {
     protected $table            = 'mahasiswa';
     protected $primaryKey       = 'nim';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["nim", "email", "nama", "alamat" ,"no_hp", "foto", "plain_password", "password", "id_tim", "token"];
 
     // Dates
     protected $useTimestamps = false;
@@ -46,51 +46,16 @@ class MahasiswaModel extends Model
     public function getMahasiswa($nim)
     {
         $result = $this->find($nim);
+        
         if (!$result) {
             return null;
         }
-
-        //inisialisasi Wilayah Kerja
-        // $riset_Sby = [1, 3];
-        // $riset_12 = [4, 62];
-        // $riset_3 = [63, 94];
-        // $riset_4 = [95, 125];
-
-        // if (((int) $result['id_tim'] >= $riset_12[0] && (int) $result['id_tim'] <= $riset_12[1]) || (int) $result['id_tim'] == 991 || (int) $result['id_tim'] == 992) {
-        //     $wilayahKerjaModel = new WilayahKerjaModelR12();
-        //     $sampelModel = new SampelModelR12();
-        // } else if (((int) $result['id_tim'] >= $riset_3[0] && (int) $result['id_tim'] <= $riset_3[1]) || (int) $result['id_tim'] == 993) {
-        //     $wilayahKerjaModel = new WilayahKerjaModelR3();
-        //     $sampelModel = new SampelModelR3();
-        // } else if (((int) $result['id_tim'] >= $riset_4[0] && (int) $result['id_tim'] <= $riset_4[1]) || (int) $result['id_tim'] == 994 || ((int) $result['id_tim'] >= 441 && (int) $result['id_tim'] <= 444)) {
-        //     $wilayahKerjaModel = new WilayahKerjaModelR4_2();
-        //     $sampelModel = new SampelModelR4();
-        // } else if (((int) $result['id_tim'] >= $riset_Sby[0] && (int) $result['id_tim'] <= $riset_Sby[1]) || (int) $result['id_tim'] == 995) {
-        //     $wilayahKerjaModel = new WilayahKerjaModelSby();
-        //     $sampelModel = new SampelModelSby();
-        // }
-    
-        
         $wilayahKerjaModel = new WilayahKerjaModel();
+        $listWilayahKerja = [];
         $listWilayahKerja =  $wilayahKerjaModel->getWilayahKerja($result['nim']);
-        // $wilayah_kerja = array();
-        // // // $total_terkirim = 0;
-        // foreach ($listWilayahKerja as $wilayah) {
-        //     array_push($wilayah_kerja, $wilayahKerjaModel->getWilayahKerja($wilayah['id']));
-        //     // $total_terkirim += $wilayahKerjaModel->getJumlahTerkirim($wilayah['id']);
-        // }
-   
         $timModel = new TimPencacahModel();
-        $isKoor = $timModel->where('nim_pml', $nim)->find() ? true : false;
-        // dd($getInfoTim);
-        // $beban_kerja = $sampelModel->getBebanKerja($nim);
-        // if ($beban_kerja > 0) {
-        //     $total_progress = (int) $total_terkirim / $beban_kerja;
-        // } else {
-        //     $total_progress = 0;
-        // }
-        // echo json_encode($listWilayahKerja);
-        // die();
+        $tim = $timModel->where('id_tim', $result['id_tim'])->first();
+        $isKoor = $tim['nim_pml'] == $nim ? true : false;
         $mahasiswa = new Mahasiswa(
             $result['nim'],
             $result['nama'],
@@ -101,11 +66,30 @@ class MahasiswaModel extends Model
             $result['foto'],
             $result['id_tim'],
             $listWilayahKerja,
-            // $total_progress, 
-            $isKoor
+            $isKoor,
+            $tim['token']
         );
-    
-
         return $mahasiswa;
     }
+
+    public function getIdTimMahasiswa($nim)
+    {
+        $mhs =  $this->where('nim', $nim)->first();
+        if ($mhs != null) {
+            return $mhs['id_tim'];
+        } else {
+            return null;
+        }
+    }
+
+    public function getIdTimMahasiswaByEmail($email)
+    {
+        $mhs =  $this->where('email', $email)->first();
+        if ($mhs != null) {
+            return $mhs['id_tim'];
+        } else {
+            return null;
+        }
+    }
+
 }

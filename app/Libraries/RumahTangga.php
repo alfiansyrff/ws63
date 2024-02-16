@@ -6,75 +6,74 @@ class Rumahtangga
 {
 
     public ?string $kodeRuta;
-    public ?string $noBS;
-    public ?int $noSegmen;
-    public ?int $noBgFisik;
-    public ?int $noBgSensus;
     public ?int $noUrutRuta;
+    public ?string $kkOrKrt;
     public ?string $namaKrt;
-    public ?string $alamat;
-
-    public ?string $isGenzOrtu; // Jika 1 maka true, jika 0 maka false
-    public ?int $jmlGenz;
-
-    public ?int $noUrutRtEgb;
-
+    public ?int $jmlGenzAnak;
+    public ?int $jmlGenzDewasa;
+    public ?int $katGenz;
+    public ?int $noUrutEgb;
     public ?float $long;
-
     public ?float $lat;
-
     public ?string $catatan;
+    public ?string $idBS;
+    public ?string $nimPencacah;
+    public ?string $noBs;
 
+    public ?string $noSegmen; 
 
     public function __construct(
         ?string $kodeRuta,
-        ?string $noSegmen,
-        ?string $noBgFisik,
-        ?string $noBgSensus,
-        ?string $noUrutRuta,
+        ?int $noUrutRuta,
+        ?string $kkOrKrt,
         ?string $namaKrt,
-        ?string $alamat,
-        ?string $noBS,
-        ?string $isGenzOrtu,
-        ?int $jmlGenz,
-        ?int $noUrutRtEgb,
+        ?int $jmlGenzAnak,
+        ?int $jmlGenzDewasa,
+        ?int $katGenz,
+        ?int $noUrutEgb,
         ?float $long,
         ?float $lat,
-        ?string $catatan
+        ?string $catatan,
+        ?string $idBS,
+        ?string $nimPencacah,
+        ?string $noBs,
+        ?string $noSegmen
     ) {
         $this->kodeRuta = $kodeRuta;
-        $this->noSegmen = $noSegmen;
-        $this->noBgFisik = $noBgFisik;
-        $this->noBgSensus = $noBgSensus;
-        $this->namaKrt = $namaKrt;
         $this->noUrutRuta = $noUrutRuta;
-        $this->alamat = $alamat;
-        $this->noBS = $noBS;
-        $this->isGenzOrtu = $isGenzOrtu;
-        $this->jmlGenz = $jmlGenz;
-        $this->noUrutRtEgb = $noUrutRtEgb;
+        $this->kkOrKrt = $kkOrKrt;
+        $this->namaKrt = $namaKrt;
+        $this->jmlGenzAnak = $jmlGenzAnak;
+        $this->jmlGenzDewasa = $jmlGenzDewasa;
+        $this->katGenz = $katGenz;
+        $this->noUrutEgb = $noUrutEgb;
         $this->long = $long;
         $this->lat = $lat;
         $this->catatan = $catatan;
+        $this->idBS = $idBS;
+        $this->nimPencacah = $nimPencacah;
+        $this->noBs = $noBs;
+        $this->noSegmen = $noSegmen;
     }
 
     public static function createFromArray(array $data): self
     {
         return new self(
             $data['kode_ruta'] ?? null,
-            $data['no_segmen'] ?? null,
-            $data['no_bg_fisik'] ?? null,
-            $data['no_bg_sensus'] ?? null,
-            $data['no_urut_rt'] ?? null,
+            $data['no_urut_ruta'] ?? null,
+            $data['kk_or_krt'] ?? null,
             $data['nama_krt'] ?? null,
-            $data['alamat'] ?? null,
-            $data['no_bs'] ?? null,
-            $data['is_genz_ortu'] ?? null,
-            $data['jml_genz'] ?? null,
-            $data['no_urut_rt_egb'] ?? null,
+            $data['jml_genz_anak'] ?? null,
+            $data['jml_genz_dewasa'] ?? null,
+            $data['kat_genz'] ?? null,
+            $data['no_urut_ruta_egb'] ?? null,
             $data['long'] ?? null,
             $data['lat'] ?? null,
             $data['catatan'] ?? null,
+            $data['id_bs'] ?? null,
+            $data['nim_pencacah'] ?? null,  
+            $data['no_bs'] ?? null,
+            $data['no_segmen']
         );
     }
 }

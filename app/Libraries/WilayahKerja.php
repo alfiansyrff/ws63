@@ -4,6 +4,7 @@ namespace App\Libraries;
 
 class WilayahKerja
 {
+    public $idBS;
     public $noBS;
     public $idKel;
     public $namaKel;
@@ -11,17 +12,19 @@ class WilayahKerja
     public $namaKec;
     public $idKab;
     public $namaKab;
-    public int $jmlRt;
-    public int  $jmlRtGenz;
-    public int $jmlGenZ;
+    public int $jmlKlg;
+    public int  $jmlKlgEgb;
+    public int $jmlRuta;
+    public int $jmlRutaEgb;
 
-    public $tglListing;
-    public $tglPeriksa;
-    public $catatan;
-    public $status;
-    public array $ruta;
+    public ?string $tglListing;
+    public ?string $tglPeriksa;
+    public ?string $catatan;
+    public ?string $status;
+    public array $keluarga;
 
     public function __construct(
+        $idBS,
         $noBS,
         $idKel,
         $namaKel,
@@ -29,15 +32,17 @@ class WilayahKerja
         $namaKec,
         $idKab,
         $namaKab,
-        $jmlRt,
-        $jmlRtGenz,
-        $jmlGenZ,
+        $jmlKlg,
+        $jmlKlgEgb,
+        $jmlRuta,
+        $jmlRutaEgb,
         $tglListing,
         $tglPeriksa,
         $status,
         $catatan,
-        array $ruta
+        array $keluarga
     ) {
+        $this->idBS = $idBS;
         $this->noBS = $noBS;
         $this->idKel = $idKel;
         $this->namaKel = $namaKel;
@@ -45,13 +50,14 @@ class WilayahKerja
         $this->namaKec = $namaKec;
         $this->idKab = $idKab;
         $this->namaKab = $namaKab;
-        $this->jmlRt = $jmlRt;
-        $this->jmlRtGenz = $jmlRtGenz;
-        $this->jmlGenZ = $jmlGenZ;
-        $this->tglListing = $tglListing;
-        $this->tglPeriksa = $tglPeriksa;
-        $this->status = $status;
-        $this->catatan = $catatan;
-        $this->ruta = $ruta;
+        $this->jmlKlg = $jmlKlg;
+        $this->jmlKlgEgb = $jmlKlgEgb;
+        $this->jmlRuta = $jmlRuta;
+        $this->jmlRutaEgb = $jmlRutaEgb;
+        $this->tglListing = $tglListing ?? null;
+        $this->tglPeriksa = $tglPeriksa ?? null;
+        $this->status = $status ?? null;
+        $this->catatan = $catatan ?? null;
+        $this->keluarga = $keluarga;
     }
 }
