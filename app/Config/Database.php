@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => 'postgres',
-        'password' => 'Lampu123',
-        'database' => 'pkl63',
+        'hostname' => 'marivale',
+        'username' => 'capi',
+        'password' => 'CaP163pklc4pI',
+        'database' => 'capi_test',
         'DBDriver' => 'Postgre',
         'DBPrefix' => '',
         'pConnect' => false,
