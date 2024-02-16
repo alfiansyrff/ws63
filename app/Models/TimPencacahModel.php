@@ -55,6 +55,7 @@ class TimPencacahModel extends Model
 
     public function getAnggotaTim($id_tim): array
     {
+        
         $mahasiswaModel = new MahasiswaModel();
         $list_anggota = $this->getAllAnggota($id_tim);
         $result = $this->find($id_tim);

@@ -6,7 +6,7 @@ class Tim
 {
     public string $id_tim;
     public string $nama_tim;
-    public Mahasiswa $nim_pml;
+    public  $nim_pml;
     public array $anggota;
 
     public function __construct($id_tim, $nama_tim, $nim_pml, $anggota)
