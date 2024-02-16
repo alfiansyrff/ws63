@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class KeluargaRutaModel extends Model
 {
     protected $table            = 'keluarga_ruta';
-    protected $primaryKey       = ['kode_klg','kode_ruta'];
+    protected $primaryKey       = ['kode_klg', 'kode_ruta'];
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -16,11 +16,20 @@ class KeluargaRutaModel extends Model
     protected $allowedFields    = [];
 
 
-    public function addKeluargaRuta($kodeKeluarga, $kodeRuta){
+    public function addKeluargaRuta($kodeKeluarga, $kodeRuta)
+    {
         $temp = [];
         $temp['kode_klg'] = $kodeKeluarga;
         $temp['kode_ruta'] = $kodeRuta;
         $this->db->table('keluarga_ruta')->insert($temp);
+    }
+
+    public function updateKeluargaRuta($kodeKeluarga, $kodeRuta)
+    {
+        $check = $this->where('kode_ruta', $kodeRuta)->where('kode_klg', $kodeKeluarga)->first();
+        if (!$check) {
+            $this->addKeluargaRuta($kodeKeluarga, $kodeRuta);
+        }
     }
 
     public function addKeluargaRutaBatch(Keluarga $keluarga)
@@ -36,8 +45,9 @@ class KeluargaRutaModel extends Model
         return true;
     }
 
-    public function deleteKeluargaRuta($kodeKlg, $kodeRuta){
-        return $this->where('kode_klg', $kodeKlg)->where('kode_ruta',$kodeRuta)->delete();
+    public function deleteKeluargaRuta($kodeKlg, $kodeRuta)
+    {
+        return $this->where('kode_klg', $kodeKlg)->where('kode_ruta', $kodeRuta)->delete();
     }
 
     public function getKeluargaRutaByKodeKlg($kodeKlg)
@@ -51,7 +61,8 @@ class KeluargaRutaModel extends Model
     }
 
 
-    public function isRutaInAnotherKeluarga($kodeKlg, $kodeRuta){
-        return   $this->where('kode_ruta',$kodeRuta)->whereNotIn('kode_klg',[$kodeKlg])->first();
+    public function isRutaInAnotherKeluarga($kodeKlg, $kodeRuta)
+    {
+        return   $this->where('kode_ruta', $kodeRuta)->whereNotIn('kode_klg', [$kodeKlg])->first();
     }
 }

@@ -61,6 +61,7 @@ class ListingController extends BaseController
                                     $keluargaRutaModel->addKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
                                 } else {
                                     $rutaModel->updateRuta(Rumahtangga::createFromArray((array) $ruta));
+                                    $keluargaRutaModel->updateKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
                                 }
                             }
                         }
@@ -159,9 +160,9 @@ class ListingController extends BaseController
         $klgModel = new KeluargaModel();
         $klgModel->processSegmentNumberKeluarga($idBS);
 
-        $rutaModel = new RutaModel();
-        $rutaModel->processSegmentNumberRuta($idBS);
-        $this->finalisasiBS($idBS);
+        // $rutaModel = new RutaModel();
+        // $rutaModel->processSegmentNumberRuta($idBS);
+        // $this->finalisasiBS($idBS);
         
         return $this->response->setJSON([
             'status' => 'success',

@@ -181,8 +181,8 @@ class RutaModel extends Model
     {
         try {
             $data = $this->parseToArray($ruta);
-            $check = $this->where('kode_ruta', $ruta->kodeRuta)->first();
-            if ($check) {
+            // $check = $this->where('kode_ruta', $ruta->kodeRuta)->first();
+            if (true) {
                 $bool = $this->db->table('rumahtangga')->replace($data);
             }
             return true;
@@ -209,7 +209,7 @@ class RutaModel extends Model
         foreach ($keluarga->ruta as $ruta) {
             if (!$keluargaRutaModel->isRutaInAnotherKeluarga($keluarga->kodeKlg, $ruta->kodeRuta)) {
                 // if digunakan untuk mengecek apakah ruta juga diacu oleh kelaurga lain atau tidak, jika tidak maka ruta akan terhapus
-                return $this->delete(['kode_ruta' => $ruta->kodeRuta]);
+                $this->delete(['kode_ruta' => $ruta->kodeRuta]);
             }
         }
         return true;
@@ -311,7 +311,7 @@ class RutaModel extends Model
                 // }
                 $this->replace($data);
             }
-            
+
             // $shifter_fisik += $add_shifter_fisik;
             // $shifter_sensus += $add_shifter_sensus;
             $shifter_urut += $add_shifter_urut;
@@ -377,5 +377,4 @@ class RutaModel extends Model
         // echo json_encode($hasil);
         // die;
     }
-
 }
