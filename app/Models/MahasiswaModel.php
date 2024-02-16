@@ -46,6 +46,7 @@ class MahasiswaModel extends Model
     public function getMahasiswa($nim)
     {
         $result = $this->find($nim);
+        
         if (!$result) {
             return null;
         }
