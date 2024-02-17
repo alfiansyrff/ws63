@@ -47,18 +47,18 @@ class BlokSensusSeeder extends Seeder
         // }
         
         // fclose($csvFile);
-        $data = [
-            [
-                'id_bs' => '5171010001001A',
-                'no_bs' => '001A',
-                'nama_sls' => 'Banjar Percobaan',
-                'id_kab' => '71',
-                'id_kec' => '010',
-                'id_kel' => '011',
-                'id_tim' => '115',
-                'catatan' => '',
-                'status' => 'listing',
-            ],
+        // $data = [
+        //     [
+        //         'id_bs' => '5171010001001A',
+        //         'no_bs' => '001A',
+        //         'nama_sls' => 'Banjar Percobaan',
+        //         'id_kab' => '71',
+        //         'id_kec' => '010',
+        //         'id_kel' => '011',
+        //         'id_tim' => '115',
+        //         'catatan' => '',
+        //         'status' => 'listing',
+        //     ],
             // [
             //     'id_bs' => '5104030014007B',
             //     'no_bs' => '007B',
@@ -103,10 +103,10 @@ class BlokSensusSeeder extends Seeder
             //     'catatan' => '',
             //     'status' => 'listing',
             // ],
-        ];
+        // ];
 
         // // Insert data into bloksensus table
-        $this->db->table('bloksensus')->insertBatch($data);
+        // $this->db->table('bloksensus')->insertBatch($data);
     }
 
     private function seedFromFile($filePath)
