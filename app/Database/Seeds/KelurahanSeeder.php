@@ -4155,6 +4155,12 @@ class KelurahanSeeder extends Seeder
             ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '019', 'nama_kel' => 'Banjar Asem'],
             ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '020', 'nama_kel' => 'Kalisada'],
             ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '021', 'nama_kel' => 'Pangkungparuk'],
+            [
+                'id_kab' => '71',
+                'id_kec' => '010',
+                'id_kel' => '011',
+                'nama_kel' => 'Kelurahan Percobaan'
+            ],
         ];
 
         // Insert data ke dalam tabel
