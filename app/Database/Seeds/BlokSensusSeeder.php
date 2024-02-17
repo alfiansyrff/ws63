@@ -18,6 +18,7 @@ class BlokSensusSeeder extends Seeder
             APPPATH . 'Database/Seeds/bs_jembrana_seeder.csv',
             APPPATH . 'Database/Seeds/bs_bangli_seeder.csv',
             APPPATH . 'Database/Seeds/bs_gianyar_seeder.csv',
+            APPPATH . 'Database/Seeds/bs_buleleng_seeder.csv',
             // Add more file paths as needed
         ];
 
