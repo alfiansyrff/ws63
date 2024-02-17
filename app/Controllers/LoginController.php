@@ -49,7 +49,7 @@ class LoginController extends BaseController
             }
             return $this->respond($result, 200);
         } catch (\Throwable $th) {
-            echo json_encode($th->getMessage());
+           return  $this->fail($th->getMessage());
         }
     }
 
