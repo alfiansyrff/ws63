@@ -1,6 +1,7 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
+use App\Controllers\ExportRutaController;
 
 /**
  * @var RouteCollection $routes
@@ -34,3 +35,5 @@ $routes->get('listing/finalisasi-bs-2/(:segment)', 'ListingController::finalisas
 $routes->post('/get-data-tim', 'LoginController::getDataTim'); // finalisasi ruta
 
 $routes->post('/get-bs-tim/(:segment)','WilayahKerjaController::getWilayahKerjaTim/$1');
+
+$routes->get('export-to-excel/(:segment)', [ExportRutaController::class, 'index/$1']);

@@ -20,7 +20,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '5104030014007B',
+                'id_bs'         => '5102010002007B',
                 'nim_pencacah'    => '222112915',
                 'no_segmen' => 'S010'
             ],
@@ -35,7 +35,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '5104030014007B',
+                'id_bs'         => '5102010002007B',
                 'nim_pencacah'    => '222112915',
                 'no_segmen' => 'S010'
             ],
@@ -50,7 +50,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '5104030014007B',
+                'id_bs'         => '5102010002007B',
                 'nim_pencacah'    => '222112915',
                 'no_segmen' => 'S011'
             ],
@@ -65,7 +65,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '5104030014007B',
+                'id_bs'         => '5102010002007B',
                 'nim_pencacah'    => '222112915',
                 'no_segmen' => 'S020'
             ],
@@ -80,7 +80,7 @@ class RumahTanggaSeeder extends Seeder
                 'long'          => 107.6098,
                 'lat'           => -6.9175,
                 'catatan'       => 'Catatan Rumah Tangga 1',
-                'id_bs'         => '5104030014007B',
+                'id_bs'         => '5102010002007B',
                 'nim_pencacah'    => '222112915',
                 'no_segmen' => 'S020'
             ],
