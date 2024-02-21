@@ -71,6 +71,9 @@ class ListingController extends BaseController
                 $result = array();
                 if ($boolUpdateRekapitulasiBS) {
                     $result = $wilayahKerjaModel->getInfoBS($idBS);
+                    if ($result == "empty") {
+                        return $this->fail("Data berhasil masuk, tetapi kode BS tidak ditemukan", 404);
+                    }
                     return $this->respond($result);
                 } else {
                     return $this->fail('Gagal melakukan update rekapitulasi BS');
@@ -163,7 +166,7 @@ class ListingController extends BaseController
         // $rutaModel = new RutaModel();
         // $rutaModel->processSegmentNumberRuta($idBS);
         // $this->finalisasiBS($idBS);
-        
+
         return $this->response->setJSON([
             'status' => 'success',
             'message' => 'Berhasil finalisasi BS'
