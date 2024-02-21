@@ -4133,7 +4133,53 @@ class KelurahanSeeder extends Seeder
                 'id_kel' => '012',
                 'nama_kel' => 'Besan',
             ],
-
+            [
+                'id_kab' => '08',
+                'id_kec' => '020',
+                'id_kel' => '010',
+                'nama_kel' => 'Kalianget'
+            ],
+             [
+                'id_kab' => '08',
+                'id_kec' => '020',
+                'id_kel' => '011',
+                'nama_kel' => 'Tangguwisia'
+            ],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '012', 'nama_kel' => 'Sulanyah'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '013', 'nama_kel' => 'Bubunan'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '014', 'nama_kel' => 'Seririt'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '015', 'nama_kel' => 'Pengastulan'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '016', 'nama_kel' => 'Patemon'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '017', 'nama_kel' => 'Lokapaksa'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '018', 'nama_kel' => 'Umeanyar'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '019', 'nama_kel' => 'Banjar Asem'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '020', 'nama_kel' => 'Kalisada'],
+            ['id_kab' => '08', 'id_kec' => '020', 'id_kel' => '021', 'nama_kel' => 'Pangkungparuk'],
+            [
+                'id_kab' => '71',
+                'id_kec' => '020',
+                'id_kel' => '014',
+                'nama_kel' => 'PENATIH'
+            ],
+            [
+                'id_kab' => '71',
+                'id_kec' => '020',
+                'id_kel' => '015',
+                'nama_kel' => 'PENATIH DANGIN PURI'
+            ],
+            [
+                'id_kab' => '71',
+                'id_kec' => '020',
+                'id_kel' => '010',
+                'nama_kel' => 'DANGIN PURI'
+            ],
+            
+            [
+                'id_kab' => '71',
+                'id_kec' => '010',
+                'id_kel' => '011',
+                'nama_kel' => 'Kelurahan Percobaan'
+            ],
         ];
 
         // Insert data ke dalam tabel
