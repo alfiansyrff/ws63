@@ -10,15 +10,6 @@ use CodeIgniter\API\ResponseTrait;
 class MahasiswaController extends BaseController
 {
     use ResponseTrait;
-
-    function __construct()
-    {
-        header('Access-Control-Allow-Origin: *');
-
-        header('Access-Control-Allow-Methods: GET, POST');
-
-        header("Access-Control-Allow-Headers: X-Requested-With");
-    }
     public function index()
     {
         //
