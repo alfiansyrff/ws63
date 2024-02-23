@@ -159,18 +159,28 @@ class ListingController extends BaseController
 
         // $wilayahKerjaModel = new WilayahKerjaModel();
         // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
-
+        
         $klgModel = new KeluargaModel();
-        $klgModel->processSegmentNumberKeluarga($idBS);
+        $result = $klgModel->getAllKeluargaOrderedByNoKeluarga($idBS);
 
+        foreach ($result as $key => $klg) {
+            $klgModel->update(['kode_klg' => $klg->kodeKlg], ['no_urut_klg_egb' => $key + 1]);
+        }
+
+        // $wilayahKerjaModel = new WilayahKerjaModel();
+        // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
+
+        // $response = $wilayahKerjaModel->getInfoBS($idBS);
+        $response = $klgModel->getAllKeluarga($idBS);
+        return $this->respond($result, 200);
         // $rutaModel = new RutaModel();
         // $rutaModel->processSegmentNumberRuta($idBS);
         // $this->finalisasiBS($idBS);
 
-        return $this->response->setJSON([
-            'status' => 'success',
-            'message' => 'Berhasil finalisasi BS'
-        ]);
+        // return $this->response->setJSON([
+        //     'status' => 'success',
+        //     'message' => 'Berhasil finalisasi BS'
+        // ]);
 
         // return $this->response->setJSON([
         //     'status' => 'success',
