@@ -48,9 +48,21 @@ class KeluargaModel extends Model
 
     public function addKeluarga(Keluarga $keluarga): bool
     {
-        // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
-        return  $this->db->table('keluarga')->insert($data);
+        try {
+            $result = $this->db->table('keluarga')->insert($data);
+
+            if ($result) {
+                $lastInsertedID = $this->db->insertID();
+                // You can use $lastInsertedID as needed
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'Error adding keluarga: ' . $e->getMessage());
+            return false;
+        }
+        
     }
 
 

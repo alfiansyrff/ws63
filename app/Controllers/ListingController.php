@@ -28,6 +28,7 @@ class ListingController extends BaseController
             $jsonBody = $this->request->getJSON();
 
             $idBS = $jsonBody->id_bs;
+
             // nim pengirim 
             $nim = $jsonBody->nim;
             $json = $jsonBody->json;
@@ -44,6 +45,7 @@ class ListingController extends BaseController
                             $rutaModel->deletedRutaBatch($keluarga);
                             $keluargaModel->deleteKeluarga($keluarga);
                         } else if ($object['status'] == 'insert') {
+
                             $keluargaModel->addKeluarga($keluarga);
                             $rutaModel->addRutaFromKeluarga($keluarga);
                             $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
@@ -172,7 +174,7 @@ class ListingController extends BaseController
 
         // $response = $wilayahKerjaModel->getInfoBS($idBS);
         $response = $klgModel->getAllKeluarga($idBS);
-        return $this->respond($result, 200);
+        return $this->respond($response, 200);
         // $rutaModel = new RutaModel();
         // $rutaModel->processSegmentNumberRuta($idBS);
         // $this->finalisasiBS($idBS);

@@ -12,13 +12,13 @@ class BlokSensusSeeder extends Seeder
         $csvFiles = [
             APPPATH . 'Database/Seeds/bs_tabanan_seeder.csv',
             APPPATH . 'Database/Seeds/bs_klungkung_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_karangasem_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_badung_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_denpasar_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_jembrana_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_bangli_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_gianyar_seeder.csv',
-            APPPATH . 'Database/Seeds/bs_buleleng_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_karangasem_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_badung_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_denpasar_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_jembrana_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_bangli_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_gianyar_seeder.csv',
+            // APPPATH . 'Database/Seeds/bs_buleleng_seeder.csv',
             // Add more file paths as needed
         ];
 

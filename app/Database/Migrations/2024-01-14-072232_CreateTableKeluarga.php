@@ -12,6 +12,7 @@ class CreateTableKeluarga extends Migration
             'kode_klg' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
+                'unique' => true, 
             ],
             'SLS' => [
                 'type' => 'VARCHAR',
@@ -60,12 +61,12 @@ class CreateTableKeluarga extends Migration
                 'constraint' => '20',
             ],
         ]);
-        $this->forge->addKey('kode_klg', true);
+        $this->forge->addKey('kode_klg');
         $this->forge->createTable('keluarga');
     }
 
     public function down()
     {
-        //
+        $this->forge->dropTable('keluarga');
     }
 }
