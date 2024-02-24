@@ -21,7 +21,7 @@ class Rumahtangga
     public ?string $noBs;
 
     public ?string $noSegmen;
-    public ?bool $isEnable;
+    public ?string $isEnable;
 
     public function __construct(
         ?string $kodeRuta,
@@ -39,7 +39,7 @@ class Rumahtangga
         ?string $nimPencacah,
         ?string $noBs,
         ?string $noSegmen,
-        ?bool $isEnable
+        ?string $isEnable
     ) {
         $this->kodeRuta = $kodeRuta;
         $this->noUrutRuta = $noUrutRuta;
