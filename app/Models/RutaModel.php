@@ -15,7 +15,7 @@ class RutaModel extends Model
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
-    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta', 'jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan', 'no_segmen'];
+    protected $allowedFields    = ['kode_ruta', 'no_urut_ruta', 'kk_or_rt', 'nama_krt', 'jml_genz_ruta', 'jml_genz_ortu', 'kat_genz', 'no_urut_ruta_egb', 'long', 'lat', 'catatan', 'no_segmen', 'is_enable'];
 
 
     public function parseToArray($ruta): array
@@ -33,7 +33,8 @@ class RutaModel extends Model
             'catatan' => $ruta->catatan,
             'id_bs' => $ruta->idBS,
             'nim_pencacah' => $ruta->nimPencacah,
-            'no_segmen' => $ruta->noSegmen
+            'no_segmen' => $ruta->noSegmen,
+            'is_enable' => $ruta->isEnable
         ];
         return $data;
     }

@@ -157,4 +157,34 @@ class KeluargaModel extends Model
             die;
         }
     }
+
+    public function getAllKeluargaOrderedByNoKeluarga($id_bs)
+    {
+        $listKeluarga = [];
+        $listKeluarga = $this->where('id_bs', $id_bs)
+        ->where('is_genz_ortu !=', 0)
+        ->orderBy('no_urut_klg', 'asc')
+        ->findAll();
+        $listKeluargaObject = [];
+        $keluargaRutaModel = new KeluargaRutaModel();
+        $rutaModel = new RutaModel();
+        if (sizeof($listKeluarga) != 0) {
+            foreach ($listKeluarga as $keluarga) {
+                $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);
+                // lalu ambil semua ruta dari keluarga ruta temp
+                $keluarga['ruta'] = [];
+                foreach ($keluargaRutaTemp as $keluargaRuta) {
+                    array_push($keluarga['ruta'], $rutaModel->getRutaReturnArray($keluargaRuta['kode_ruta']));
+                }
+                array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
+            }
+        }
+        return $listKeluargaObject;
+        // $listKlg = [];
+        // foreach ($results as $result) {
+        //     $klg = Keluarga::createFromArray($result); 
+        //     array_push($listKlg, $klg);
+        // }
+        // return $listKlg;
+    }
 }
