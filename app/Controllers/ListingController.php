@@ -46,9 +46,9 @@ class ListingController extends BaseController
                             $keluargaModel->deleteKeluarga($keluarga);
                         } else if ($object['status'] == 'insert') {
 
-                            $keluargaModel->addKeluarga($keluarga);
+                            // $keluargaModel->addKeluarga($keluarga);
                             $rutaModel->addRutaFromKeluarga($keluarga);
-                            $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
+                            // $keluargaRutaModel->addKeluargaRutaBatch($keluarga);
                         } else if ($object['status'] == 'update') {
                             $keluargaModel->updateKeluarga($keluarga);
                             foreach ($object['ruta'] as $ruta) {

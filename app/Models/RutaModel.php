@@ -194,8 +194,16 @@ class RutaModel extends Model
 
     public function addRutaFromKeluarga(Keluarga $keluarga)
     {
-        foreach ($keluarga->ruta as $ruta) {
-            $this->addRuta($ruta);
+        // foreach ($keluarga->ruta as $ruta) {
+        //     $this->addRuta($ruta);
+        // }
+        try {
+            foreach ($keluarga->ruta as $ruta) {
+                $this->addRuta($ruta);
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Error adding ruta from keluarga: ' . $e->getMessage());
+            // Handle the error as needed
         }
     }
 
