@@ -160,7 +160,7 @@ class ListingController extends BaseController
 
         // $wilayahKerjaModel = new WilayahKerjaModel();
         // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
-        
+
         $klgModel = new KeluargaModel();
         $result = $klgModel->getAllKeluargaOrderedByNoKeluarga($idBS);
 

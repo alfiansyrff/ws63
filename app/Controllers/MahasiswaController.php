@@ -25,7 +25,7 @@ class MahasiswaController extends BaseController
             return $this->failNotFound('NIM mahasiswa tidak ditemukan.');
         }
 
-        $filePhoto = 'images/' . $mhs['foto'];
+        $filePhoto = 'images/mahasiswa/' . $mhs['foto'];
 
         if (file_exists($filePhoto)) {
             $mime = mime_content_type($filePhoto);
