@@ -245,47 +245,58 @@ class RutaModel extends Model
     public function getSampelBS($idBS, $sampleSize) // Circular sistematic 
     {
 
-        // mengambail semua ruta eligible dari BS yang bersangkutan
-        $keluargaModel = new KeluargaModel();
-        $listRuta = [];
-        $ruta1 = [];
-        $ruta2 = [];
-        $ruta3 = [];
-        $ruta1 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '1')->findAll();
-        $ruta2 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '2')->findAll();
-        $ruta3 = $this->where('id_bs', $idBS)->whereNotIn('jml_genz_anak', [0])->whereNotIn('jml_genz_dewasa', [0])->where('kat_genz', '3')->findAll();
-        $listRuta = array_merge($ruta1, $ruta2, $ruta3);
-        // Hitung interval sampling
-        $interval = count($listRuta) / $sampleSize;
-        // Inisialisasi array untuk menyimpan posisi sampel yang sudah dipilih
-        $selectedPositions = [];
-        // Pilih posisi awal dimulai dari data pertama
-        $startPosition = mt_rand(0, count($listRuta) - 1);
-        // Inisialisasi array untuk menyimpan sampel
+        try {
+            // mengambail semua ruta eligible dari BS yang bersangkutan
+            $keluargaModel = new KeluargaModel();
+            $listRuta = [];
+            $ruta1 = [];
+            $ruta2 = [];
+            $ruta3 = [];
+            $ruta1 = $this->where('id_bs', $idBS)->where('kat_genz', '1')->where('is_enable', '1')->findAll();
+            $ruta2 = $this->where('id_bs', $idBS)->where('kat_genz', '2')->where('is_enable', '1')->findAll();
+            $ruta3 = $this->where('id_bs', $idBS)->where('kat_genz', '3')->where('is_enable', '1')->findAll();
+            $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
-        $samples = [];
-        for ($i = 0; $i < $sampleSize; $i++) {
-            // Hitung posisi sampel
-            $position = ($startPosition + $i * $interval) % count($listRuta);
-            // Pastikan posisi sampel belum terpilih sebelumnya
-            while (in_array($position, $selectedPositions)) {
-                $position = ($position + 1) % count($listRuta); // Pindah ke posisi berikutnya jika sudah terpilih
+            if (count($listRuta) <= $sampleSize) { // jika  jumlah ruta eligible kurang dari sampel size, maka ambil semua 
+                return $listRuta;
             }
-            // Tandai posisi sampel sebagai terpilih
-            $selectedPositions[] = $position;
-            // Ambil sampel pada posisi
-            $samples[] = $listRuta[$position];
+
+            // Hitung interval sampling
+            $interval = count($listRuta) / $sampleSize;
+            // Inisialisasi array untuk menyimpan posisi sampel yang sudah dipilih
+            $selectedPositions = [];
+            // Pilih posisi awal dimulai dari data pertama
+            $startPosition = mt_rand(0, count($listRuta) - 1);
+            // Inisialisasi array untuk menyimpan sampel
+
+            $samples = [];
+            for ($i = 0; $i < $sampleSize; $i++) {
+                // Hitung posisi sampel
+                $position = ($startPosition + $i * $interval) % count($listRuta);
+                // Pastikan posisi sampel belum terpilih sebelumnya
+                while (in_array($position, $selectedPositions)) {
+                    $position = ($position + 1) % count($listRuta); // Pindah ke posisi berikutnya jika sudah terpilih
+                }
+                // Tandai posisi sampel sebagai terpilih
+                $selectedPositions[] = $position;
+                // Ambil sampel pada posisi
+                $samples[] = $listRuta[$position];
+            }
+            // karena sampling dengan circular, maka sampel harus diurutkan lagi
+            $noUrutRt = array_column($samples, 'no_urut_ruta');
+            array_multisort($noUrutRt, SORT_ASC, $samples);
+            $semiResult = [];
+            foreach ($samples as $sample) {
+                $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);
+                array_push($semiResult, $sample);
+            }
+            return $semiResult;
+        } catch (\Throwable $th) {
+            echo json_encode($th->getMessage());
+            die;
         }
-        // karena sampling dengan circular, maka sampel harus diurutkan lagi
-        $noUrutRt = array_column($samples, 'no_urut_ruta');
-        array_multisort($noUrutRt, SORT_ASC, $samples);
-        $semiResult = [];
-        foreach ($samples as $sample) {
-            $sample['keluarga'] = $keluargaModel->getKeluargaByRuta($sample['kode_ruta']);
-            array_push($semiResult, $sample);
-        }
-        return $semiResult;
     }
+
 
     public function addStringNoUrutBangunan($noUrut, $shifter)
     {
@@ -300,90 +311,29 @@ class RutaModel extends Model
         $query = $this->db->query("SELECT DISTINCT no_segmen FROM rumahtangga WHERE id_bs = ? ORDER BY no_segmen", [$idBS]);
         $result = $query->getResult();
         $no_segmen_array = array_column($result, 'no_segmen');
-
-        // $shifter_fisik = 0;
-        // $shifter_sensus = 0;
+        // clear
         $shifter_urut = 0;
         foreach ($no_segmen_array as $segmen) {
             $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta')->findAll();
-            // $query = $this->db->query("SELECT DISTINCT no_bg_fisik FROM keluarga WHERE id_bs = ? AND no_segmen = ?", [$idBS, $segmen]);
-            // $add_shifter_fisik = count($query->getResult());
-            // $query = $this->db->query("SELECT DISTINCT no_bg_sensus FROM keluarga WHERE id_bs = ? AND no_segmen = ?", [$idBS, $segmen]);
-            // $add_shifter_sensus = count($query->getResult());
-            $add_shifter_urut = count($data_segmen);
-            foreach ($data_segmen as $data) {
-                // $data['no_bg_fisik'] = $this->addStringNoUrutBangunan($data['no_bg_fisik'], $shifter_fisik);
-                // $data['no_bg_sensus'] = $this->addStringNoUrutBangunan($data['no_bg_sensus'], $shifter_sensus);
-                $data['no_urut_ruta'] = $this->addStringNoUrutBangunan($data['no_urut_ruta'], $shifter_urut);
-                // if ($data['no_urut_ruta_egb'] != null) {
-                //     $data['no_urut_ruta_egb'] = $this->addStringNoUrutBangunan($data['no_urut_ruta_egb'], $shifter_urut);
-                // }
-                $this->replace($data);
+            $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta', 'DESC')->select('no_urut_ruta')->first();
+            $add_shifter_urut = (int) $query['no_urut_ruta'];
+            // clear
+            if ($shifter_urut != 0) {
+                foreach ($data_segmen as $data) {
+                    $data['no_urut_ruta'] = $this->addStringNoUrutBangunan($data['no_urut_ruta'], $shifter_urut);
+                    $this->replace($data);
+                }
             }
-
-            // $shifter_fisik += $add_shifter_fisik;
-            // $shifter_sensus += $add_shifter_sensus;
             $shifter_urut += $add_shifter_urut;
         }
-
-        // echo json_encode("success");
-        // die;
-
-
-
-
-
-        // $keluarga_list = $this->where('id_bs', $idBS)->orderBy('no_segmen')->orderBy('no_urut_klg')->findAll();
-        // $currentSegment = '';
-        // $currentNumber = 1;
-        // $currentNumberEgb = 1;
-        // $noUrutBangunanFisik = 0;
-        // $noUrutBangunanSensus = 0;
-        // $prevBgnFisik = 0;
-        // $prevBgnSensus = 0;
-
-        // $hasil = [];
-        // foreach ($keluarga_list as $row) {
-        //     // Menghubungkan nomor urut jika bukan segmen pertama
-        //     $row['no_urut_klg'] = (string)$currentNumber;
-        //     $currentNumber++;
-
-
-        //     if ($prevBgnFisik != $row['no_bg_fisik'] || $currentSegment != $row['no_segmen']) {
-        //         $noUrutBangunanFisik++;
-        //         $prevBgnFisik = $row['no_bg_fisik'];
-        //         $row['no_bg_fisik'] = (string)$noUrutBangunanFisik;
-        //     } else {
-        //         $row['no_bg_fisik'] = (string)$noUrutBangunanFisik;
-        //     }
-
-
-        //     if ($prevBgnSensus != $row['no_bg_sensus'] || $currentSegment != $row['no_segmen']) {
-        //         $noUrutBangunanSensus++;
-        //         $prevBgnSensus = $row['no_bg_sensus'];
-        //         $row['no_bg_sensus'] = (string)$noUrutBangunanSensus;
-        //     } else {
-        //         $row['no_bg_sensus'] = (string)$noUrutBangunanSensus;
-        //     }
-
-
-        //     if ($row['no_urut_klg_egb'] != null) {
-        //         $row['no_urut_klg_egb'] = $currentNumberEgb;
-        //         $currentNumberEgb++;
-        //     }
-
-        //     if ($currentSegment != $row['no_segmen']) {
-        //         $currentSegment = $row['no_segmen'];
-        //     }
-        //     // Menambahkan data ke array
-        //     array_push($hasil, $row);
-        // }
-
-        // foreach ($hasil as $row) {
-        //     $this->replace($row);
-        // }
-
-        // echo json_encode($hasil);
-        // die;
+        // Memberikan no urut ruta eligible
+        $rutaTemp = $this->getAllRutaOrderedByKatGenZ($idBS);
+        $rutaTemp = $this->where('id_bs', $idBS)->orderBy('kat_genz', 'ASC')->where('kat_genz IS NOT NULL', null, false)->where('kat_genz IS NOT NULL', null, false)->orderBy('no_segmen', 'ASC')->findAll();
+        $no_urut_ruta_egb = 0;
+        foreach ($rutaTemp as $ruta) {
+            $no_urut_ruta_egb += 1;
+            $ruta['no_urut_ruta_egb'] = $no_urut_ruta_egb;
+            $this->replace($ruta);
+        }
     }
 }

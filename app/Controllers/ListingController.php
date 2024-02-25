@@ -93,7 +93,6 @@ class ListingController extends BaseController
 
         $rutaModel = new RutaModel();
         $result = $rutaModel->getSampelBS($idBS, 2);
-        // memasukkan sampel yang terpilih ke tabel datast
         $dataStModel = new DataStModel();
         try {
             $dataStModel->insertDataST($result);
@@ -150,44 +149,16 @@ class ListingController extends BaseController
 
     public function finalisasiBS2($idBS)
     {
-        // $rutaModel = new RutaModel();
-        // $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
-        // $totalResult = count($result);
-        // foreach ($result as $key => $ruta) {
-        //     $result[$key]->noUrutEgb = $key + 1;
-        //     $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
-        // }
-
-        // $wilayahKerjaModel = new WilayahKerjaModel();
-        // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
-
         $klgModel = new KeluargaModel();
-        $result = $klgModel->getAllKeluargaOrderedByNoKeluarga($idBS);
+        $rutaModel = new RutaModel();
+        $klgModel->processSegmentNumberKeluarga($idBS);
+        $rutaModel->processSegmentNumberRuta($idBS);
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
 
-        foreach ($result as $key => $klg) {
-            $klgModel->update(['kode_klg' => $klg->kodeKlg], ['no_urut_klg_egb' => $key + 1]);
-        }
+        $response = $wilayahKerjaModel->getInfoBS($idBS);
 
-        // $wilayahKerjaModel = new WilayahKerjaModel();
-        // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
-
-        // $response = $wilayahKerjaModel->getInfoBS($idBS);
-        $response = $klgModel->getAllKeluarga($idBS);
         return $this->respond($response, 200);
-        // $rutaModel = new RutaModel();
-        // $rutaModel->processSegmentNumberRuta($idBS);
-        // $this->finalisasiBS($idBS);
-
-        // return $this->response->setJSON([
-        //     'status' => 'success',
-        //     'message' => 'Berhasil finalisasi BS'
-        // ]);
-
-        // return $this->response->setJSON([
-        //     'status' => 'success',
-        //     'data' => $result,
-        //     'count' => $totalResult,
-        // ]);
     }
 
 
