@@ -14,8 +14,8 @@ class PosisiPclModel extends Model
     protected $protectFields        = false;
     protected $allowedFields        = ['latitude', 'longitude', 'akurasi', 'time_created'];
 
-    public function getPosisiPcl($nim) :PosisiPcl
-    {    
+    public function getPosisiPcl($nim): PosisiPcl
+    {
         $result = $this->find($nim);
 
         $posisipcl = new PosisiPcl(
@@ -26,19 +26,21 @@ class PosisiPclModel extends Model
         );
 
         return $posisipcl;
-    }    
+    }
 
     public function updateLokasiPcl(string $nim, float $latitude, float $longitude, float $akurasi): bool
     {
         $jakartaTimezone = new \DateTimeZone('Asia/Jakarta');
         $now = new \DateTime('now', $jakartaTimezone);
         $data = [
+            'nim' => $nim,
+            'lokus' => 'BALI',
             'latitude' => $latitude,
             'longitude' => $longitude,
             'akurasi' => $akurasi,
             'time_created' => $now->format('Y-m-d H:i:s')
         ];
-        $this->update($nim, $data);
+        $this->replace($data);
         return true;
     }
 }
