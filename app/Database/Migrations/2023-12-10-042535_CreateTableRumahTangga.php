@@ -15,7 +15,7 @@ class CreateTableRumahTangga extends Migration
             ],
             'no_urut_ruta' => [
                 'type' => 'VARCHAR',
-                'constraint' => 3,
+                'constraint' => 4,
             ],
             'kk_or_krt' => [
                 'type' => 'VARCHAR',

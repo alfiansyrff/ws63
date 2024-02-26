@@ -6,7 +6,7 @@ class Rumahtangga
 {
 
     public ?string $kodeRuta;
-    public ?int $noUrutRuta;
+    public ?string $noUrutRuta;
     public ?string $kkOrKrt;
     public ?string $namaKrt;
     public ?int $jmlGenzAnak;
@@ -25,7 +25,7 @@ class Rumahtangga
 
     public function __construct(
         ?string $kodeRuta,
-        ?int $noUrutRuta,
+        ?string $noUrutRuta,
         ?string $kkOrKrt,
         ?string $namaKrt,
         ?int $jmlGenzAnak,
