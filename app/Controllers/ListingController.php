@@ -93,6 +93,9 @@ class ListingController extends BaseController
 
         $rutaModel = new RutaModel();
         $result = $rutaModel->getSampelBS($idBS, 2);
+        if (!$result || count($result) == 0) {
+            return $this->fail("Data rumah tangga eligible kosong");
+        }
         $dataStModel = new DataStModel();
         try {
             $dataStModel->insertDataST($result);
@@ -129,35 +132,42 @@ class ListingController extends BaseController
         }
     }
 
-    public function finalisasiBS($idBS)
-    {
-        $rutaModel = new RutaModel();
-        $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
-        $totalResult = count($result);
-        foreach ($result as $key => $ruta) {
-            $result[$key]->noUrutEgb = $key + 1;
-            $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
-        }
+    // public function finalisasiBS($idBS)
+    // {
+    //     $rutaModel = new RutaModel();
+    //     $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
+    //     $totalResult = count($result);
+    //     foreach ($result as $key => $ruta) {
+    //         $result[$key]->noUrutEgb = $key + 1;
+    //         $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
+    //     }
 
-        $wilayahKerjaModel = new WilayahKerjaModel();
-        $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
+    //     $wilayahKerjaModel = new WilayahKerjaModel();
+    //     $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
 
-        $response = $wilayahKerjaModel->getInfoBS($idBS);
+    //     $response = $wilayahKerjaModel->getInfoBS($idBS);
 
-        return $this->respond($response, 200);
-    }
+    //     return $this->respond($response, 200);
+    // }
 
     public function finalisasiBS2($idBS)
     {
         $klgModel = new KeluargaModel();
         $rutaModel = new RutaModel();
-        $klgModel->processSegmentNumberKeluarga($idBS);
-        $rutaModel->processSegmentNumberRuta($idBS);
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        if ($wilayahKerjaModel->isWilayahKerjaFinalisasi($idBS)) { // ketika wilayah kerja sudah pernah dilakukan finaliasasi
+            $response = $wilayahKerjaModel->getInfoBS($idBS);
+            return $this->respond($response, 200);
+        }
+        if (!$klgModel->processSegmentNumberKeluarga($idBS)) {
+            return $this->fail('Gagal memproses nomor keluarga');
+        }
+        if (!$rutaModel->processSegmentNumberRuta($idBS)) {
+            return $this->fail("Gagal memproses nomor rumah tangga");
+        }
         $wilayahKerjaModel = new WilayahKerjaModel();
         $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
-
         $response = $wilayahKerjaModel->getInfoBS($idBS);
-
         return $this->respond($response, 200);
     }
 

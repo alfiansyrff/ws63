@@ -257,6 +257,10 @@ class RutaModel extends Model
             $ruta3 = $this->where('id_bs', $idBS)->where('kat_genz', '3')->where('is_enable', '1')->findAll();
             $listRuta = array_merge($ruta1, $ruta2, $ruta3);
 
+            if (!$listRuta || count($listRuta) == 0) {
+                return [];
+            }
+
             if (count($listRuta) <= $sampleSize) { // jika  jumlah ruta eligible kurang dari sampel size, maka ambil semua 
                 return $listRuta;
             }
@@ -308,32 +312,39 @@ class RutaModel extends Model
 
     public function processSegmentNumberRuta($idBS)
     {
-        $query = $this->db->query("SELECT DISTINCT no_segmen FROM rumahtangga WHERE id_bs = ? ORDER BY no_segmen", [$idBS]);
-        $result = $query->getResult();
-        $no_segmen_array = array_column($result, 'no_segmen');
-        // clear
-        $shifter_urut = 0;
-        foreach ($no_segmen_array as $segmen) {
-            $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta')->findAll();
-            $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta', 'DESC')->select('no_urut_ruta')->first();
-            $add_shifter_urut = (int) $query['no_urut_ruta'];
+        try {
+            $query = $this->db->query("SELECT DISTINCT no_segmen FROM rumahtangga WHERE id_bs = ? ORDER BY no_segmen", [$idBS]);
+            $result = $query->getResult();
+            $no_segmen_array = array_column($result, 'no_segmen');
             // clear
-            if ($shifter_urut != 0) {
-                foreach ($data_segmen as $data) {
-                    $data['no_urut_ruta'] = $this->addStringNoUrutBangunan($data['no_urut_ruta'], $shifter_urut);
-                    $this->replace($data);
+            $shifter_urut = 0;
+            if ($no_segmen_array && count($no_segmen_array) > 0) {
+                foreach ($no_segmen_array as $segmen) {
+                    $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta')->findAll();
+                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta', 'DESC')->select('no_urut_ruta')->first();
+                    $add_shifter_urut = (int) $query['no_urut_ruta'];
+                    // clear
+                    if ($shifter_urut != 0) {
+                        foreach ($data_segmen as $data) {
+                            $data['no_urut_ruta'] = $this->addStringNoUrutBangunan($data['no_urut_ruta'], $shifter_urut);
+                            $this->replace($data);
+                        }
+                    }
+                    $shifter_urut += $add_shifter_urut;
+                }
+                // Memberikan no urut ruta eligible
+                $rutaTemp = $this->getAllRutaOrderedByKatGenZ($idBS);
+                $rutaTemp = $this->where('id_bs', $idBS)->orderBy('kat_genz', 'ASC')->where('kat_genz IS NOT NULL', null, false)->whereNotIn('kat_genz', [0])->orderBy('no_segmen', 'ASC')->findAll();
+                $no_urut_ruta_egb = 0;
+                foreach ($rutaTemp as $ruta) {
+                    $no_urut_ruta_egb += 1;
+                    $ruta['no_urut_ruta_egb'] = $no_urut_ruta_egb;
+                    $this->replace($ruta);
                 }
             }
-            $shifter_urut += $add_shifter_urut;
-        }
-        // Memberikan no urut ruta eligible
-        $rutaTemp = $this->getAllRutaOrderedByKatGenZ($idBS);
-        $rutaTemp = $this->where('id_bs', $idBS)->orderBy('kat_genz', 'ASC')->where('kat_genz IS NOT NULL', null, false)->where('kat_genz IS NOT NULL', null, false)->orderBy('no_segmen', 'ASC')->findAll();
-        $no_urut_ruta_egb = 0;
-        foreach ($rutaTemp as $ruta) {
-            $no_urut_ruta_egb += 1;
-            $ruta['no_urut_ruta_egb'] = $no_urut_ruta_egb;
-            $this->replace($ruta);
+            return true;
+        } catch (\Throwable $th) {
+            return false;
         }
     }
 }
