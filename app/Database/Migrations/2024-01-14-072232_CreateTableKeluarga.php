@@ -24,11 +24,11 @@ class CreateTableKeluarga extends Migration
             ],
             'no_bg_fisik' => [
                 'type' => 'VARCHAR',
-                'constraint' => 3,
+                'constraint' => 4,
             ],
             'no_bg_sensus' => [
                 'type' => 'VARCHAR',
-                'constraint' => 3,
+                'constraint' => 4,
             ],
             'no_urut_klg' => [
                 'type' => 'VARCHAR',

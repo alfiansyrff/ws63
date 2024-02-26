@@ -332,9 +332,12 @@ class RutaModel extends Model
                     }
                     $shifter_urut += $add_shifter_urut;
                 }
-                // Memberikan no urut ruta eligible
-                $rutaTemp = $this->getAllRutaOrderedByKatGenZ($idBS);
-                $rutaTemp = $this->where('id_bs', $idBS)->orderBy('kat_genz', 'ASC')->where('kat_genz IS NOT NULL', null, false)->whereNotIn('kat_genz', [0])->orderBy('no_segmen', 'ASC')->findAll();
+                $rutaTemp = $this->where('id_bs', $idBS)
+                    ->where('kat_genz IS NOT NULL')
+                    ->whereNotIn('kat_genz', ['0'])
+                    ->orderBy('kat_genz', 'ASC')
+                    ->orderBy('no_segmen', 'ASC')
+                    ->findAll();
                 $no_urut_ruta_egb = 0;
                 foreach ($rutaTemp as $ruta) {
                     $no_urut_ruta_egb += 1;
