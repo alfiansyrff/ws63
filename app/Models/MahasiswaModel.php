@@ -67,7 +67,7 @@ class MahasiswaModel extends Model
             $result['id_tim'],
             $listWilayahKerja,
             $isKoor,
-            $tim['token']
+            $result['token']
         );
         return $mahasiswa;
     }
