@@ -28,6 +28,7 @@ class ListingController extends BaseController
             $jsonBody = $this->request->getJSON();
 
             $idBS = $jsonBody->id_bs;
+
             // nim pengirim 
             $nim = $jsonBody->nim;
             $json = $jsonBody->json;
@@ -92,7 +93,9 @@ class ListingController extends BaseController
 
         $rutaModel = new RutaModel();
         $result = $rutaModel->getSampelBS($idBS, 2);
-        // memasukkan sampel yang terpilih ke tabel datast
+        if (!$result || count($result) == 0) {
+            return $this->fail("Data rumah tangga eligible kosong");
+        }
         $dataStModel = new DataStModel();
         try {
             $dataStModel->insertDataST($result);
@@ -129,54 +132,43 @@ class ListingController extends BaseController
         }
     }
 
-    public function finalisasiBS($idBS)
-    {
-        $rutaModel = new RutaModel();
-        $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
-        $totalResult = count($result);
-        foreach ($result as $key => $ruta) {
-            $result[$key]->noUrutEgb = $key + 1;
-            $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
-        }
+    // public function finalisasiBS($idBS)
+    // {
+    //     $rutaModel = new RutaModel();
+    //     $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
+    //     $totalResult = count($result);
+    //     foreach ($result as $key => $ruta) {
+    //         $result[$key]->noUrutEgb = $key + 1;
+    //         $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
+    //     }
 
-        $wilayahKerjaModel = new WilayahKerjaModel();
-        $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
+    //     $wilayahKerjaModel = new WilayahKerjaModel();
+    //     $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
 
-        $response = $wilayahKerjaModel->getInfoBS($idBS);
+    //     $response = $wilayahKerjaModel->getInfoBS($idBS);
 
-        return $this->respond($response, 200);
-    }
+    //     return $this->respond($response, 200);
+    // }
 
     public function finalisasiBS2($idBS)
     {
-        // $rutaModel = new RutaModel();
-        // $result = $rutaModel->getAllRutaOrderedByKatGenZ($idBS);
-        // $totalResult = count($result);
-        // foreach ($result as $key => $ruta) {
-        //     $result[$key]->noUrutEgb = $key + 1;
-        //     $rutaModel->update($ruta->kodeRuta, ['no_urut_ruta_egb' => $result[$key]->noUrutEgb]);
-        // }
-
-        // $wilayahKerjaModel = new WilayahKerjaModel();
-        // $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
-
         $klgModel = new KeluargaModel();
-        $klgModel->processSegmentNumberKeluarga($idBS);
-
-        // $rutaModel = new RutaModel();
-        // $rutaModel->processSegmentNumberRuta($idBS);
-        // $this->finalisasiBS($idBS);
-
-        return $this->response->setJSON([
-            'status' => 'success',
-            'message' => 'Berhasil finalisasi BS'
-        ]);
-
-        // return $this->response->setJSON([
-        //     'status' => 'success',
-        //     'data' => $result,
-        //     'count' => $totalResult,
-        // ]);
+        $rutaModel = new RutaModel();
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        if ($wilayahKerjaModel->isWilayahKerjaFinalisasi($idBS)) { // ketika wilayah kerja sudah pernah dilakukan finaliasasi
+            $response = $wilayahKerjaModel->getInfoBS($idBS);
+            return $this->respond($response, 200);
+        }
+        if (!$klgModel->processSegmentNumberKeluarga($idBS)) {
+            return $this->fail('Gagal memproses nomor keluarga');
+        }
+        if (!$rutaModel->processSegmentNumberRuta($idBS)) {
+            return $this->fail("Gagal memproses nomor rumah tangga");
+        }
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $wilayahKerjaModel->updateStatusBs($idBS, "listing-selesai");
+        $response = $wilayahKerjaModel->getInfoBS($idBS);
+        return $this->respond($response, 200);
     }
 
 

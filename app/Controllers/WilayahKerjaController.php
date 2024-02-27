@@ -53,7 +53,7 @@ class WilayahKerjaController extends BaseController
         try {
             $wilayahKerjaModel = new WilayahKerjaModel();
             $result = $wilayahKerjaModel->getWilayahKerjaTim($idTim);
-            return  $this->respond($result, 200);
+            return  $this->respond($result);
         } catch (\Throwable $th) {
             $this->fail($th->getMessage());
         }

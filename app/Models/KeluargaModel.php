@@ -123,38 +123,70 @@ class KeluargaModel extends Model
             $query = $this->db->query("SELECT DISTINCT no_segmen FROM keluarga WHERE id_bs = ? ORDER BY no_segmen", [$idBS]);
             $result = $query->getResult();
             $no_segmen_array = array_column($result, 'no_segmen');
-
             $shifter_fisik = 0;
             $shifter_sensus = 0;
             $shifter_urut = 0;
-            foreach ($no_segmen_array as $segmen) {
-                $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_klg')->findAll();
-                $query = $this->db->query("SELECT DISTINCT no_bg_fisik FROM keluarga WHERE id_bs = ? AND no_segmen = ?", [$idBS, $segmen]);
-                $lastNoBgFisik = $this->where('id_bs',$idBS)->where('no_segmen', $segmen)->orderBy('no_bg_fisik','DESC')->select('no_bg_fisik')->first();
-                echo json_encode($lastNoBgFisik);
-                die;
-                $add_shifter_fisik = count($query->getResult());
-                $query = $this->db->query("SELECT DISTINCT no_bg_sensus FROM keluarga WHERE id_bs = ? AND no_segmen = ?", [$idBS, $segmen]);
-                $add_shifter_sensus = count($query->getResult());
-                $add_shifter_urut = count($data_segmen);
-                if ($shifter_fisik != 0 || $shifter_sensus != 0) {
+            $shifter_egb = 0;
+            if ($no_segmen_array && count($no_segmen_array) > 0) {
+                foreach ($no_segmen_array as $segmen) {
+                    $query = $this->db->query("SELECT no_bg_fisik FROM keluarga WHERE id_bs = ? AND no_segmen = ? ORDER BY no_bg_fisik DESC", [$idBS, $segmen])->getFirstRow();
+                    $add_shifter_fisik = (int) $query->no_bg_fisik;
+                    //  clear
+                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_bg_sensus', 'DESC')->select('no_bg_sensus')->first();
+                    $add_shifter_sensus = (int) $query['no_bg_sensus'];
+                    // clear
+                    $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_klg')->findAll();
+                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_klg', 'DESC')->select('no_urut_klg')->first();
+                    $add_shifter_urut = (int) $query['no_urut_klg'];
+                    // clear
                     foreach ($data_segmen as $data) {
                         $data['no_bg_fisik'] = $this->addStringNoUrutBangunan($data['no_bg_fisik'], $shifter_fisik);
                         $data['no_bg_sensus'] = $this->addStringNoUrutBangunan($data['no_bg_sensus'], $shifter_sensus);
                         $data['no_urut_klg'] = $this->addStringNoUrutBangunan($data['no_urut_klg'], $shifter_urut);
-                        if ($data['no_urut_klg_egb'] != null) {
-                            $data['no_urut_klg_egb'] = $this->addStringNoUrutBangunan($data['no_urut_klg_egb'], $shifter_urut);
+                        if ($data['is_genz_ortu'] != 0) {
+                            $shifter_egb += 1;
+                            $data['no_urut_klg_egb'] = $shifter_egb;
                         }
                         $this->replace($data);
                     }
+                    $shifter_fisik += $add_shifter_fisik;
+                    $shifter_sensus += $add_shifter_sensus;
+                    $shifter_urut += $add_shifter_urut;
                 }
-                $shifter_fisik += $add_shifter_fisik;
-                $shifter_sensus += $add_shifter_sensus;
-                $shifter_urut += $add_shifter_urut;
             }
+            return true;
         } catch (\Throwable $th) {
-            echo json_encode($th->getMessage());
-            die;
+            return false;
         }
+    }
+
+    public function getAllKeluargaOrderedByNoKeluarga($id_bs)
+    {
+        $listKeluarga = [];
+        $listKeluarga = $this->where('id_bs', $id_bs)
+            ->where('is_genz_ortu !=', 0)
+            ->orderBy('no_urut_klg', 'asc')
+            ->findAll();
+        $listKeluargaObject = [];
+        $keluargaRutaModel = new KeluargaRutaModel();
+        $rutaModel = new RutaModel();
+        if (sizeof($listKeluarga) != 0) {
+            foreach ($listKeluarga as $keluarga) {
+                $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);
+                // lalu ambil semua ruta dari keluarga ruta temp
+                $keluarga['ruta'] = [];
+                foreach ($keluargaRutaTemp as $keluargaRuta) {
+                    array_push($keluarga['ruta'], $rutaModel->getRutaReturnArray($keluargaRuta['kode_ruta']));
+                }
+                array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
+            }
+        }
+        return $listKeluargaObject;
+        // $listKlg = [];
+        // foreach ($results as $result) {
+        //     $klg = Keluarga::createFromArray($result); 
+        //     array_push($listKlg, $klg);
+        // }
+        // return $listKlg;
     }
 }

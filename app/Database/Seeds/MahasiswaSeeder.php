@@ -26,7 +26,7 @@ class MahasiswaSeeder extends Seeder
                 "plain_password" => $data[8],
                 "password" => password_hash($data[8], PASSWORD_BCRYPT),
                 "id_tim" => $data[0],
-                "token" => $data[9]
+                "token" => $data[10]
             ]);
             }
             $firstline = false;

@@ -4,9 +4,9 @@ use DateTime;
 
 class PosisiPcl{
     public string $nim;
-    public string $nama;
-    public string $no_hp;
-    public int $id_tim;
+    // public string $nama;
+    // public string $no_hp;
+    // public int $id_tim;
     public string $lokus;
     public float $latitude;
     public float $longitude;

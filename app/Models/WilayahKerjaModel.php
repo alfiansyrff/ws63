@@ -14,7 +14,7 @@ class WilayahKerjaModel extends Model
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $protectFields    = false;
-    protected $allowedFields    = ["id_bs", "no_bs", "nama_sls", "id_kab" ,"id_kec", "id_kel", "id_tim", "catatan", "status"];
+    protected $allowedFields    = ["id_bs", "no_bs", "nama_sls", "id_kab", "id_kec", "id_kel", "id_tim", "catatan", "status"];
 
 
     public function getWilayahKerja($nim)
@@ -89,7 +89,7 @@ class WilayahKerjaModel extends Model
             jml_klg = ( 
                 SELECT COUNT(*) 
                 FROM keluarga 
-                WHERE id_bs = ' . $this->db->escape($idBS) . '
+                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (no_urut_klg IS NOT NULL)  
             ),
             jml_klg_egb = (
                 SELECT COUNT(*)
@@ -170,5 +170,15 @@ class WilayahKerjaModel extends Model
     {
         $result  =  $this->where('id_tim', $idTim)->findAll();
         return $result;
+    }
+
+    public function isWilayahKerjaFinalisasi($idBS)
+    {
+        $result = $this->where('id_bs', $idBS)->first();
+        if ($result['status'] == 'listing') {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

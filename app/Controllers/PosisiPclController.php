@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Libraries\PosisiPcl;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\LokasiModel;
@@ -39,12 +38,12 @@ class PosisiPclController extends BaseController
         $akurasi = (float) $jsonBody->akurasi;
         if ($nim) {
             $model = new PosisiPclModel();
-            $existingData = $model->find($nim);
+            // $existingData = $model->find($nim);
 
-            if (!$existingData) {
-                // Jika NIM tidak ditemukan, kembalikan respons 404
-                return $this->failNotFound('NIM tidak ditemukan');
-            }
+            // if (!$existingData) {
+            //     // Jika NIM tidak ditemukan, kembalikan respons 404
+            //     return $this->failNotFound('NIM tidak ditemukan');
+            // }
 
             if ($model->updateLokasiPcl($nim, $latitude, $longitude, $akurasi)) {
                 return $this->respond("Lokasi berhasil diupdate.", 200);

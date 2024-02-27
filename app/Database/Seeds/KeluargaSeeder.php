@@ -19,9 +19,9 @@ class KeluargaSeeder extends Seeder
                 'nama_kk'         => 'KH Ahmad Syamsuri',
                 'alamat'          => 'Gentan, Sidorejo, Lendah, Kulon Progo',
                 'is_genz_ortu'    => 1,
-                'no_urut_klg_egb' => 1,
+                // 'no_urut_klg_egb' => 1,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '5102010002007B',
+                'id_bs'           => '5171030002064B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -34,9 +34,9 @@ class KeluargaSeeder extends Seeder
                 'nama_kk'         => 'Gus Hilmy Yahya',
                 'alamat'          => 'Krapyak, Bantul, DIY',
                 'is_genz_ortu'    => 1,
-                'no_urut_klg_egb' => 2,
+                // 'no_urut_klg_egb' => 2,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '5102010002007B',
+                'id_bs'           => '5171030002064B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -49,9 +49,9 @@ class KeluargaSeeder extends Seeder
                 'nama_kk'         => 'Oktafiano Asset Pradana',
                 'alamat'          => 'Polstati STIS',
                 'is_genz_ortu'    => 3,
-                'no_urut_klg_egb' => 3,
+                // 'no_urut_klg_egb' => 3,
                 'pengl_mkn'       => 2,
-                'id_bs'           => '5102010002007B',
+                'id_bs'           => '5171030002064B',
                 'nim_pencacah'    => '222112915'
             ],
             [
@@ -64,9 +64,9 @@ class KeluargaSeeder extends Seeder
                 'nama_kk'         => 'Gavin Atha Wisesa',
                 'alamat'          => 'Polstati STIS',
                 'is_genz_ortu'    => 1,
-                'no_urut_klg_egb' => 4,
+                // 'no_urut_klg_egb' => 4,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '5102010002007B',
+                'id_bs'           => '5171030002064B',
                 'nim_pencacah'    => '222112915'
             ], [
                 'kode_klg'        => 'K007B005',
@@ -78,9 +78,9 @@ class KeluargaSeeder extends Seeder
                 'nama_kk'         => 'Rizki Keren',
                 'alamat'          => 'Polstati STIS',
                 'is_genz_ortu'    => 1,
-                'no_urut_klg_egb' => 5,
+                // 'no_urut_klg_egb' => 5,
                 'pengl_mkn'       => 1,
-                'id_bs'           => '5102010002007B',
+                'id_bs'           => '5171030002064B',
                 'nim_pencacah'    => '222112915'
             ],
         ];

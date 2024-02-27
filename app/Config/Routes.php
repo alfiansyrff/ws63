@@ -20,7 +20,7 @@ $routes->delete('listing/delete-sampel/(:segment)', 'ListingController::hapusSam
 $routes->get('listing/get-sampel/(:segment)', 'ListingController::getSampelBS/$1'); // Menghapus sampel dari suatu BS tertentu
 $routes->post('listing/update-bs-status', 'WilayahKerjaController::updateStatusBs'); // update bs
 $routes->get('listing/get-info-bs/(:segment)', 'WilayahKerjaController::getInfoBS/$1'); // update bs
-$routes->get('listing/finalisasi-bs/(:segment)', 'ListingController::finalisasiBS/$1'); // finalisasi ruta
+$routes->get('listing/finalisasi-bs/(:segment)', 'ListingController::finalisasiBS2/$1'); // finalisasi ruta
 // $routes->get('listing/confirm-sampel/(:segment)', 'ListingController::confirmSampel/$1'); // finalisasi ruta
 
 $routes->get('listing/confirm-sampel/(:segment)', 'ListingController::confirmSampel/$1'); // finalisasi ruta
