@@ -92,7 +92,7 @@ class ListingController extends BaseController
     {
 
         $rutaModel = new RutaModel();
-        $result = $rutaModel->getSampelBS($idBS, 2);
+        $result = $rutaModel->getSampelBS($idBS, 10);
         if (!$result || count($result) == 0) {
             return $this->fail("Data rumah tangga eligible kosong");
         }
