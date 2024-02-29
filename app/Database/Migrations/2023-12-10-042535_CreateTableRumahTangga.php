@@ -15,7 +15,7 @@ class CreateTableRumahTangga extends Migration
             ],
             'no_urut_ruta' => [
                 'type' => 'VARCHAR',
-                'constraint' => 4,
+                'constraint' => 5,
             ],
             'kk_or_krt' => [
                 'type' => 'VARCHAR',
@@ -44,19 +44,24 @@ class CreateTableRumahTangga extends Migration
                 'null' => true,
             ],
             'long' => [
-                'type' => 'FLOAT',  
-                'null' => true, 
+                'type' => 'FLOAT',
+                'null' => true,
             ],
             'lat' => [
                 'type' => 'FLOAT',
                 'null' => true,
-            ],  
+            ],
             'catatan' => [
                 'type' => 'TEXT',
-            ], 
-            'id_bs' => [ 
+            ],
+            'id_bs' => [
                 'type' => 'VARCHAR',
                 'constraint' => '20',
+            ],
+            'created_at' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true
             ],
         ]);
         $this->forge->addKey('kode_ruta', true);

@@ -12,7 +12,7 @@ class CreateTableKeluarga extends Migration
             'kode_klg' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
-                'unique' => true, 
+                'unique' => true,
             ],
             'SLS' => [
                 'type' => 'VARCHAR',
@@ -24,16 +24,16 @@ class CreateTableKeluarga extends Migration
             ],
             'no_bg_fisik' => [
                 'type' => 'VARCHAR',
-                'constraint' => 4,
+                'constraint' => 5,
             ],
             'no_bg_sensus' => [
                 'type' => 'VARCHAR',
-                'constraint' => 4,
+                'constraint' => 5,
             ],
             'no_urut_klg' => [
                 'type' => 'VARCHAR',
-                'constraint' => 3,
-                'null' =>true
+                'constraint' => 5,
+                'null' => true
             ],
             'nama_kk' => [
                 'type' => 'VARCHAR',
@@ -56,9 +56,14 @@ class CreateTableKeluarga extends Migration
                 'constraint' => 3,
                 'null' => true,
             ],
-            'id_bs' => [ 
+            'id_bs' => [
                 'type' => 'VARCHAR',
                 'constraint' => '20',
+            ],
+            'created_at' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true
             ],
         ]);
         $this->forge->addKey('kode_klg');

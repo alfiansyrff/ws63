@@ -89,12 +89,12 @@ class WilayahKerjaModel extends Model
             jml_klg = ( 
                 SELECT COUNT(*) 
                 FROM keluarga 
-                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (no_urut_klg IS NOT NULL)  
+                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (no_urut_klg  != ' . $this->db->escape('000') . ')
             ),
             jml_klg_egb = (
                 SELECT COUNT(*)
                 FROM keluarga 
-                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (is_genz_ortu != 0)
+                WHERE id_bs = ' . $this->db->escape($idBS) . ' AND (is_genz_ortu != 0) AND (no_urut_klg  != ' . $this->db->escape('000') . ')
             ),
             jml_rt = (
                 SELECT COUNT(*)

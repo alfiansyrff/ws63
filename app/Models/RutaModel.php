@@ -34,7 +34,8 @@ class RutaModel extends Model
             'id_bs' => $ruta->idBS,
             'nim_pencacah' => $ruta->nimPencacah,
             'no_segmen' => $ruta->noSegmen,
-            'is_enable' => $ruta->isEnable
+            'is_enable' => $ruta->isEnable,
+            "created_at" => $ruta->createdAt
         ];
         return $data;
     }
@@ -304,10 +305,10 @@ class RutaModel extends Model
 
     public function addStringNoUrutBangunan($noUrut, $shifter)
     {
-        $angka = intval($noUrut);
+        $angka = intval($noUrut) + $shifter;
         $non_numeric = preg_replace('/[0-9]/', '', $noUrut);
-        $hasil = (string)($angka + $shifter);
-        return $hasil . $non_numeric;;
+        $hasil = str_pad($angka, 3, '0', STR_PAD_LEFT); // Format 3 digit dengan leading zero
+        return $hasil . $non_numeric;
     }
 
     public function processSegmentNumberRuta($idBS)
@@ -321,8 +322,6 @@ class RutaModel extends Model
             if ($no_segmen_array && count($no_segmen_array) > 0) {
                 foreach ($no_segmen_array as $segmen) {
                     $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta')->findAll();
-                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta', 'DESC')->select('no_urut_ruta')->first();
-                    $add_shifter_urut = (int) $query['no_urut_ruta'];
                     // clear
                     if ($shifter_urut != 0) {
                         foreach ($data_segmen as $data) {
@@ -330,7 +329,9 @@ class RutaModel extends Model
                             $this->replace($data);
                         }
                     }
-                    $shifter_urut += $add_shifter_urut;
+                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_ruta', 'DESC')->select('no_urut_ruta')->first();
+                    $add_shifter_urut = (int) $query['no_urut_ruta'];
+                    $shifter_urut = $add_shifter_urut;
                 }
                 $rutaTemp = $this->where('id_bs', $idBS)
                     ->where('kat_genz IS NOT NULL')

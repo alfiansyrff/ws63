@@ -15,23 +15,23 @@ class MahasiswaSeeder extends Seeder
         $firstline = true;
         while (($data = fgetcsv($csvFile, 2000, ",")) !== FALSE) {
             if (!$firstline) {
-            $object = new MahasiswaModel;
-            $object->insert([
-                "nim" => $data[2],
-                "email" => $data[2] . '@stis.ac.id',
-                "nama" => $data[1],
-                "no_hp" => $data[5],
-                "alamat" => $data[6],
-                "foto" => $data[7],
-                "plain_password" => $data[8],
-                "password" => password_hash($data[8], PASSWORD_BCRYPT),
-                "id_tim" => $data[0],
-                "token" => $data[10]
-            ]);
+                $object = new MahasiswaModel;
+                $object->insert([
+                    "nim" => $data[2],
+                    "email" => $data[2] . '@stis.ac.id',
+                    "nama" => $data[1],
+                    "no_hp" => $data[5],
+                    "alamat" => $data[6],
+                    "foto" => $data[7],
+                    "plain_password" => $data[8],
+                    "password" => password_hash($data[8], PASSWORD_BCRYPT),
+                    "id_tim" => $data[0],
+                    "token" => $data[10]
+                ]);
             }
             $firstline = false;
         }
-        
+
         fclose($csvFile);
         // $data = [
         //     [
@@ -88,7 +88,7 @@ class MahasiswaSeeder extends Seeder
         //         'foto' => 'foto Annisa Rahma',
         //         'password' => password_hash('annisarah123', PASSWORD_BCRYPT),
         //         'id_tim' => 1,
-                
+
         //     ],
         //     [
         //         'nim' => '222111912',

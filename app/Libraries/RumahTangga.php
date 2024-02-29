@@ -23,6 +23,8 @@ class Rumahtangga
     public ?string $noSegmen;
     public ?string $isEnable;
 
+    public ?string $createdAt;
+
     public function __construct(
         ?string $kodeRuta,
         ?string $noUrutRuta,
@@ -39,7 +41,8 @@ class Rumahtangga
         ?string $nimPencacah,
         ?string $noBs,
         ?string $noSegmen,
-        ?string $isEnable
+        ?string $isEnable,
+        ?string $createdAt
     ) {
         $this->kodeRuta = $kodeRuta;
         $this->noUrutRuta = $noUrutRuta;
@@ -57,6 +60,7 @@ class Rumahtangga
         $this->noBs = $noBs;
         $this->noSegmen = $noSegmen;
         $this->isEnable = $isEnable;
+        $this->createdAt = $createdAt;
     }
 
     public static function createFromArray(array $data): self
@@ -74,10 +78,11 @@ class Rumahtangga
             $data['lat'] ?? null,
             $data['catatan'] ?? null,
             $data['id_bs'] ?? null,
-            $data['nim_pencacah'] ?? null,  
+            $data['nim_pencacah'] ?? null,
             $data['no_bs'] ?? null,
             $data['no_segmen'] ?? null,
             $data['is_enable'] ?? null,
+            $data['created_at'] ?? null,
         );
     }
 }

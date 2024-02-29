@@ -10,7 +10,7 @@ class KeluargaModel extends Model
 {
     protected $table            = 'keluarga';
     protected $primaryKey       = 'kode_klg';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
@@ -41,7 +41,8 @@ class KeluargaModel extends Model
             'no_urut_klg_egb' => $keluarga->noUrutKlgEgb,
             'pengl_mkn' => $keluarga->penglMkn,
             'id_bs' => $keluarga->idBS,
-            'nim_pencacah' => $keluarga->nimPencacah
+            'nim_pencacah' => $keluarga->nimPencacah,
+            'created_at' => $keluarga->createdAt
         ];
     }
 
@@ -111,10 +112,10 @@ class KeluargaModel extends Model
 
     public function addStringNoUrutBangunan($noUrut, $shifter)
     {
-        $angka = intval($noUrut);
+        $angka = intval($noUrut) + $shifter;
         $non_numeric = preg_replace('/[0-9]/', '', $noUrut);
-        $hasil = (string)($angka + $shifter);
-        return $hasil . $non_numeric;;
+        $hasil = str_pad($angka, 3, '0', STR_PAD_LEFT); // Format 3 digit dengan leading zero
+        return $hasil . $non_numeric;
     }
 
     public function processSegmentNumberKeluarga($idBS)
@@ -129,29 +130,31 @@ class KeluargaModel extends Model
             $shifter_egb = 0;
             if ($no_segmen_array && count($no_segmen_array) > 0) {
                 foreach ($no_segmen_array as $segmen) {
-                    $query = $this->db->query("SELECT no_bg_fisik FROM keluarga WHERE id_bs = ? AND no_segmen = ? ORDER BY no_bg_fisik DESC", [$idBS, $segmen])->getFirstRow();
-                    $add_shifter_fisik = (int) $query->no_bg_fisik;
-                    //  clear
-                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_bg_sensus', 'DESC')->select('no_bg_sensus')->first();
-                    $add_shifter_sensus = (int) $query['no_bg_sensus'];
-                    // clear
                     $data_segmen = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_klg')->findAll();
-                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_klg', 'DESC')->select('no_urut_klg')->first();
-                    $add_shifter_urut = (int) $query['no_urut_klg'];
                     // clear
                     foreach ($data_segmen as $data) {
                         $data['no_bg_fisik'] = $this->addStringNoUrutBangunan($data['no_bg_fisik'], $shifter_fisik);
                         $data['no_bg_sensus'] = $this->addStringNoUrutBangunan($data['no_bg_sensus'], $shifter_sensus);
-                        $data['no_urut_klg'] = $this->addStringNoUrutBangunan($data['no_urut_klg'], $shifter_urut);
+                        if ($data['no_urut_klg'] != '000') {
+                            $data['no_urut_klg'] = $this->addStringNoUrutBangunan($data['no_urut_klg'], $shifter_urut);
+                        }
                         if ($data['is_genz_ortu'] != 0) {
                             $shifter_egb += 1;
                             $data['no_urut_klg_egb'] = $shifter_egb;
                         }
                         $this->replace($data);
                     }
-                    $shifter_fisik += $add_shifter_fisik;
-                    $shifter_sensus += $add_shifter_sensus;
-                    $shifter_urut += $add_shifter_urut;
+                    $query = $this->db->query("SELECT no_bg_fisik FROM keluarga WHERE id_bs = ? AND no_segmen = ? ORDER BY no_bg_fisik DESC", [$idBS, $segmen])->getFirstRow();
+                    $add_shifter_fisik = (int) $query->no_bg_fisik;
+                    //  clear
+                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_bg_sensus', 'DESC')->select('no_bg_sensus')->first();
+                    $add_shifter_sensus = (int) $query['no_bg_sensus'];
+                    // clear
+                    $query = $this->where('id_bs', $idBS)->where('no_segmen', $segmen)->orderBy('no_urut_klg', 'DESC')->select('no_urut_klg')->first();
+                    $add_shifter_urut = (int) $query['no_urut_klg'];
+                    $shifter_fisik = $add_shifter_fisik;
+                    $shifter_sensus = $add_shifter_sensus;
+                    $shifter_urut = $add_shifter_urut;
                 }
             }
             return true;

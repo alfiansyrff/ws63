@@ -12,7 +12,7 @@ class DataStModel extends Model
 {
     protected $table = 'datast';
     protected $primaryKey = 'kode_ruta';
-    // protected $useAutoIncrement = true;
+    protected $useAutoIncrement = true;
     // protected $returnType       = 'array';
     // protected $useSoftDeletes   = false;
     // protected $protectFields    = true;
