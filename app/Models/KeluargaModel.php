@@ -51,7 +51,8 @@ class KeluargaModel extends Model
     {
         // simpan data keluarga ke database keluarga
         $data = $this->parseToArray($keluarga);
-        return  $this->db->table('keluarga')->insert($data);
+        // return  $this->db->table('keluarga')->insert($data);
+        return  $this->db->table('keluarga')->replace($data);
     }
 
 
