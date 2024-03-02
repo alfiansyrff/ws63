@@ -26,8 +26,8 @@ class KeluargaRutaModel extends Model
 
     public function updateKeluargaRuta($kodeKeluarga, $kodeRuta)
     {
-        $check = $this->where('kode_ruta', $kodeRuta)->where('kode_klg', $kodeKeluarga)->first();
-        if (!$check) {
+        $check = $this->where('kode_ruta', $kodeRuta)->where('kode_klg', $kodeKeluarga)->countAllResults();
+        if ($check) {
             $this->addKeluargaRuta($kodeKeluarga, $kodeRuta);
         }
     }
@@ -37,8 +37,8 @@ class KeluargaRutaModel extends Model
         // fungsi ini untuk menambahkan hubungan many to many antra keluarga dan ruta
         // ulang setiap ruta dan dapatkan pasangan kode kaluarga dan kode ruta
         foreach ($keluarga->ruta as $ruta) {
-            $check = $this->where('kode_ruta', $ruta->kodeRuta)->where('kode_klg', $keluarga->kodeKlg)->first();
-            if (!$check) {
+            $check = $this->where('kode_ruta', $ruta->kodeRuta)->where('kode_klg', $keluarga->kodeKlg)->countAllResults();
+            if ($check == 0) {
                 $this->addKeluargaRuta($keluarga->kodeKlg, $ruta->kodeRuta);
             }
         }
