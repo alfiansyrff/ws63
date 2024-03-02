@@ -42,6 +42,34 @@ class MahasiswaModel extends Model
     protected $afterDelete    = [];
 
 
+    public function getMahasiswaNoDataRuta($nim)
+    {
+        $result = $this->find($nim);
+        
+        if (!$result) {
+            return null;
+        }
+        $wilayahKerjaModel = new WilayahKerjaModel();
+        $listWilayahKerja = [];
+        $listWilayahKerja =  $wilayahKerjaModel->getWilayahKerjaNoDataRuta($result['nim']);
+        $timModel = new TimPencacahModel();
+        $tim = $timModel->where('id_tim', $result['id_tim'])->first();
+        $isKoor = $tim['nim_pml'] == $nim ? true : false;
+        $mahasiswa = new Mahasiswa(
+            $result['nim'],
+            $result['nama'],
+            $result['no_hp'],
+            $result['alamat'],
+            $result['email'],
+            $result['password'],
+            $result['foto'],
+            $result['id_tim'],
+            $listWilayahKerja,
+            $isKoor,
+            $result['token']
+        );
+        return $mahasiswa;
+    }
 
     public function getMahasiswa($nim)
     {

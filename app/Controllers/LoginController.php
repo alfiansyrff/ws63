@@ -17,7 +17,7 @@ class LoginController extends BaseController
             // KALAU NIM TIDAK MEMPUNYAI WILAYAH KERJA, AKAN 500 ERROR
             $mahasiswaModel = new MahasiswaModel();
             $timModel = new TimPencacahModel();
-            $mahasiswa = $mahasiswaModel->getMahasiswa($this->request->getGet('nim'));
+            $mahasiswa = $mahasiswaModel->getMahasiswaNoDataRuta($this->request->getGet('nim'));
             if (!$mahasiswa)
                 return $this->failNotFound('NIM tidak ditemukan');
 
@@ -49,7 +49,7 @@ class LoginController extends BaseController
             }
             return $this->respond($result, 200);
         } catch (\Throwable $th) {
-           return  $this->fail($th->getMessage());
+            return  $this->fail($th->getMessage());
         }
     }
 
