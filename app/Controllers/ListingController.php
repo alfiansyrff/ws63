@@ -38,6 +38,9 @@ class ListingController extends BaseController
                 foreach ($object_array as $object) {
 
                     $object = (array) $object;
+                    if (!isset($object['created_at'])) {
+                        $object['created_at'] = date('Y-m-d H:i:s');
+                    }
                     $keluarga = Keluarga::createFromArray($object);
                     // di setiap object, ada nim pencacah. Cek apakah nim pencacah sama dengan nim pengirim request
                     if ($object['nim_pencacah'] == $nim) {

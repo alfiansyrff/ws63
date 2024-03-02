@@ -200,6 +200,9 @@ class RutaModel extends Model
         // }
         try {
             foreach ($keluarga->ruta as $ruta) {
+                if (!isset($ruta->createdAt)) {
+                    $ruta->createdAt = date('Y-m-d H:i:s');
+                }
                 $this->addRuta($ruta);
             }
         } catch (\Exception $e) {

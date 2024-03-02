@@ -21,7 +21,7 @@ class KeluargaRutaModel extends Model
         $temp = [];
         $temp['kode_klg'] = $kodeKeluarga;
         $temp['kode_ruta'] = $kodeRuta;
-        $this->db->table('keluarga_ruta')->replace($temp);
+        $this->db->table('keluarga_ruta')->insert($temp);
     }
 
     public function updateKeluargaRuta($kodeKeluarga, $kodeRuta)
