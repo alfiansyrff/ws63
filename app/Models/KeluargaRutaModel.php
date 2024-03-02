@@ -27,7 +27,7 @@ class KeluargaRutaModel extends Model
     public function updateKeluargaRuta($kodeKeluarga, $kodeRuta)
     {
         $check = $this->where('kode_ruta', $kodeRuta)->where('kode_klg', $kodeKeluarga)->countAllResults();
-        if ($check ==0 ) {
+        if ($check == 0) {
             $this->addKeluargaRuta($kodeKeluarga, $kodeRuta);
         }
     }
@@ -63,6 +63,11 @@ class KeluargaRutaModel extends Model
 
     public function isRutaInAnotherKeluarga($kodeKlg, $kodeRuta)
     {
-        return   $this->where('kode_ruta', $kodeRuta)->whereNotIn('kode_klg', [$kodeKlg])->first();
+        $check =   $this->where('kode_ruta', $kodeRuta)->whereNotIn('kode_klg', [$kodeKlg])->countAllResults();
+        if ($check == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
