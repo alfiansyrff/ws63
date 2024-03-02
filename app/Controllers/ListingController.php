@@ -62,7 +62,7 @@ class ListingController extends BaseController
                                     $keluargaRutaModel->deleteKeluargaRuta($keluarga->kodeKlg, $rutaObj->kodeRuta);
                                 } else if ($ruta->status == 'insert') {
                                     $rutaModel->addRuta(Rumahtangga::createFromArray((array) $ruta));
-                                    $keluargaRutaModel->addKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
+                                    $keluargaRutaModel->updateKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
                                 } else {
                                     $rutaModel->updateRuta(Rumahtangga::createFromArray((array) $ruta));
                                     $keluargaRutaModel->updateKeluargaRuta($object['kode_klg'], $rutaObj->kodeRuta);
