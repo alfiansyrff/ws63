@@ -226,8 +226,21 @@ class WilayahKerjaModel extends Model
 
     public function getWilayahKerjaTim($idTim)
     {
-        $result  =  $this->where('id_tim', $idTim)->findAll();
-        return $result;
+        $results = $this
+            ->join(
+                'kelurahan',
+                'bloksensus.id_kel = kelurahan.id_kel AND bloksensus.id_kec = kelurahan.id_kec AND bloksensus.id_kab = kelurahan.id_kab',
+                'inner'
+            )
+            ->join(
+                'kecamatan',
+                'bloksensus.id_kab = kecamatan.id_kab AND bloksensus.id_kec = kecamatan.id_kec',
+                'inner'
+            )
+            ->join('kabupaten', 'bloksensus.id_kab = kabupaten.id_kab', 'inner')
+            ->where('id_tim', $idTim)
+            ->findAll();
+        return $results;
     }
 
     public function isWilayahKerjaFinalisasi($idBS)
