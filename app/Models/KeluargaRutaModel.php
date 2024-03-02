@@ -27,7 +27,7 @@ class KeluargaRutaModel extends Model
     public function updateKeluargaRuta($kodeKeluarga, $kodeRuta)
     {
         $check = $this->where('kode_ruta', $kodeRuta)->where('kode_klg', $kodeKeluarga)->countAllResults();
-        if ($check) {
+        if ($check ==0 ) {
             $this->addKeluargaRuta($kodeKeluarga, $kodeRuta);
         }
     }
