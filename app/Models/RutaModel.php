@@ -253,14 +253,7 @@ class RutaModel extends Model
             // mengambail semua ruta eligible dari BS yang bersangkutan
             $keluargaModel = new KeluargaModel();
             $listRuta = [];
-            $ruta1 = [];
-            $ruta2 = [];
-            $ruta3 = [];
-            $ruta1 = $this->where('id_bs', $idBS)->where('kat_genz', '1')->where('is_enable', '1')->findAll();
-            $ruta2 = $this->where('id_bs', $idBS)->where('kat_genz', '2')->where('is_enable', '1')->findAll();
-            $ruta3 = $this->where('id_bs', $idBS)->where('kat_genz', '3')->where('is_enable', '1')->findAll();
-            $listRuta = array_merge($ruta1, $ruta2, $ruta3);
-
+            $listRuta = $this->where('id_bs', $idBS)->where('no_urut_ruta_egb IS NOT NULL')->whereNotIn('no_urut_ruta_egb', [0])->orderBy('no_urut_ruta_egb', 'ASC')->findAll();
             if (!$listRuta || count($listRuta) == 0) {
                 return [];
             }
