@@ -83,6 +83,7 @@ class ListingController extends BaseController
                     return $this->fail('Gagal melakukan update rekapitulasi BS');
                 }
             } else {
+                $boolUpdateRekapitulasiBS = $wilayahKerjaModel->updateRekapitulasiBs($idBS); // ketika insert batch ruta sukses, maka rekapitulasi BS akan dihitung ulang
                 $result = $wilayahKerjaModel->getInfoBS($idBS);
                 return $this->respond($result);
             }
