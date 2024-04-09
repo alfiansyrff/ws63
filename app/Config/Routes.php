@@ -40,6 +40,6 @@ $routes->post('/get-bs-tim/(:segment)', 'WilayahKerjaController::getWilayahKerja
 
 $routes->get('export-to-zip/(:segment)', [ExportRutaController::class, 'exportToZipPerKab']);
 
-$routes->get('export-all-to-excel', [ExportRutaController::class, 'exoprtAllDataToExcel']);
+$routes->get('export-all-to-excel', [ExportRutaController::class, 'exportAllDataToExcel']);
 
 $routes->get('export-to-excel-per-kab/(:segment)', [ExportRutaController::class, 'exportAllDataToExcelPerKab/$1']);
