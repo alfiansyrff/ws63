@@ -73,7 +73,7 @@ class KeluargaModel extends Model
     public function getAllKeluargaAll()
     {
         $listKeluarga = [];
-        $listKeluarga = $this->orderBy('id_bs')->findAll();
+        $listKeluarga = $this->orderBy('id_bs')->orderBy('no_bg_fisik')->orderBy('no_bg_sensus')->orderBy('no_urut_klg')->findAll();
         $listKeluargaObject = [];
         $keluargaRutaModel = new KeluargaRutaModel();
         $rutaModel = new RutaModel();
@@ -94,7 +94,7 @@ class KeluargaModel extends Model
     public function getAllKeluarga($id_bs)
     {
         $listKeluarga = [];
-        $listKeluarga = $this->where('id_bs', $id_bs)->findAll();
+        $listKeluarga = $this->where('id_bs', $id_bs)->orderBy('no_bg_fisik')->orderBy('no_bg_sensus')->orderBy('no_urut_klg')->findAll();
         $listKeluargaObject = [];
         $keluargaRutaModel = new KeluargaRutaModel();
         $rutaModel = new RutaModel();
