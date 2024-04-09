@@ -76,10 +76,11 @@ class ExportRutaController extends BaseController
     }
 
 
-    public function exportAllToZip()
+    public function exportToZipPerKab($idKab)
     {
         $wkModel = new WilayahKerjaModel();
-        $listBs = $wkModel->getAllBS();
+        // $listBs = $wkModel->getAllBS();
+        $listBs = $wkModel->getBsByIdKab($idKab);
 
         // Inisialisasi objek ZipArchive
         $zip = new \ZipArchive();
