@@ -76,7 +76,7 @@ class ExportRutaController extends BaseController
     }
 
 
-    public function exportAll()
+    public function exportAllToZip()
     {
         $wkModel = new WilayahKerjaModel();
         $listBs = $wkModel->getAllBS();
@@ -115,6 +115,145 @@ class ExportRutaController extends BaseController
         // Hapus file ZIP setelah dikirim
         unlink($zipFileName);
 
+        exit;
+    }
+
+
+    public function exportAllDataToExcel()
+    {
+        $klg = new KeluargaModel();
+        $ruta = new RutaModel();
+
+        $dataKlg = $klg->getAllKeluargaAll();
+
+        $spreadsheet = new Spreadsheet();
+
+        $sheetData = $spreadsheet->getActiveSheet();
+        $sheetData->setTitle('Data Listing');
+
+        $sheetData->setCellValue('A1', 'Blok Sensus');
+        $sheetData->setCellValue('B1', 'SLS');
+        $sheetData->setCellValue('C1', 'No Segmen');
+        $sheetData->setCellValue('D1', 'No BF');
+        $sheetData->setCellValue('E1', 'No BS');
+        $sheetData->setCellValue('F1', 'No urut keluarga');
+        $sheetData->setCellValue('G1', 'Nama KK');
+        $sheetData->setCellValue('H1', 'Alamat');
+        $sheetData->setCellValue('I1', 'Keberadaan Gen Z dan Ortu');
+        $sheetData->setCellValue('J1', 'No urut keluarga egb');
+        $sheetData->setCellValue('K1', 'Jml Pengelolaan Makan/Minum');
+        $sheetData->setCellValue('L1', 'Identifikasi KK/KRT');
+        $sheetData->setCellValue('M1', 'Nama KRT');
+        $sheetData->setCellValue('N1', 'Jml Gen Z anak');
+        $sheetData->setCellValue('O1', 'Jml Gen Z dewasa');
+        $sheetData->setCellValue('P1', 'Kat RT Gen Z');
+        $columnRuta = 2;
+
+        foreach ($dataKlg as $data) {
+            foreach ($data->ruta as $rutaData) {
+                $sheetData->setCellValue('A' . $columnRuta, $data->idBS);
+                $sheetData->setCellValue('B' . $columnRuta, $data->SLS);
+                $sheetData->setCellValue('C' . $columnRuta, $data->noSegmen);
+                $sheetData->setCellValue('D' . $columnRuta, $data->noBgFisik);
+                $sheetData->setCellValue('E' . $columnRuta, $data->noBgSensus);
+                $sheetData->setCellValue('F' . $columnRuta, $data->noUrutKlg);
+                $sheetData->setCellValue('G' . $columnRuta, $data->namaKK);
+                $sheetData->setCellValue('H' . $columnRuta, $data->alamat);
+                $sheetData->setCellValue('I' . $columnRuta, $data->isGenzOrtu);
+                $sheetData->setCellValue('J' . $columnRuta, $data->noUrutKlgEgb);
+                $sheetData->setCellValue('K' . $columnRuta, $data->penglMkn);
+                $sheetData->setCellValue('L' . $columnRuta, $rutaData->kkOrKrt);
+                $sheetData->setCellValue('M' . $columnRuta, $rutaData->namaKrt);
+                $sheetData->setCellValue('N' . $columnRuta, $rutaData->jmlGenzAnak);
+                $sheetData->setCellValue('O' . $columnRuta, $rutaData->jmlGenzDewasa);
+                $sheetData->setCellValue('P' . $columnRuta, $rutaData->katGenz);
+                $columnRuta++;
+            }
+        }
+
+
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Data_Hasil_Listing';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
+    }
+
+    public function exportAllDataToExcelPerKab($idKab)
+    {
+        $klg = new KeluargaModel();
+        $ruta = new RutaModel();
+
+
+        $dataKlg = [];
+        $wkModel = new WilayahKerjaModel();
+        $listBs = $wkModel->getBsByIdKab($idKab);
+        foreach ($listBs as $bs) {
+            $temp = $klg->getAllKeluarga($bs['id_bs']);
+            foreach ($temp as $data) {
+                array_push($dataKlg, $data);
+            }
+        }
+
+        $spreadsheet = new Spreadsheet();
+
+        $sheetData = $spreadsheet->getActiveSheet();
+        $sheetData->setTitle('Data Listing');
+
+        $sheetData->setCellValue('A1', 'Blok Sensus');
+        $sheetData->setCellValue('B1', 'SLS');
+        $sheetData->setCellValue('C1', 'No Segmen');
+        $sheetData->setCellValue('D1', 'No BF');
+        $sheetData->setCellValue('E1', 'No BS');
+        $sheetData->setCellValue('F1', 'No urut keluarga');
+        $sheetData->setCellValue('G1', 'Nama KK');
+        $sheetData->setCellValue('H1', 'Alamat');
+        $sheetData->setCellValue('I1', 'Keberadaan Gen Z dan Ortu');
+        $sheetData->setCellValue('J1', 'No urut keluarga egb');
+        $sheetData->setCellValue('K1', 'Jml Pengelolaan Makan/Minum');
+        $sheetData->setCellValue('L1', 'Identifikasi KK/KRT');
+        $sheetData->setCellValue('M1', 'Nama KRT');
+        $sheetData->setCellValue('N1', 'Jml Gen Z anak');
+        $sheetData->setCellValue('O1', 'Jml Gen Z dewasa');
+        $sheetData->setCellValue('P1', 'Kat RT Gen Z');
+        $columnRuta = 2;
+        foreach ($dataKlg as $data) {
+            foreach ($data->ruta as $rutaData) {
+                $sheetData->setCellValue('A' . $columnRuta, $data->idBS);
+                $sheetData->setCellValue('B' . $columnRuta, $data->SLS);
+                $sheetData->setCellValue('C' . $columnRuta, $data->noSegmen);
+                $sheetData->setCellValue('D' . $columnRuta, $data->noBgFisik);
+                $sheetData->setCellValue('E' . $columnRuta, $data->noBgSensus);
+                $sheetData->setCellValue('F' . $columnRuta, $data->noUrutKlg);
+                $sheetData->setCellValue('G' . $columnRuta, $data->namaKK);
+                $sheetData->setCellValue('H' . $columnRuta, $data->alamat);
+                $sheetData->setCellValue('I' . $columnRuta, $data->isGenzOrtu);
+                $sheetData->setCellValue('J' . $columnRuta, $data->noUrutKlgEgb);
+                $sheetData->setCellValue('K' . $columnRuta, $data->penglMkn);
+                $sheetData->setCellValue('L' . $columnRuta, $rutaData->kkOrKrt);
+                $sheetData->setCellValue('M' . $columnRuta, $rutaData->namaKrt);
+                $sheetData->setCellValue('N' . $columnRuta, $rutaData->jmlGenzAnak);
+                $sheetData->setCellValue('O' . $columnRuta, $rutaData->jmlGenzDewasa);
+                $sheetData->setCellValue('P' . $columnRuta, $rutaData->katGenz);
+                $columnRuta++;
+            }
+        }
+
+
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'Data_Hasil_Listing_' . $idKab;
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
         exit;
     }
 }

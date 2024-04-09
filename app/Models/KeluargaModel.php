@@ -70,6 +70,27 @@ class KeluargaModel extends Model
         return $this->delete(['kode_ruta' => $keluarga->kodeKlg]);
     }
 
+    public function getAllKeluargaAll()
+    {
+        $listKeluarga = [];
+        $listKeluarga = $this->orderBy('id_bs')->findAll();
+        $listKeluargaObject = [];
+        $keluargaRutaModel = new KeluargaRutaModel();
+        $rutaModel = new RutaModel();
+        if (sizeof($listKeluarga) != 0) {
+            foreach ($listKeluarga as $keluarga) {
+                $keluargaRutaTemp = $keluargaRutaModel->getKeluargaRutaByKodeKlg($keluarga['kode_klg']);
+                // lalu ambil semua ruta dari keluarga ruta temp
+                $keluarga['ruta'] = [];
+                foreach ($keluargaRutaTemp as $keluargaRuta) {
+                    array_push($keluarga['ruta'], $rutaModel->getRutaReturnArray($keluargaRuta['kode_ruta']));
+                }
+                array_push($listKeluargaObject, Keluarga::createFromArray($keluarga));
+            }
+        }
+        return $listKeluargaObject;
+    }
+
     public function getAllKeluarga($id_bs)
     {
         $listKeluarga = [];

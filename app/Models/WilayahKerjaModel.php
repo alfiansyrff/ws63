@@ -258,4 +258,10 @@ class WilayahKerjaModel extends Model
         $result = $this->select('id_bs')->findAll();
         return $result;
     }
+
+    public function getBsByIdKab($idKab)
+    {
+        $result = $this->select('id_bs')->where('id_kab', $idKab)->findAll();
+        return $result;
+    }
 }

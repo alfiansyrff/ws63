@@ -36,6 +36,10 @@ $routes->post('/get-data-tim', 'LoginController::getDataTim'); // finalisasi rut
 
 $routes->post('/get-bs-tim/(:segment)', 'WilayahKerjaController::getWilayahKerjaTim/$1');
 
-$routes->get('export-to-excel/(:segment)', [ExportRutaController::class, 'index/$1']);
+// $routes->get('export-to-excel/(:segment)', [ExportRutaController::class, 'index/$1']);
 
-$routes->get('export-to-excel-all', [ExportRutaController::class, 'exportAll']);
+$routes->get('export-all-to-zip', [ExportRutaController::class, 'exportAllToZip']);
+
+$routes->get('export-all-to-excel', [ExportRutaController::class, 'exoprtAllDataToExcel']);
+
+$routes->get('export-to-excel-per-kab/(:segment)', [ExportRutaController::class, 'exportAllDataToExcelPerKab/$1']);
