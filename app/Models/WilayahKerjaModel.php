@@ -252,4 +252,10 @@ class WilayahKerjaModel extends Model
             return true;
         }
     }
+
+    public function getAllBS()
+    {
+        $result = $this->select('id_bs')->findAll();
+        return $result;
+    }
 }
