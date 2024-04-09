@@ -84,7 +84,7 @@ class ExportRutaController extends BaseController
 
         // Inisialisasi objek ZipArchive
         $zip = new \ZipArchive();
-        $zipFileName = 'Listing PKL 63 Politeknik Statistika STIS.zip';
+        $zipFileName = $idKab . '_Data_Listing';
 
         // Buat file ZIP
         if ($zip->open($zipFileName, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
